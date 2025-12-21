@@ -37,7 +37,8 @@ export default defineNuxtConfig({
       // Antes: 'http://localhost:3001/api'
       apiBase: '/api',
       siteName: 'Portal LATECE',
-      siteDescription: 'Laboratório de Tecnologia Assistiva - UFRN'
+      siteDescription: 'Laboratório de Tecnologia Assistiva - UFRN',
+      
     }
   },
 

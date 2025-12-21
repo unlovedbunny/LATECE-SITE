@@ -1,108 +1,108 @@
 <template lang="pug">
-  .equipment-page
-    // Hero Section
-    section.hero
-      .container
-        h1.hero-title {{ $t('equipment.title') }}
-        p.hero-subtitle {{ $t('equipment.subtitle') }}
-    
-    // Filter and Search Section
-    section.filters
-      .container
-        .filter-wrapper
-          // Search
-          .search-box
-            input.search-input(
-              v-model="searchQuery",
-              :placeholder="$t('equipment.searchPlaceholder')",
-              @input="filterEquipment"
-            )
-          
-          // Category Filter
-          .category-filter
-            select.filter-select(v-model="selectedCategory", @change="filterEquipment")
-              option(value="") {{ $t('equipment.allCategories') }}
-              option(
-                v-for="category in equipmentStore.categories",
-                :key="category",
-                :value="category"
-              ) {{ category }}
-    
-    // Equipment Grid Section
-    section.equipment-grid
-      .container
-        // Loading state
-        .state-indicator(v-if="equipmentStore.isLoading")
-          .loading-spinner
-          p {{ $t('common.loading') }}
-        
-        // Empty state
-        .state-indicator(v-else-if="filteredEquipment.length === 0")
-          p.empty-title {{ $t('equipment.noEquipment') }}
-          p.empty-subtitle {{ $t('equipment.tryDifferentSearch') }}
-        
-        // Equipment Grid
-        .grid-container(v-else)
-          .equipment-card(
-            v-for="equipment in filteredEquipment",
-            :key="equipment.id"
-          )
-            .equipment-image
-              img(v-if="equipment.imageUrl", :src="equipment.imageUrl", :alt="equipment.name")
-              .image-placeholder(v-else)
-              .equipment-category {{ equipment.category }}
-            
-            .equipment-content
-              h3.equipment-name {{ equipment.name }}
-              p.equipment-description {{ equipment.description }}
-              
-              .equipment-details
-                .detail-item(v-if="equipment.location")
-                  span {{ equipment.location }}
-                
-                .detail-item(v-if="equipment.status")
-                  span {{ getStatusText(equipment.status) }}
-              
-              .equipment-actions
-                button.btn.btn-outline(@click="viewEquipmentDetails(equipment)") {{ $t('equipment.viewDetails') }}
-                .equipment-status(:class="getStatusClass(equipment.status)")
-                  .status-dot
-                  span.status-text {{ getStatusText(equipment.status) }}
+.equipment-page
+  // Hero Section
+  section.hero
+    .hero-content
+      h1.hero-title Equipamentos de Tecnologia Assistiva
+      p.hero-subtitle Explore nossos recursos e tecnologias para acessibilidade
   
-    // Equipment Details Modal
-    .equipment-modal(v-if="selectedEquipment", @click.self="closeEquipmentDetails")
-      .modal-content
-        .modal-header
-          h3.modal-title {{ selectedEquipment.name }}
-          button.close-button(@click="closeEquipmentDetails", :aria-label="$t('common.close')")
+  // Filter and Search Section
+  section.filters
+    .container
+      .filter-wrapper
+        // Search
+        .search-box
+          svg.search-icon(width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z")
+          input.search-input(
+            v-model="searchQuery"
+            placeholder="Buscar equipamento..."
+            @input="filterEquipment"
+          )
         
-        .modal-body
-          .modal-image(v-if="selectedEquipment.imageUrl")
-            img(:src="selectedEquipment.imageUrl", :alt="selectedEquipment.name")
+        // Category Filter
+        select.filter-select(v-model="selectedCategory" @change="filterEquipment")
+          option(value="") Todas as Categorias
+          option(value="Comunicação") Comunicação
+          option(value="Mobilidade") Mobilidade
+          option(value="Visual") Visual
+          option(value="Auditivo") Auditivo
+          option(value="Computação") Computação
+  
+  // Equipment Grid Section
+  section.equipment-grid
+    .container
+      // Empty state
+      .empty-state(v-if="filteredEquipment.length === 0")
+        .empty-icon 🔍
+        h3.empty-title Nenhum equipamento encontrado
+        p.empty-subtitle Tente ajustar os filtros de busca
+      
+      // Equipment Grid
+      .grid-container(v-else)
+        .equipment-card(
+          v-for="equipment in filteredEquipment"
+          :key="equipment.id"
+        )
+          .equipment-image
+            img(
+              v-if="equipment.imageUrl"
+              :src="equipment.imageUrl"
+              :alt="equipment.name"
+            )
+            .image-placeholder(v-else) 📦
+            .equipment-category {{ equipment.category }}
           
-          .equipment-info
-            .info-item
-              h4.info-label {{ $t('equipment.description') }}
-              p.info-value {{ selectedEquipment.description }}
+          .equipment-content
+            h3.equipment-name {{ equipment.name }}
+            p.equipment-description {{ equipment.description }}
             
-            .info-item(v-if="selectedEquipment.specifications")
-              h4.info-label {{ $t('equipment.specifications') }}
-              p.info-value {{ selectedEquipment.specifications }}
+            .equipment-details
+              .detail-item
+                | 📍 {{ equipment.location }}
             
-            .info-item(v-if="selectedEquipment.location")
-              h4.info-label {{ $t('equipment.location') }}
-              p.info-value {{ selectedEquipment.location }}
-            
-            .info-item(v-if="selectedEquipment.status")
-              h4.info-label {{ $t('equipment.status') }}
-              p.info-value {{ getStatusText(selectedEquipment.status) }}
-            
-            .info-item(v-if="selectedEquipment.notes")
-              h4.info-label {{ $t('equipment.notes') }}
-              p.info-value {{ selectedEquipment.notes }}
-  </template>
+            .equipment-actions
+              button.btn(@click="viewEquipmentDetails(equipment)") Ver Detalhes
+              .equipment-status(:class="`status-${equipment.status}`")
+                .status-dot
+                span {{ getStatusText(equipment.status) }}
+
+  // Equipment Details Modal
+  .modal(v-if="selectedEquipment" @click.self="closeEquipmentDetails")
+    .modal-content
+      .modal-header
+        h3.modal-title {{ selectedEquipment.name }}
+        button.close-button(@click="closeEquipmentDetails") ✕
+      
+      .modal-body
+        .modal-image(v-if="selectedEquipment.imageUrl")
+          img(:src="selectedEquipment.imageUrl" :alt="selectedEquipment.name")
+        
+        .equipment-info
+          .info-item
+            .info-label 📝 Descrição
+            .info-value {{ selectedEquipment.description }}
+          
+          .info-item
+            .info-label ⚙️ Especificações
+            .info-value {{ selectedEquipment.specifications }}
+          
+          .info-item
+            .info-label 📍 Localização
+            .info-value {{ selectedEquipment.location }}
+          
+          .info-item
+            .info-label 🔔 Status
+            .info-value.equipment-status(:class="`status-${selectedEquipment.status}`")
+              .status-dot
+              span {{ getStatusText(selectedEquipment.status) }}
+          
+          .info-item
+            .info-label 💡 Observações
+            .info-value {{ selectedEquipment.notes }}
+</template>
+
 <script setup lang="ts">
-import { useEquipmentStore } from '@/stores/equipment'
 // Meta tags
 useHead({
   title: 'Equipamentos - Laboratório de Tecnologia Assistiva',
@@ -111,17 +111,117 @@ useHead({
   ]
 })
 
-// Stores
-const equipmentStore = useEquipmentStore()
+// Dados fictícios dos equipamentos
+const equipmentData = [
+  {
+    id: 1,
+    name: "Comunicador Visual CAA",
+    category: "Comunicação",
+    description: "Sistema de comunicação aumentativa e alternativa com tela touch screen e síntese de voz integrada.",
+    location: "Sala 101 - Laboratório Principal",
+    status: "available",
+    specifications: "Tela 10 polegadas, bateria 8h, 5000+ símbolos pré-programados",
+    notes: "Ideal para pessoas com dificuldades de fala. Possui software personalizável.",
+    imageUrl: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=600&fit=crop"
+  },
+  {
+    id: 2,
+    name: "Cadeira de Rodas Motorizada",
+    category: "Mobilidade",
+    description: "Cadeira de rodas elétrica com controle joystick adaptável e diversos recursos de segurança.",
+    location: "Sala 102 - Área de Mobilidade",
+    status: "in-use",
+    specifications: "Velocidade máxima 8km/h, autonomia 20km, capacidade 120kg",
+    notes: "Requer treinamento prévio. Agendar uso com 48h de antecedência.",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop"
+  },
+  {
+    id: 3,
+    name: "Leitor de Tela NVDA Pro",
+    category: "Visual",
+    description: "Software leitor de tela profissional com suporte para múltiplos idiomas e navegadores.",
+    location: "Estação 05 - Computadores Adaptados",
+    status: "available",
+    specifications: "Compatível com Windows 10/11, suporte a braille, OCR integrado",
+    notes: "Licenças disponíveis para uso no laboratório.",
+    imageUrl: "https://images.unsplash.com/photo-1517430816045-df4b7de01c9d?w=800&h=600&fit=crop"
+  },
+  {
+    id: 4,
+    name: "Amplificador de Som Individual",
+    category: "Auditivo",
+    description: "Sistema de amplificação sonora portátil com cancelamento de ruído ambiente.",
+    location: "Sala 103 - Recursos Auditivos",
+    status: "available",
+    specifications: "Amplificação até 40dB, cancelamento de ruído ativo, bateria 12h",
+    notes: "Inclui 3 tipos de fones de ouvido para diferentes necessidades.",
+    imageUrl: "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800&h=600&fit=crop"
+  },
+  {
+    id: 5,
+    name: "Teclado Ergonômico Grande",
+    category: "Computação",
+    description: "Teclado com teclas ampliadas, alto contraste e feedback tátil para facilitar a digitação.",
+    location: "Estação 03 - Computadores Adaptados",
+    status: "maintenance",
+    specifications: "Teclas 2x maiores, conexão USB/Bluetooth, iluminação ajustável",
+    notes: "Em manutenção preventiva. Previsão de retorno: 3 dias.",
+    imageUrl: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&h=600&fit=crop"
+  },
+  {
+    id: 6,
+    name: "Mouse Trackball Adaptado",
+    category: "Computação",
+    description: "Mouse com bola de rolagem grande, ideal para pessoas com limitações motoras finas.",
+    location: "Estação 08 - Computadores Adaptados",
+    status: "available",
+    specifications: "5 botões programáveis, conexão wireless, ergonomia ajustável",
+    notes: "Pode ser usado com qualquer parte do corpo: mão, cotovelo, queixo.",
+    imageUrl: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&h=600&fit=crop"
+  },
+  {
+    id: 7,
+    name: "Lupa Eletrônica de Mesa",
+    category: "Visual",
+    description: "Lupa eletrônica com ampliação até 50x e diversos modos de contraste para baixa visão.",
+    location: "Sala 104 - Recursos Visuais",
+    status: "available",
+    specifications: "Tela 15 polegadas, ampliação 2x-50x, 8 modos de contraste",
+    notes: "Ideal para leitura de textos impressos e objetos pequenos.",
+    imageUrl: "https://images.unsplash.com/photo-1516085216930-c93a002a8b01?w=800&h=600&fit=crop"
+  },
+  {
+    id: 8,
+    name: "Impressora Braille",
+    category: "Visual",
+    description: "Impressora braille de alta velocidade para produção de materiais táteis.",
+    location: "Sala 105 - Produção Braille",
+    status: "in-use",
+    specifications: "120 caracteres/segundo, papel especial 120g, conexão USB/Rede",
+    notes: "Uso mediante agendamento. Fornecemos o papel braille.",
+    imageUrl: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&h=600&fit=crop"
+  },
+  {
+    id: 9,
+    name: "Acionador por Sopro",
+    category: "Comunicação",
+    description: "Dispositivo que permite controlar computador ou comunicador através de sopro e sucção.",
+    location: "Sala 101 - Laboratório Principal",
+    status: "available",
+    specifications: "Sensibilidade ajustável, 2 modos de operação, compatível USB",
+    notes: "Requer calibração individual. Assistência técnica disponível.",
+    imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop"
+  }
+]
 
 // Reactive data
 const searchQuery = ref('')
 const selectedCategory = ref('')
-const selectedEquipment = ref(null)
+const selectedEquipment = ref<any>(null)
 
 // Computed properties
 const filteredEquipment = computed(() => {
-  let equipment = equipmentStore.equipment
+  let equipment = equipmentData
   
   // Filter by search query
   if (searchQuery.value) {
@@ -153,185 +253,187 @@ const closeEquipmentDetails = () => {
   selectedEquipment.value = null
 }
 
-const getStatusClass = (status: string) => {
-  switch (status?.toLowerCase()) {
-    case 'available':
-      return 'text-green-600'
-    case 'in use':
-      return 'text-yellow-600'
-    case 'maintenance':
-      return 'text-red-600'
-    default:
-      return 'text-gray-600'
-  }
-}
-
 const getStatusText = (status: string) => {
-  switch (status?.toLowerCase()) {
-    case 'available':
-      return 'Disponível'
-    case 'in use':
-      return 'Em uso'
-    case 'maintenance':
-      return 'Manutenção'
-    default:
-      return status || 'Indisponível'
+  const statusMap: Record<string, string> = {
+    'available': 'Disponível',
+    'in-use': 'Em uso',
+    'maintenance': 'Manutenção'
   }
+  return statusMap[status] || 'Indisponível'
 }
-
-// Fetch equipment on mount
-onMounted(async () => {
-  await equipmentStore.fetchEquipment()
-  await equipmentStore.fetchCategories()
-})
 </script>
 
 <style scoped lang="scss">
-// Variáveis (ajuste conforme seu design system)
+// Variáveis
 $primary-blue: #1D8A9F;
 $light-blue: #64B8D1;
-$primary-gradient: linear-gradient(to bottom right, $primary-blue, $light-blue);
-$gray-50: #f9fafb;
-$gray-200: #e5e7eb;
-$gray-300: #d1d5db;
-$gray-400: #9ca3af;
-$gray-500: #6b7280;
-$gray-600: #4b5563;
-$gray-700: #374151;
-$green-600: #16a34a;
-$yellow-600: #ca8a04;
-$red-600: #dc2626;
-$focus-ring-color: rgba(29, 138, 159, 0.4);
+$primary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
 
-// Mixin para botões
-@mixin btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem; // btn-sm
-  border-radius: 0.375rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s ease-in-out;
-
-  &.btn-outline {
-    background-color: transparent;
-    border-color: $primary-blue;
-    color: $primary-blue;
-    &:hover { background-color: $primary-blue; color: white; }
-  }
+// Reset e Container
+.equipment-page {
+  background: #f9fafb;
 }
 
-// Estilos Gerais da Página
 .container {
-  width: 100%;
-  max-width: 72rem; // max-w-6xl
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-// Seção Hero
+// Hero Section
 .hero {
-  padding: 5rem 0;
-  color: white;
   background: $primary-gradient;
+  padding: 5rem 1rem;
   text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.3;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
   font-size: 3rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  color: white;
+  margin-bottom: 1rem;
+  animation: fadeInDown 0.8s ease-out;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  margin-bottom: 2rem;
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
-// Seção de Filtros (similar à página de publicações)
+// Filters Section
 .filters {
-  padding: 2rem 0;
-  background-color: $gray-50;
+  background: white;
+  padding: 2rem 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .filter-wrapper {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  @media (min-width: 768px) { flex-direction: row; }
+  justify-content: center;
 }
 
 .search-box {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
   position: relative;
-  flex-grow: 1;
-  max-width: 28rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.search-input {
   width: 100%;
-  .search-input {
-    width: 100%;
-    padding: 0.5rem 1rem 0.5rem 2.5rem;
-    border: 1px solid $gray-300;
-    border-radius: 0.5rem;
-    &:focus { outline: none; box-shadow: 0 0 0 2px $focus-ring-color; }
-  }
-  :deep(svg) {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1rem;
-    height: 1rem;
-    color: $gray-400;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
   }
 }
 
 .filter-select {
-  padding: 0.5rem 1rem;
-  border: 1px solid $gray-300;
-  border-radius: 0.5rem;
-  width: 100%;
-  &:focus { outline: none; box-shadow: 0 0 0 2px $focus-ring-color; }
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 200px;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
+  }
 }
 
-// Grid de Equipamentos
+// Equipment Grid
 .equipment-grid {
-  padding: 4rem 0;
-  background-color: white;
+  padding: 4rem 1rem;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
-  @media (min-width: 768px) { grid-template-columns: repeat(2, 1fr); }
-  @media (min-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .equipment-card {
-  border: 1px solid $gray-200;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
-  &:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+  box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.5s ease-out;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+
+    .equipment-image img {
+      transform: scale(1.1);
+    }
+  }
 }
 
 .equipment-image {
   position: relative;
-  height: 12rem; // h-48
-  background-color: $gray-200;
+  height: 200px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   overflow: hidden;
-  transition: transform 0.3s ease-in-out;
-  .equipment-card:hover & { transform: scale(1.05); }
-  
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s;
   }
 }
 
@@ -341,18 +443,21 @@ $focus-ring-color: rgba(29, 138, 159, 0.4);
   justify-content: center;
   width: 100%;
   height: 100%;
-  :deep(svg) { width: 4rem; height: 4rem; color: $gray-400; }
+  font-size: 4rem;
+  color: rgba(255,255,255,0.3);
 }
 
 .equipment-category {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  padding: 0.25rem 0.75rem;
-  background-color: $primary-blue;
-  color: white;
-  font-size: 0.875rem;
-  border-radius: 9999px;
+  background: rgba(255,255,255,0.95);
+  color: $primary-blue;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
 }
 
 .equipment-content {
@@ -360,19 +465,19 @@ $focus-ring-color: rgba(29, 138, 159, 0.4);
 }
 
 .equipment-name {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: $primary-blue;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .equipment-description {
-  color: $gray-600;
+  color: #6b7280;
+  line-height: 1.6;
   margin-bottom: 1rem;
-  // Limita o texto a 3 linhas com reticências
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
@@ -380,145 +485,239 @@ $focus-ring-color: rgba(29, 138, 159, 0.4);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .detail-item {
   display: flex;
   align-items: center;
-  font-size: 0.875rem;
-  color: $gray-500;
-  :deep(svg) { width: 1rem; height: 1rem; margin-right: 0.5rem; }
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #6b7280;
 }
 
 .equipment-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .btn { @include btn; }
+}
+
+.btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid $primary-blue;
+  background: transparent;
+  color: $primary-blue;
+
+  &:hover {
+    background: $primary-blue;
+    color: white;
+    transform: translateY(-2px);
+  }
 }
 
 .equipment-status {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
 
-  .status-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; }
-
-  &.status-available { color: $green-600; .status-dot { background-color: $green-600; } }
-  &.status-in-use { color: $yellow-600; .status-dot { background-color: $yellow-600; } }
-  &.status-maintenance { color: $red-600; .status-dot { background-color: $red-600; } }
-  &.status-other { color: $gray-600; .status-dot { background-color: $gray-600; } }
-}
-
-// Estados de Loading e Vazio (similar a outras páginas)
-.state-indicator {
-  text-align: center;
-  padding: 3rem 0;
-  .loading-spinner {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border: 4px solid $primary-blue;
-    border-top-color: transparent;
+  .status-dot {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: pulse 2s infinite;
   }
-  p { margin-top: 0.5rem; color: $gray-600; }
-  :deep(svg) { width: 4rem; height: 4rem; color: $gray-400; margin: 0 auto 1rem; }
-  .empty-title { font-size: 1.125rem; margin-bottom: 1rem; }
-  .empty-subtitle { color: $gray-500; }
+
+  &.status-available {
+    color: #16a34a;
+    .status-dot { background: #16a34a; }
+  }
+
+  &.status-in-use {
+    color: #ca8a04;
+    .status-dot { background: #ca8a04; }
+  }
+
+  &.status-maintenance {
+    color: #dc2626;
+    .status-dot { background: #dc2626; }
+  }
 }
 
-// Modal (similar a outras páginas)
-.equipment-modal {
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.empty-subtitle {
+  color: #6b7280;
+}
+
+// Modal
+.modal {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  padding: 1rem;
+  animation: fadeIn 0.3s;
 }
 
 .modal-content {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-  max-width: 42rem; // max-w-2xl
+  background: white;
+  border-radius: 20px;
+  max-width: 700px;
   width: 100%;
-  margin: 1rem;
   max-height: 90vh;
   overflow-y: auto;
-  animation: slideInUp 0.3s ease-out;
+  animation: slideUp 0.3s;
 }
 
 .modal-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid $gray-200;
+  padding: 2rem;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
 }
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: $primary-blue;
 }
 
 .close-button {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+  background: #f3f4f6;
   border: none;
-  background: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
-  &:hover { background-color: #f3f4f6; }
-  :deep(svg) { width: 1.5rem; height: 1.5rem; }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  font-size: 1.5rem;
+
+  &:hover {
+    background: #e5e7eb;
+    transform: rotate(90deg);
+  }
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .modal-image {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 300px;
+
   img {
     width: 100%;
-    height: 16rem; // h-64
+    height: 100%;
     object-fit: cover;
-    border-radius: 0.5rem;
   }
 }
 
 .equipment-info {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.info-item {
+  animation: fadeIn 0.5s ease-out;
 }
 
 .info-label {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: $primary-blue;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .info-value {
-  color: $gray-700;
-  line-height: 1.6;
+  color: #374151;
+  line-height: 1.7;
 }
 
-// Animações
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes slideInUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 </style>

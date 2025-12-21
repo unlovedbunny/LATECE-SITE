@@ -1,77 +1,126 @@
-<template>
-  <div class="team-page">
-    <section class="hero">
-      <div class="container">
-        <h1 class="hero-title">{{ $t('team.title') }}</h1>
-        <p class="hero-subtitle">{{ $t('team.subtitle') }}</p>
-      </div>
-    </section>
+<template lang="pug">
+.team-page
+  // Hero Section
+  section.hero
+    .hero-content
+      h1.hero-title Nossa Equipe
+      p.hero-subtitle Conheça os profissionais dedicados à Tecnologia Assistiva
 
-    <section class="team-members">
-      <div class="container">
-        <div class="coordinators" v-if="coordinators.length > 0">
-          <h2 class="section-title">{{ $t('team.coordinators') }}</h2>
-          <div class="members-grid">
-            <div class="member-card" v-for="member in coordinators" :key="member.id">
-              <div class="member-photo">
-                <img v-if="member.photoUrl" :src="member.photoUrl" :alt="member.name" />
-                <div class="initials-placeholder" v-else>{{ getInitials(member.name) }}</div>
-              </div>
-              <h3 class="member-name">{{ member.name }}</h3>
-              <p class="member-role">{{ member.role }}</p>
-              <p class="member-bio">{{ member.bio }}</p>
-              <div class="member-links">
-                <a class="member-link" v-if="member.email" :href="`mailto:${member.email}`" :aria-label="`Enviar email para ${member.name}`">
-                  <Icon name="mdi:email" />
-                </a>
-                <a class="member-link" v-if="member.lattesUrl" :href="member.lattesUrl" target="_blank" rel="noopener noreferrer" :aria-label="`Ver currículo Lattes de ${member.name}`">
-                  <Icon name="academicons:lattes" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+  // Team Members Section
+  section.team-members
+    .container
+      // Coordinators
+      .coordinators(v-if="coordinators.length > 0")
+        h2.section-title Coordenadores
+        .members-grid
+          .member-card(v-for="member in coordinators" :key="member.id")
+            .member-photo
+              img(v-if="member.photoUrl" :src="member.photoUrl" :alt="member.name")
+              .initials-placeholder(v-else) {{ getInitials(member.name) }}
+            h3.member-name {{ member.name }}
+            p.member-role {{ member.role }}
+            p.member-bio {{ member.bio }}
+            .member-links
+              a.member-link(
+                v-if="member.email"
+                :href="`mailto:${member.email}`"
+                :aria-label="`Enviar email para ${member.name}`"
+              )
+                svg(width="24" height="24" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z")
+              a.member-link(
+                v-if="member.lattesUrl"
+                :href="member.lattesUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`Ver currículo Lattes de ${member.name}`"
+              )
+                svg(width="24" height="24" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z")
+              a.member-link(
+                v-if="member.linkedinUrl"
+                :href="member.linkedinUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`Ver LinkedIn de ${member.name}`"
+              )
+                svg(width="24" height="24" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z")
 
-        <div class="collaborators" v-if="collaborators.length > 0">
-          <h2 class="section-title">{{ $t('team.collaborators') }}</h2>
-          <div class="members-grid">
-            <div class="member-card collaborator-card" v-for="member in collaborators" :key="member.id">
-              <div class="member-photo">
-                <img v-if="member.photoUrl" :src="member.photoUrl" :alt="member.name" />
-                <div class="initials-placeholder" v-else>{{ getInitials(member.name) }}</div>
-              </div>
-              <h3 class="member-name">{{ member.name }}</h3>
-              <p class="member-role">{{ member.role }}</p>
-              <p class="member-bio">{{ member.bio }}</p>
-              <div class="member-links">
-                <a class="member-link" v-if="member.email" :href="`mailto:${member.email}`" :aria-label="`Enviar email para ${member.name}`">
-                  <Icon name="mdi:email" />
-                </a>
-                <a class="member-link" v-if="member.lattesUrl" :href="member.lattesUrl" target="_blank" rel="noopener noreferrer" :aria-label="`Ver currículo Lattes de ${member.name}`">
-                  <Icon name="academicons:lattes" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+      // Collaborators
+      .collaborators(v-if="collaborators.length > 0")
+        h2.section-title Colaboradores
+        .members-grid
+          .member-card.collaborator-card(v-for="member in collaborators" :key="member.id")
+            .member-photo
+              img(v-if="member.photoUrl" :src="member.photoUrl" :alt="member.name")
+              .initials-placeholder(v-else) {{ getInitials(member.name) }}
+            h3.member-name {{ member.name }}
+            p.member-role {{ member.role }}
+            p.member-bio {{ member.bio }}
+            .member-links
+              a.member-link(
+                v-if="member.email"
+                :href="`mailto:${member.email}`"
+                :aria-label="`Enviar email para ${member.name}`"
+              )
+                svg(width="24" height="24" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z")
+              a.member-link(
+                v-if="member.lattesUrl"
+                :href="member.lattesUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`Ver currículo Lattes de ${member.name}`"
+              )
+                svg(width="24" height="24" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z")
+              a.member-link(
+                v-if="member.linkedinUrl"
+                :href="member.linkedinUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`Ver LinkedIn de ${member.name}`"
+              )
+                svg(width="24" height="24" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z")
 
-        <div class="state-indicator" v-if="teamStore.isLoading">
-          <div class="loading-spinner"></div>
-          <p>{{ $t('common.loading', 'Carregando...') }}</p>
-        </div>
+      // Students
+      .students(v-if="students.length > 0")
+        h2.section-title Estudantes
+        .members-grid.students-grid
+          .member-card.student-card(v-for="member in students" :key="member.id")
+            .member-photo
+              img(v-if="member.photoUrl" :src="member.photoUrl" :alt="member.name")
+              .initials-placeholder(v-else) {{ getInitials(member.name) }}
+            h3.member-name {{ member.name }}
+            p.member-role {{ member.role }}
+            .member-links
+              a.member-link(
+                v-if="member.email"
+                :href="`mailto:${member.email}`"
+                :aria-label="`Enviar email para ${member.name}`"
+              )
+                svg(width="20" height="20" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z")
+              a.member-link(
+                v-if="member.linkedinUrl"
+                :href="member.linkedinUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`Ver LinkedIn de ${member.name}`"
+              )
+                svg(width="20" height="20" fill="currentColor" viewBox="0 0 24 24")
+                  path(d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z")
 
-        <div class="state-indicator" v-else-if="!teamStore.hasMembers">
-          <p>{{ $t('team.noMembers') }}</p>
-        </div>
-      </div>
-    </section>
-  </div>
+      // Empty State
+      .empty-state(v-if="allMembers.length === 0")
+        .empty-icon 👥
+        h3.empty-title Nenhum membro cadastrado
+        p.empty-subtitle A equipe será atualizada em breve
 </template>
 
 <script setup lang="ts">
-import { useTeamStore } from '@/stores/team'
-import { computed, onMounted } from 'vue'
-
 // Meta tags
 useHead({
   title: 'Equipe - Laboratório de Tecnologia Assistiva',
@@ -80,17 +129,140 @@ useHead({
   ]
 })
 
-// Stores
-const teamStore = useTeamStore()
+// Dados fictícios da equipe
+const teamData = [
+  // Coordenadores
+  {
+    id: 1,
+    name: "Dra. Ana Carolina Silva",
+    role: "Coordenadora Geral",
+    bio: "Doutora em Engenharia Biomédica com 15 anos de experiência em Tecnologia Assistiva. Especialista em desenvolvimento de dispositivos para pessoas com deficiência visual.",
+    email: "ana.silva@latece.ufrn.br",
+    lattesUrl: "http://lattes.cnpq.br/exemplo1",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=faces",
+    type: "coordinator"
+  },
+  {
+    id: 2,
+    name: "Dr. Roberto Mendes",
+    role: "Vice-Coordenador",
+    bio: "Doutor em Ciência da Computação, pesquisador em interfaces adaptativas e sistemas de comunicação aumentativa. Autor de mais de 50 publicações na área.",
+    email: "roberto.mendes@latece.ufrn.br",
+    lattesUrl: "http://lattes.cnpq.br/exemplo2",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    photoUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces",
+    type: "coordinator"
+  },
+  
+  // Colaboradores
+  {
+    id: 3,
+    name: "Profa. Mariana Costa",
+    role: "Pesquisadora Sênior",
+    bio: "Especialista em ergonomia e design inclusivo. Coordena projetos de desenvolvimento de mobiliário e ambientes acessíveis.",
+    email: "mariana.costa@latece.ufrn.br",
+    lattesUrl: "http://lattes.cnpq.br/exemplo3",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    photoUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces",
+    type: "collaborator"
+  },
+  {
+    id: 4,
+    name: "Dr. Felipe Andrade",
+    role: "Engenheiro Biomédico",
+    bio: "Desenvolve próteses e órteses personalizadas utilizando impressão 3D e tecnologias de fabricação digital.",
+    email: "felipe.andrade@latece.ufrn.br",
+    lattesUrl: "http://lattes.cnpq.br/exemplo4",
+    photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces",
+    type: "collaborator"
+  },
+  {
+    id: 5,
+    name: "Profa. Juliana Santos",
+    role: "Terapeuta Ocupacional",
+    bio: "Especialista em reabilitação e adaptação de tecnologias assistivas para diferentes contextos de uso.",
+    email: "juliana.santos@latece.ufrn.br",
+    lattesUrl: "http://lattes.cnpq.br/exemplo5",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    photoUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces",
+    type: "collaborator"
+  },
+  {
+    id: 6,
+    name: "Prof. Carlos Eduardo Lima",
+    role: "Designer de Produto",
+    bio: "Foca no desenvolvimento de produtos acessíveis com metodologia centrada no usuário e co-design.",
+    email: "carlos.lima@latece.ufrn.br",
+    photoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces",
+    type: "collaborator"
+  },
+  
+  // Estudantes
+  {
+    id: 7,
+    name: "Lucas Ferreira",
+    role: "Mestrando - Eng. Elétrica",
+    email: "lucas.ferreira@ufrn.br",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    photoUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=faces",
+    type: "student"
+  },
+  {
+    id: 8,
+    name: "Beatriz Oliveira",
+    role: "Doutoranda - Ciência da Computação",
+    email: "beatriz.oliveira@ufrn.br",
+    photoUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces",
+    type: "student"
+  },
+  {
+    id: 9,
+    name: "Pedro Henrique Costa",
+    role: "Mestrando - Design",
+    email: "pedro.costa@ufrn.br",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    type: "student"
+  },
+  {
+    id: 10,
+    name: "Amanda Rodrigues",
+    role: "IC - Eng. Biomédica",
+    email: "amanda.rodrigues@ufrn.br",
+    photoUrl: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=400&fit=crop&crop=faces",
+    type: "student"
+  },
+  {
+    id: 11,
+    name: "Rafael Santos",
+    role: "Mestrando - Terapia Ocupacional",
+    email: "rafael.santos@ufrn.br",
+    type: "student"
+  },
+  {
+    id: 12,
+    name: "Camila Alves",
+    role: "IC - Ciência da Computação",
+    email: "camila.alves@ufrn.br",
+    linkedinUrl: "https://linkedin.com/in/exemplo",
+    type: "student"
+  }
+]
 
-// Fetch team members on mount
-onMounted(() => {
-  teamStore.fetchMembers()
-})
+// Computed properties para filtrar membros por tipo
+const coordinators = computed(() => 
+  teamData.filter(member => member.type === 'coordinator')
+)
 
-// Use the getters directly from your Pinia store
-const coordinators = computed(() => teamStore.coordinators)
-const collaborators = computed(() => teamStore.collaborators)
+const collaborators = computed(() => 
+  teamData.filter(member => member.type === 'collaborator')
+)
+
+const students = computed(() => 
+  teamData.filter(member => member.type === 'student')
+)
+
+const allMembers = computed(() => teamData)
 
 // Helper function to get initials from name
 const getInitials = (name: string): string => {
@@ -106,53 +278,83 @@ const getInitials = (name: string): string => {
 </script>
 
 <style scoped lang="scss">
-// Variáveis (ajuste conforme seu design system)
+// Variáveis
 $primary-blue: #1D8A9F;
 $light-blue: #64B8D1;
-$primary-gradient: linear-gradient(to bottom right, $primary-blue, $light-blue);
+$primary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+$gray-50: #f9fafb;
 $gray-200: #e5e7eb;
-$gray-600: #4b5563;
 $gray-400: #9ca3af;
+$gray-600: #4b5563;
 $gray-700: #374151;
-$transition-normal: all 0.3s ease-in-out;
-$transition-fast: all 0.2s ease-in-out;
 
-// Estilos Gerais
+// Container
 .container {
-  width: 100%;
-  max-width: 72rem;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-// Seção Hero
+// Hero Section
 .hero {
-  padding: 5rem 0;
-  color: white;
   background: $primary-gradient;
+  padding: 5rem 1rem;
   text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.3;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
   font-size: 3rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeInDown 0.8s ease-out;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  margin-bottom: 2rem;
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
-// Seção de Membros
+// Team Members Section
 .team-members {
   padding: 4rem 0;
-  background-color: white;
+  background: $gray-50;
 }
 
-.coordinators {
+.coordinators,
+.collaborators,
+.students {
   margin-bottom: 4rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .section-title {
@@ -170,7 +372,7 @@ $transition-fast: all 0.2s ease-in-out;
     bottom: -8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
+    width: 80px;
     height: 4px;
     background: $primary-gradient;
     border-radius: 2px;
@@ -179,49 +381,75 @@ $transition-fast: all 0.2s ease-in-out;
 
 .members-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: 1fr;
   gap: 2rem;
 
-  @media (min-width: 768px) { // md
+  @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (min-width: 1024px) { // lg
+
+  @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  &.students-grid {
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 }
 
 .member-card {
-  padding: 1.5rem;
+  background: white;
+  padding: 2rem 1.5rem;
   text-align: center;
-  border: 1px solid $gray-200;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
-  transition: $transition-normal;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.5s ease-out;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px rgba(0,0,0,0.15);
   }
 
   &.collaborator-card .member-photo {
-    width: 6rem;
-    height: 6rem;
+    width: 7rem;
+    height: 7rem;
   }
-  
+
   &.collaborator-card .initials-placeholder {
-    font-size: 1.5rem;
-    background-color: $light-blue;
+    font-size: 1.75rem;
+  }
+
+  &.student-card .member-photo {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  &.student-card .initials-placeholder {
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  &.student-card .member-name {
+    font-size: 1rem;
+  }
+
+  &.student-card .member-role {
+    font-size: 0.875rem;
   }
 }
 
 .member-photo {
-  width: 8rem;
-  height: 8rem;
-  background-color: $gray-200;
-  border-radius: 9999px;
-  margin: 0 auto 1rem;
+  width: 9rem;
+  height: 9rem;
+  background: $gray-200;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
   overflow: hidden;
-  transition: transform $transition-normal;
+  transition: transform 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 
   .member-card:hover & {
     transform: scale(1.05);
@@ -240,15 +468,15 @@ $transition-fast: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $primary-blue;
+  background: $primary-gradient;
   color: white;
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 700;
 }
 
 .member-name {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: $primary-blue;
   margin-bottom: 0.5rem;
 }
@@ -256,13 +484,15 @@ $transition-fast: all 0.2s ease-in-out;
 .member-role {
   font-size: 1rem;
   color: $light-blue;
-  margin-bottom: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .member-bio {
   color: $gray-600;
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 .member-links {
@@ -273,44 +503,75 @@ $transition-fast: all 0.2s ease-in-out;
 
 .member-link {
   color: $primary-blue;
-  transition: $transition-fast;
-  display: inline-block;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $gray-50;
 
   &:hover {
-    color: $light-blue;
-    transform: scale(1.1);
+    color: white;
+    background: $primary-gradient;
+    transform: translateY(-3px);
   }
 
-  :deep(.icon) {
-    font-size: 1.5rem;
+  svg {
+    width: 24px;
+    height: 24px;
   }
 }
 
-// Estados de Loading e Vazio
-.state-indicator {
+// Empty State
+.empty-state {
   text-align: center;
-  margin-top: 2rem;
-  padding: 3rem 0;
+  padding: 4rem 1rem;
+}
 
-  .loading-spinner {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border: 4px solid $primary-blue;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $gray-700;
+  margin-bottom: 0.5rem;
+}
+
+.empty-subtitle {
+  color: $gray-600;
+}
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
   }
-
-  p {
-    margin-top: 0.5rem;
-    color: $gray-600;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// Animações
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

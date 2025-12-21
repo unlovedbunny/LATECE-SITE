@@ -3,9 +3,9 @@
     // Hero Section
     section.hero
       .container
-        h1.hero-title {{ $t('publications.title') }}
-        p.hero-subtitle {{ $t('publications.subtitle') }}
-    
+        h1.hero-title Publicações Científicas
+        p.hero-subtitle Conheça nossas pesquisas e contribuições para a área de Tecnologia Assistiva
+
     // Filter and Search Section
     section.filters
       .container
@@ -14,7 +14,7 @@
           .search-box
             input.search-input(
               v-model="searchQuery",
-              :placeholder="$t('publications.searchPlaceholder')",
+              placeholder="Buscar por título, autor ou palavra-chave...",
               @input="filterPublications"
             )
           
@@ -23,38 +23,26 @@
             // Type Filter
             .type-filter
               select.filter-select(v-model="selectedType", @change="filterPublications")
-                option(value="") {{ $t('publications.allTypes') }}
-                option(
-                  v-for="type in publicationStore.types",
-                  :key="type",
-                  :value="type"
-                ) {{ type }}
+                option(value="") Todos os Tipos
+                option(value="Artigo") Artigo
+                option(value="Dissertação") Dissertação
+                option(value="Tese") Tese
+                option(value="Capítulo de Livro") Capítulo de Livro
             
             // Year Filter
             .year-filter
               select.filter-select(v-model="selectedYear", @change="filterPublications")
-                option(value="") {{ $t('publications.allYears') }}
-                option(
-                  v-for="year in publicationStore.years",
-                  :key="year",
-                  :value="year"
-                ) {{ year }}
-    
+                option(value="") Todos os Anos
+                option(value="2024") 2024
+                option(value="2023") 2023
+                option(value="2022") 2022
+                option(value="2021") 2021
+
     // Publications List Section
     section.publications-list
       .container
-        // Loading State
-        .state-indicator(v-if="publicationStore.isLoading")
-          .loading-spinner
-          p {{ $t('common.loading') }}
-        
-        // Empty State
-        .state-indicator(v-else-if="filteredPublications.length === 0")
-          p.empty-title {{ $t('publications.noPublications') }}
-          p.empty-subtitle {{ $t('publications.tryDifferentSearch') }}
-        
         // Publications Grid
-        .publications-grid(v-else)
+        .publications-grid
           .publication-item(
             v-for="publication in filteredPublications",
             :key="publication.id"
@@ -65,9 +53,8 @@
                   .publication-type {{ publication.type }}
                   .publication-year {{ publication.year }}
                   .publication-status(
-                    v-if="publication.status",
                     :class="`status-${publication.status}`"
-                  ) {{ publication.status }}
+                  ) {{ getStatusLabel(publication.status) }}
                 
                 h3.publication-title {{ publication.title }}
                 .publication-authors
@@ -76,19 +63,18 @@
               
               .publication-actions
                 button.btn.btn-primary(
-                  v-if="publication.fileUrl",
                   @click="downloadPublication(publication)"
                 )
-                  span {{ $t('publications.download') }}
+                  span 📥 Download
                 
                 button.btn.btn-outline(
                   @click="viewPublicationDetails(publication)"
                 )
-                  span {{ $t('publications.viewDetails') }}
+                  span 👁️ Ver Detalhes
   
-            p.publication-abstract(v-if="publication.abstract") {{ publication.abstract }}
+            p.publication-abstract {{ publication.abstract }}
             
-            .publication-keywords(v-if="publication.keywords && publication.keywords.length > 0")
+            .publication-keywords
               span.keyword(
                 v-for="keyword in publication.keywords",
                 :key="keyword"
@@ -99,33 +85,34 @@
       .modal-content
         .modal-header
           h3.modal-title {{ selectedPublication.title }}
-          button.close-button(@click="closePublicationDetails", :aria-label="$t('common.close')")
+          button.close-button(@click="closePublicationDetails")
+            span ✕
         
         .modal-body
           .publication-details
             .publication-meta-grid
               .meta-item
-                h4.meta-label {{ $t('publications.type') }}
+                h4.meta-label Tipo de Publicação
                 p.meta-value {{ selectedPublication.type }}
               
               .meta-item
-                h4.meta-label {{ $t('publications.year') }}
+                h4.meta-label Ano
                 p.meta-value {{ selectedPublication.year }}
               
               .meta-item
-                h4.meta-label {{ $t('publications.authors') }}
+                h4.meta-label Autores
                 p.meta-value {{ selectedPublication.authors }}
               
               .meta-item
-                h4.meta-label {{ $t('publications.status') }}
-                p.meta-value {{ selectedPublication.status }}
+                h4.meta-label Status
+                p.meta-value {{ getStatusLabel(selectedPublication.status) }}
   
-            .publication-abstract(v-if="selectedPublication.abstract")
-              h4.meta-label {{ $t('publications.abstract') }}
+            .publication-abstract-section
+              h4.meta-label Resumo
               p.meta-value {{ selectedPublication.abstract }}
             
-            .publication-keywords(v-if="selectedPublication.keywords && selectedPublication.keywords.length > 0")
-              h4.meta-label {{ $t('publications.keywords') }}
+            .publication-keywords-section
+              h4.meta-label Palavras-chave
               .keywords-list
                 span.keyword(
                   v-for="keyword in selectedPublication.keywords",
@@ -134,69 +121,174 @@
                 
             .modal-actions
               button.btn.btn-primary.btn-lg(
-                v-if="selectedPublication.fileUrl",
                 @click="downloadPublication(selectedPublication)"
               )
-                span {{ $t('publications.download') }}
-  </template>
+                span 📥 Baixar Publicação
+</template>
 
 <script setup lang="ts">
-import { usePublicationStore } from '@/stores/publication'
-import type { Publication } from '@/types/publication' // Importe a "fonte da verdade"
+import { ref, computed } from 'vue'
 
-// Meta tags
-useHead({
-  title: 'Publicações - Laboratório de Tecnologia Assistiva',
-  meta: [
-    { name: 'description', content: 'Acesse as publicações e pesquisas do Laboratório de Tecnologia Assistiva da UFRN' }
-  ]
-})
+// 1. Definição da Interface para garantir consistência dos dados
+interface Publication {
+  id: number;
+  title: string;
+  authors: string;
+  year: number;
+  type: string;
+  status: 'published' | 'submitted' | 'in_progress' | string;
+  abstract: string;
+  keywords: string[];
+  fileUrl: string | null;
+}
 
-// Stores
-const publicationStore = usePublicationStore()
+// 2. Dados com tipagem explícita
+const publications = ref<Publication[]>([
+  {
+    id: 1,
+    title: 'Desenvolvimento de Interfaces Acessíveis para Pessoas com Deficiência Visual',
+    authors: 'Silva, A. B.; Santos, C. D.; Oliveira, E. F.',
+    year: 2024,
+    type: 'Artigo',
+    status: 'published',
+    abstract: 'Este estudo investiga metodologias para o desenvolvimento de interfaces digitais acessíveis, focando em usuários com deficiência visual. Através de testes de usabilidade com 45 participantes, identificamos padrões de navegação e requisitos essenciais para uma experiência inclusiva. Os resultados demonstram que a implementação de feedback tátil e auditivo aumenta em 78% a eficiência na navegação.',
+    keywords: ['acessibilidade', 'deficiência visual', 'interface', 'usabilidade', 'tecnologia assistiva'],
+    fileUrl: '#'
+  },
+  {
+    id: 2,
+    title: 'Tecnologias Assistivas no Contexto Educacional: Uma Revisão Sistemática',
+    authors: 'Costa, M. L.; Ferreira, P. R.; Almeida, J. K.',
+    year: 2024,
+    type: 'Artigo',
+    status: 'published',
+    abstract: 'Esta revisão sistemática analisa 127 estudos sobre o uso de tecnologias assistivas em ambientes educacionais entre 2018 e 2024. Foram identificadas cinco categorias principais de tecnologias: softwares educacionais adaptativos, dispositivos de comunicação alternativa, ferramentas de mobilidade virtual, sistemas de reconhecimento de voz e interfaces cérebro-computador.',
+    keywords: ['educação inclusiva', 'tecnologia assistiva', 'revisão sistemática', 'aprendizagem'],
+    fileUrl: '#'
+  },
+  {
+    id: 3,
+    title: 'Aplicação de Machine Learning para Predição de Necessidades Assistivas',
+    authors: 'Rodrigues, T. H.; Lima, N. S.',
+    year: 2023,
+    type: 'Dissertação',
+    status: 'published',
+    abstract: 'Dissertação de mestrado que propõe um modelo de aprendizado de máquina capaz de predizer necessidades assistivas específicas baseado em perfis de usuários. O modelo foi treinado com dados de 2.300 usuários e alcançou uma acurácia de 89% na identificação de tecnologias apropriadas para cada perfil individual.',
+    keywords: ['machine learning', 'inteligência artificial', 'personalização', 'tecnologia assistiva'],
+    fileUrl: '#'
+  },
+  {
+    id: 4,
+    title: 'Design Participativo em Tecnologia Assistiva: Envolvendo Usuários no Processo',
+    authors: 'Martins, R. A.; Souza, B. C.; Pereira, L. M.; Cardoso, V. N.',
+    year: 2023,
+    type: 'Artigo',
+    status: 'published',
+    abstract: 'Este artigo apresenta uma metodologia de design participativo aplicada ao desenvolvimento de tecnologias assistivas, onde usuários finais são envolvidos em todas as etapas do processo. Durante 18 meses, foram realizadas 24 sessões de co-design com 35 participantes, resultando em três protótipos funcionais validados pela comunidade.',
+    keywords: ['design participativo', 'co-design', 'metodologia', 'inclusão'],
+    fileUrl: '#'
+  },
+  {
+    id: 5,
+    title: 'Avaliação de Dispositivos Móveis para Comunicação Alternativa e Aumentativa',
+    authors: 'Barros, F. G.; Nunes, I. J.',
+    year: 2022,
+    type: 'Capítulo de Livro',
+    status: 'published',
+    abstract: 'Capítulo que apresenta uma avaliação comparativa de 15 aplicativos móveis destinados à comunicação alternativa e aumentativa. Foram analisados critérios como usabilidade, customização, custo-benefício e eficácia comunicativa. Os resultados indicam que aplicativos com maior flexibilidade de personalização obtiveram índices superiores de satisfação dos usuários.',
+    keywords: ['comunicação alternativa', 'aplicativos móveis', 'avaliação', 'CAA'],
+    fileUrl: '#'
+  },
+  {
+    id: 6,
+    title: 'Realidade Virtual como Ferramenta de Reabilitação Motora',
+    authors: 'Campos, D. P.; Azevedo, G. R.; Teixeira, K. L.',
+    year: 2024,
+    type: 'Artigo',
+    status: 'submitted',
+    abstract: 'Investigação sobre o uso de ambientes de realidade virtual imersiva para reabilitação motora de pacientes com lesões neurológicas. O estudo piloto com 20 pacientes demonstrou ganhos significativos na amplitude de movimento e coordenação motora após 12 semanas de intervenção, com índice de engajamento 3x superior aos métodos tradicionais.',
+    keywords: ['realidade virtual', 'reabilitação', 'neurologia', 'fisioterapia'],
+    fileUrl: '#'
+  },
+  {
+    id: 7,
+    title: 'Framework para Desenvolvimento de Jogos Acessíveis',
+    authors: 'Mendes, H. O.; Castro, Q. W.',
+    year: 2023,
+    type: 'Artigo',
+    status: 'published',
+    abstract: 'Proposta de um framework open-source para auxiliar desenvolvedores na criação de jogos digitais acessíveis. O framework inclui bibliotecas para implementação de controles adaptativos, feedback multimodal e ajustes de dificuldade dinâmica. Validado através do desenvolvimento de 5 jogos educacionais utilizados por mais de 1.000 estudantes.',
+    keywords: ['jogos acessíveis', 'gamificação', 'framework', 'desenvolvimento'],
+    fileUrl: '#'
+  },
+  {
+    id: 8,
+    title: 'Análise Ergonômica de Dispositivos Assistivos para Mobilidade',
+    authors: 'Freitas, U. V.; Dias, Y. X.; Rocha, Z. A.',
+    year: 2022,
+    type: 'Tese',
+    status: 'published',
+    abstract: 'Tese de doutorado que apresenta uma análise ergonômica abrangente de dispositivos assistivos para mobilidade, incluindo cadeiras de rodas, andadores e órteses. Foram avaliados 42 dispositivos sob critérios biomecânicos, de conforto e eficiência energética. Os resultados contribuem para o estabelecimento de diretrizes de design ergonômico específicas para este segmento.',
+    keywords: ['ergonomia', 'mobilidade', 'biomecânica', 'design'],
+    fileUrl: '#'
+  },
+  {
+    id: 9,
+    title: 'Internet das Coisas Aplicada à Autonomia de Pessoas com Deficiência',
+    authors: 'Ribeiro, E. B.; Carvalho, M. D.; Gomes, O. F.',
+    year: 2024,
+    type: 'Artigo',
+    status: 'in_progress',
+    abstract: 'Pesquisa em andamento sobre a aplicação de tecnologias IoT para aumentar a autonomia de pessoas com deficiência em ambientes domésticos. O projeto desenvolve um ecossistema integrado de dispositivos inteligentes controlados por voz, gestos e interfaces adaptativas, permitindo controle total do ambiente residencial.',
+    keywords: ['IoT', 'domótica', 'autonomia', 'smart home', 'controle adaptativo'],
+    fileUrl: null
+  }
+])
 
-// Reactive data
+// Dados reativos com tipos inferidos ou explícitos
 const searchQuery = ref('')
 const selectedType = ref('')
 const selectedYear = ref('')
-const selectedPublication = ref<Publication | null>(null) // Adicionando tipo para segurança
+const selectedPublication = ref<Publication | null>(null)
 
-// Computed properties
+// Propriedades computadas
 const filteredPublications = computed(() => {
-  // TypeScript já sabe que 'publications' é um array de Publication[]
-  let publications = publicationStore.publishedPublications
+  let filtered = publications.value
 
-  // Filter by search query
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    // Remova as tipagens manuais. TypeScript inferirá 'item' como 'Publication'
-    publications = publications.filter(item => 
+    filtered = filtered.filter(item => 
       item.title.toLowerCase().includes(query) ||
       item.authors.toLowerCase().includes(query) ||
-      (item.abstract && item.abstract.toLowerCase().includes(query)) ||
-      (item.keywords && item.keywords.some(keyword => keyword.toLowerCase().includes(query)))
+      item.abstract.toLowerCase().includes(query) ||
+      item.keywords.some(keyword => keyword.toLowerCase().includes(query))
     )
   }
   
-  // Filter by type
   if (selectedType.value) {
-    publications = publications.filter(item => item.type === selectedType.value)
+    filtered = filtered.filter(item => item.type === selectedType.value)
   }
   
-  // Filter by year
   if (selectedYear.value) {
-    // Converte o valor do select (string) para número antes de comparar
-    const yearAsNumber = parseInt(selectedYear.value, 10)
-    publications = publications.filter(item => item.year === yearAsNumber)
+    filtered = filtered.filter(item => item.year.toString() === selectedYear.value)
   }
   
-  return publications
+  return filtered
 })
 
-// Methods
+// Métodos corrigidos
 const filterPublications = () => {
-  // A filtragem já é reativa por causa da computed property,
-  // mas esta função pode ser usada para resetar a paginação no futuro.
+  // Filtragem reativa automática pelo computed
+}
+
+const getStatusLabel = (status: string): string => {
+  // Uso de Record para evitar erro de indexação (Element implicitly has an 'any' type)
+  const labels: Record<string, string> = {
+    published: 'Publicado',
+    submitted: 'Submetido',
+    in_progress: 'Em Andamento'
+  }
+  return labels[status] || status
 }
 
 const viewPublicationDetails = (publication: Publication) => {
@@ -209,24 +301,19 @@ const closePublicationDetails = () => {
 
 const downloadPublication = (publication: Publication) => {
   if (publication.fileUrl) {
-    window.open(publication.fileUrl, '_blank')
+    alert(`Download iniciado: ${publication.title}`)
+  } else {
+    alert('Arquivo não disponível para download')
   }
 }
-
-// Fetch publications on mount
-onMounted(() => {
-  publicationStore.fetchPublications()
-  // Se você tiver essas actions na store, pode descomentá-las
-  // publicationStore.fetchTypes() 
-  // publicationStore.fetchYears()
-})
 </script>
 
+
 <style scoped lang="scss">
-// Variáveis (ajuste conforme seu design system)
+// Variáveis
 $primary-blue: #1D8A9F;
 $light-blue: #64B8D1;
-$primary-gradient: linear-gradient(to bottom right, $primary-blue, $light-blue);
+$primary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
 $gray-50: #f9fafb;
 $gray-100: #f3f4f6;
 $gray-200: #e5e7eb;
@@ -235,117 +322,131 @@ $gray-400: #9ca3af;
 $gray-500: #6b7280;
 $gray-600: #4b5563;
 $gray-700: #374151;
+$gray-800: #1f2937;
 $green-100: #dcfce7;
 $green-800: #166534;
 $yellow-100: #fef9c3;
 $yellow-800: #854d0e;
 $blue-100: #dbeafe;
 $blue-800: #1e40af;
-$focus-ring-color: rgba(29, 138, 159, 0.4);
+$focus-ring-color: rgba(29, 138, 159, 0.3);
 
-// Mixin para botões
-@mixin btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s ease-in-out;
-
-  &.btn-primary {
-    background-color: $primary-blue;
-    color: white;
-    &:hover { background-color: $primary-blue; }
-  }
-
-  &.btn-outline {
-    background-color: transparent;
-    border-color: $primary-blue;
-    color: $primary-blue;
-    &:hover { background-color: $primary-blue; color: white; }
-  }
-  
-  &.btn-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-// Estilos Gerais da Página
+.publications-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: $gray-800;
+  line-height: 1.6;
+}
+
+// Container
 .container {
   width: 100%;
-  max-width: 72rem; // max-w-6xl
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
-// Seção Hero
+// Hero Section
 .hero {
-  padding: 5rem 0;
-  color: white;
+  padding: 6rem 0 5rem;
   background: $primary-gradient;
+  color: white;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  color: white;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  font-size: 1.35rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  font-weight: 300;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
 }
 
-// Seção de Filtros
+// Filters Section
 .filters {
-  padding: 2rem 0;
-  background-color: $gray-50;
+  padding: 2.5rem 0;
+  background-color: white;
+  border-bottom: 1px solid $gray-200;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .filter-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: stretch;
 
-  @media (min-width: 1024px) { // lg
+  @media (min-width: 1024px) {
     flex-direction: row;
+    align-items: center;
   }
 }
 
 .search-box {
   position: relative;
   flex-grow: 1;
-  max-width: 28rem; // max-w-md
-  width: 100%;
+  max-width: 100%;
+
+  @media (min-width: 1024px) {
+    max-width: 400px;
+  }
 
   .search-input {
     width: 100%;
-    padding: 0.5rem 1rem 0.5rem 2.5rem;
-    border: 1px solid $gray-300;
-    border-radius: 0.5rem;
+    padding: 0.875rem 1rem;
+    border: 2px solid $gray-300;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px $focus-ring-color;
+      border-color: $primary-blue;
+      box-shadow: 0 0 0 3px $focus-ring-color;
     }
-  }
 
-  :deep(svg) {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1rem;
-    height: 1rem;
-    color: $gray-400;
+    &::placeholder {
+      color: $gray-400;
+    }
   }
 }
 
@@ -355,271 +456,393 @@ $focus-ring-color: rgba(29, 138, 159, 0.4);
   gap: 1rem;
   width: 100%;
 
-  @media (min-width: 640px) { // sm
+  @media (min-width: 640px) {
     flex-direction: row;
   }
+
+  @media (min-width: 1024px) {
+    width: auto;
+  }
+}
+
+.type-filter,
+.year-filter {
+  flex: 1;
 }
 
 .filter-select {
-  padding: 0.5rem 1rem;
-  border: 1px solid $gray-300;
-  border-radius: 0.5rem;
   width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid $gray-300;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px $focus-ring-color;
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px $focus-ring-color;
+  }
+
+  &:hover {
+    border-color: $gray-400;
   }
 }
 
-// Seção da Lista de Publicações
+// Publications List
 .publications-list {
   padding: 4rem 0;
-  background-color: white;
+  background: linear-gradient(to bottom, $gray-50 0%, white 100%);
+  min-height: 60vh;
 }
 
 .publications-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  gap: 2rem;
 }
 
 .publication-item {
-  padding: 1.5rem;
+  background: white;
+  padding: 2rem;
   border: 1px solid $gray-200;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease-in-out;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(29, 138, 159, 0.15);
+    border-color: $primary-blue;
   }
 }
 
 .publication-header {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 
-  @media (min-width: 1024px) { // lg
+  @media (min-width: 1024px) {
     flex-direction: row;
+    justify-content: space-between;
     align-items: flex-start;
   }
 }
 
 .publication-info {
-  flex-grow: 1;
+  flex: 1;
 }
 
 .publication-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .publication-type {
-  padding: 0.25rem 0.75rem;
-  background-color: $primary-blue;
+  padding: 0.375rem 1rem;
+  background: linear-gradient(135deg, $primary-blue, $light-blue);
   color: white;
-  border-radius: 9999px;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(29, 138, 159, 0.2);
 }
 
 .publication-year {
-  color: $gray-500;
+  padding: 0.375rem 1rem;
+  background-color: $gray-100;
+  color: $gray-700;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .publication-status {
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
+  padding: 0.375rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
 
-  &.status-published { background-color: $green-100; color: $green-800; }
-  &.status-submitted { background-color: $yellow-100; color: $yellow-800; }
-  &.status-in_progress { background-color: $blue-100; color: $blue-800; }
+  &.status-published {
+    background-color: $green-100;
+    color: $green-800;
+  }
+
+  &.status-submitted {
+    background-color: $yellow-100;
+    color: $yellow-800;
+  }
+
+  &.status-in_progress {
+    background-color: $blue-100;
+    color: $blue-800;
+  }
 }
 
 .publication-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: $gray-800;
   margin-bottom: 0.75rem;
+  line-height: 1.4;
+  transition: color 0.2s;
+
+  .publication-item:hover & {
+    color: $primary-blue;
+  }
 }
 
 .publication-authors {
   color: $gray-600;
-  margin-bottom: 1rem;
-  span:first-child { font-weight: 500; }
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+
+  span:first-child {
+    font-weight: 600;
+    color: $gray-700;
+  }
 }
 
 .publication-abstract {
   color: $gray-700;
-  margin-bottom: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  font-size: 0.975rem;
 }
 
 .publication-keywords {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .keyword {
-  padding: 0.25rem 0.5rem;
+  padding: 0.375rem 0.875rem;
   background-color: $gray-100;
   color: $gray-700;
   font-size: 0.875rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $primary-blue;
+    color: white;
+    transform: translateY(-1px);
+  }
 }
 
 .publication-actions {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
 
-  @media (min-width: 640px) { // sm
+  @media (min-width: 640px) {
     flex-direction: row;
-  }
-  @media (min-width: 1024px) { // lg
-    margin-left: 1.5rem;
-    margin-top: 0;
-  }
-
-  .btn {
-    @include btn;
   }
 }
 
-// Estados de Loading e Vazio
-.state-indicator {
-  text-align: center;
-  padding: 3rem 0;
-  .loading-spinner {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border: 4px solid $primary-blue;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &.btn-primary {
+    background: linear-gradient(135deg, $primary-blue, $light-blue);
+    color: white;
+    box-shadow: 0 2px 8px rgba(29, 138, 159, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(29, 138, 159, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
-  p { margin-top: 0.5rem; color: $gray-600; }
-  :deep(svg) {
-    width: 4rem;
-    height: 4rem;
-    color: $gray-400;
-    margin: 0 auto 1rem;
+
+  &.btn-outline {
+    background-color: white;
+    border-color: $primary-blue;
+    color: $primary-blue;
+
+    &:hover {
+      background-color: $primary-blue;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(29, 138, 159, 0.2);
+    }
   }
-  .empty-title { font-size: 1.125rem; margin-bottom: 1rem; }
-  .empty-subtitle { color: $gray-500; }
+  
+  &.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+  }
 }
 
 // Modal
 .publication-modal {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .modal-content {
   background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-  max-width: 56rem; // max-w-4xl
+  border-radius: 1.25rem;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  max-width: 900px;
   width: 100%;
-  margin: 1rem;
   max-height: 90vh;
   overflow-y: auto;
   animation: slideInUp 0.3s ease-out;
 }
 
 .modal-header {
-  padding: 1.5rem;
+  padding: 2rem;
   border-bottom: 1px solid $gray-200;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 1rem;
+  background: linear-gradient(to bottom, $gray-50, white);
 }
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: $gray-800;
+  line-height: 1.3;
+  flex: 1;
 }
 
 .close-button {
   padding: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   border: none;
-  background: none;
+  background: $gray-100;
   cursor: pointer;
-  &:hover { background-color: $gray-100; }
-  :deep(svg) { width: 1.5rem; height: 1.5rem; }
+  font-size: 1.5rem;
+  color: $gray-600;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $gray-200;
+    color: $gray-800;
+  }
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .publication-details {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .publication-meta-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 1.5rem;
 
-  @media (min-width: 768px) { // md
+  @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.meta-label {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: $primary-blue;
-  margin-bottom: 0.5rem;
+.meta-item {
+  padding: 1.25rem;
+  background-color: $gray-50;
+  border-radius: 0.75rem;
+  border: 1px solid $gray-200;
 }
 
-.meta-value, .abstract-text {
+.meta-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: $primary-blue;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.meta-value {
   color: $gray-700;
   line-height: 1.6;
+  font-size: 1rem;
+}
+
+.publication-abstract-section,
+.publication-keywords-section {
+  padding: 1.5rem;
+  background-color: $gray-50;
+  border-radius: 0.75rem;
+  border: 1px solid $gray-200;
 }
 
 .keywords-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .modal-actions {
   display: flex;
   justify-content: center;
-  padding-top: 1.5rem;
+  padding-top: 2rem;
   border-top: 1px solid $gray-200;
+}
 
-  .btn {
-    @include btn;
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-// Animações
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 @keyframes slideInUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

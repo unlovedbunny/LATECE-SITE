@@ -167,6 +167,7 @@ section {
   .hero-title {
     font-size: 3rem;
     font-weight: 800;
+    color: white;
     margin-bottom: 1.5rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
