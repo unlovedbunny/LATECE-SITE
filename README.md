@@ -9,26 +9,26 @@ Desenvolver um portal web que atue como um polo de pesquisa, formação e dissem
 ## ✨ Funcionalidades
 
 ### Portal Público
-- **Página Inicial**: Apresentação do LATECE e destaques de notícias
-- **Sobre**: Informações detalhadas sobre o laboratório e seus objetivos
-- **Equipe**: Listagem dos membros da equipe com biografias
-- **Equipamentos**: Catálogo dinâmico de equipamentos e recursos de TA
-- **Publicações**: Repositório virtual de artigos e pesquisas
-- **Notícias**: Sistema de blog para notícias e eventos
+- **Página Inicial**: Apresentação do LATECE e destaques de notícias (EM DESENVOLVIMENTO)
+- **Sobre**: Informações detalhadas sobre o laboratório e seus objetivos (EM DESENVOLVIMENTO)
+- **Equipe**: Listagem dos membros da equipe com biografias (EM DESENVOLVIMENTO)
+- **Equipamentos**: Catálogo dinâmico de equipamentos e recursos de TA (EM DESENVOLVIMENTO)
+- **Publicações**: Repositório virtual de artigos e pesquisas (EM DESENVOLVIMENTO)
+- **Notícias**: Sistema de blog para notícias e eventos (DESENVOLVIDO)
 
 ### Painel Administrativo
-- **Dashboard**: Visão geral com estatísticas e atividade recente
-- **Gerenciamento de Conteúdo**: CRUD para notícias, equipamentos, publicações e equipe
-- **Autenticação**: Sistema seguro de login com diferentes níveis de acesso
-- **Configurações**: Painel de configurações do sistema
+- **Dashboard**: Visão geral com estatísticas e atividade recente (EM DESENVOLVIMENTO)
+- **Gerenciamento de Conteúdo**: CRUD para notícias, equipamentos, publicações e equipe (EM DESENVOLVIMENTO)
+- **Autenticação**: Sistema seguro de login com diferentes níveis de acesso (DESENVOLVIDO)
+- **Configurações**: Painel de configurações do sistema (EM DESENVOLVIMENTO)
 
 ### Acessibilidade
-- **Alto Contraste**: Modo de alto contraste para melhor visibilidade
-- **Navegação por Teclado**: Suporte completo à navegação via teclado
-- **Leitores de Tela**: Compatibilidade com principais leitores de tela
-- **vLIBRAS**: Integração com o plugin de tradução para Libras
-- **Controles de Fonte**: Ajuste de tamanho de fonte
-- **Atalhos de Teclado**: Atalhos para funcionalidades de acessibilidade
+- **Alto Contraste**: Modo de alto contraste para melhor visibilidade (DESENVOLVIDO)
+- **Navegação por Teclado**: Suporte completo à navegação via teclado (EM DESENVOLVIMENTO)
+- **Leitores de Tela**: Compatibilidade com principais leitores de tela (DESENVOLVIDO)
+- **vLIBRAS**: Integração com o plugin de tradução para Libras (DESENVOLVIDO)
+- **Controles de Fonte**: Ajuste de tamanho de fonte (DESENVOLVIDO)
+- **Atalhos de Teclado**: Atalhos para funcionalidades de acessibilidade ( EM DESENVOLVIMENTO)
 
 ## 🛠️ Stack Tecnológico
 
@@ -156,11 +156,11 @@ latece-portal/
 
 ## 🔒 Segurança
 
-- **OWASP Top 10**: Seguindo as melhores práticas de segurança
-- **nuxt-security**: Módulo de segurança para cabeçalhos HTTP
-- **JWT**: Autenticação segura com tokens
-- **Validação**: Validação de dados em todas as entradas
-- **CSP**: Content Security Policy configurado
+- **OWASP Top 10**: Seguindo as melhores práticas de segurança (EM DESENVOLVIMENTO)
+- **nuxt-security**: Módulo de segurança para cabeçalhos HTTP (EM DESENVOLVIMENTO)
+- **JWT**: Autenticação segura com tokens (DESENVOLVIDO)
+- **Validação**: Validação de dados em todas as entradas (EM DESENVOLVIMENTO)
+- **CSP**: Content Security Policy configurado (DESENVOLVIDO)
 
 ## ♿ Acessibilidade
 
@@ -200,12 +200,6 @@ O portal é totalmente responsivo e se adapta a diferentes tamanhos de tela:
 - **Chrome DevTools**: Testes em diferentes resoluções
 - **Dispositivos Reais**: Testes em tablets e smartphones
 
-## 📚 Documentação
-
-- **API Documentation**: Documentação da API REST
-- **Component Library**: Biblioteca de componentes
-- **Style Guide**: Guia de estilo e identidade visual
-- **Accessibility Guide**: Guia de acessibilidade
 
 ## 🤝 Contribuição
 
@@ -223,7 +217,6 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICE
 
 - **Desenvolvimento**: Equipe LATECE UFRN
 - **Design**: Identidade visual baseada nas diretrizes da UFRN
-- **Acessibilidade**: Consultoria em acessibilidade digital
 
 ## 📞 Contato
 
