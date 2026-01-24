@@ -16,6 +16,7 @@
           path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z")
         input.search-input(
           v-model="searchQuery"
+          @input="handleSearchInput"
           type="text"
           placeholder="Pesquisar por título ou conteúdo..."
         )
@@ -38,7 +39,7 @@
         p Carregando notícias...
 
       // News Grid
-      .news-grid(v-else-if="filteredNews.length > 0")
+      news-grid(v-else-if="paginatedNews.length > 0")
         article.news-card(
           v-for="(news, index) in paginatedNews"
           :key="news.id"
@@ -119,10 +120,9 @@
 useHead({
   title: 'Notícias - Laboratório de Tecnologia Assistiva',
   meta: [
-    { name: 'description', content: 'Fique por dentro das últimas notícias e eventos do Laboratório de Tecnologia Assistiva da UFRN' }
+    { name: 'description', content: 'Fique por dentro das últimas notícias e eventos do LATECE' }
   ]
 })
-
 // Dados fictícios de notícias
 const newsData = [
   {
@@ -134,132 +134,62 @@ const newsData = [
     createdAt: "2024-12-15",
     imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop"
   },
-  {
-    id: 2,
-    title: "Workshop sobre Comunicação Aumentativa acontece em janeiro",
-    excerpt: "Inscrições abertas para workshop gratuito sobre sistemas de CAA destinado a profissionais da saúde e educação.",
-    content: "<p>O LATECE promoverá em janeiro de 2025 um workshop intensivo sobre Comunicação Aumentativa e Alternativa (CAA), destinado a profissionais das áreas de saúde, educação e tecnologia.</p><p>O evento será realizado nos dias 20 e 21 de janeiro, das 8h às 17h, nas instalações do laboratório. As inscrições são gratuitas mas limitadas a 50 participantes.</p><p>Durante o workshop, os participantes terão contato com as principais tecnologias de CAA disponíveis, aprenderão sobre metodologias de implementação e participarão de atividades práticas com usuários reais desses sistemas.</p><p><strong>Programação:</strong></p><ul><li>Introdução aos sistemas de CAA</li><li>Avaliação e seleção de usuários</li><li>Personalização de vocabulário</li><li>Estratégias de implementação</li><li>Estudos de caso práticos</li></ul><p>Para se inscrever, envie email para eventos@latece.ufrn.br até o dia 10 de janeiro.</p>",
-    category: "Workshop",
-    createdAt: "2024-12-18",
-    imageUrl: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=600&fit=crop"
-  },
-  {
-    id: 3,
-    title: "Laboratório receberá visita de pesquisadores internacionais",
-    excerpt: "Delegação da Universidade de Toronto visitará LATECE para conhecer projetos e estabelecer parceria de pesquisa.",
-    content: "<p>O LATECE receberá no dia 8 de janeiro uma delegação de pesquisadores da Universidade de Toronto, Canadá, especialistas em tecnologia assistiva e reabilitação.</p><p>A visita faz parte de uma iniciativa de cooperação internacional que visa estabelecer parcerias para desenvolvimento conjunto de projetos, intercâmbio de estudantes e compartilhamento de recursos.</p><p>Durante a visita, os pesquisadores canadenses conhecerão as instalações do laboratório, participarão de apresentações sobre os principais projetos em andamento e discutirão oportunidades de colaboração.</p><p>Esta é a primeira de uma série de visitas internacionais programadas para 2025, que incluem também instituições da Alemanha, Japão e Estados Unidos.</p>",
-    category: "Evento",
-    createdAt: "2024-12-20",
-    imageUrl: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&h=600&fit=crop"
-  },
-  {
-    id: 4,
-    title: "Novo software de leitura de tela em português é lançado",
-    excerpt: "LATECE desenvolve leitor de tela open-source otimizado para o português brasileiro com recursos avançados de navegação.",
-    content: "<p>Após três anos de desenvolvimento, o LATECE lança oficialmente o LêBem, um software leitor de tela gratuito e open-source otimizado especialmente para o português brasileiro.</p><p>O LêBem se diferencia dos leitores existentes por sua capacidade superior de interpretação de contexto em português, reconhecimento de expressões idiomáticas e suporte nativo para conteúdos web desenvolvidos no Brasil.</p><p><strong>Principais recursos:</strong></p><ul><li>Síntese de voz em português brasileiro natural</li><li>Navegação inteligente por elementos semânticos</li><li>Suporte a PDFs acessíveis</li><li>OCR integrado para imagens com texto</li><li>Compatibilidade com leitores braille</li><li>Consumo reduzido de recursos do sistema</li></ul><p>O software está disponível gratuitamente para download no site do laboratório e pode ser instalado em computadores com Windows 10 ou superior.</p><p>Uma versão para Linux será lançada no primeiro trimestre de 2025.</p>",
-    category: "Notícia",
-    createdAt: "2024-12-10",
-    imageUrl: "https://images.unsplash.com/photo-1517430816045-df4b7de01c9d?w=800&h=600&fit=crop"
-  },
-  {
-    id: 5,
-    title: "Palestra sobre Design Inclusivo com especialista da Microsoft",
-    excerpt: "Designer sênior da Microsoft apresentará cases de sucesso em acessibilidade digital e princípios de design universal.",
-    content: "<p>O LATECE tem o prazer de anunciar uma palestra especial com Ricardo Almeida, Senior Designer da Microsoft e especialista em design inclusivo, que acontecerá no dia 15 de janeiro de 2025.</p><p>Com mais de 15 anos de experiência desenvolvendo produtos acessíveis para milhões de usuários, Ricardo compartilhará cases de sucesso da Microsoft e demonstrará como princípios de design universal melhoram a experiência de todos os usuários, não apenas daqueles com deficiência.</p><p><strong>Temas abordados:</strong></p><ul><li>Princípios fundamentais de design inclusivo</li><li>Como a acessibilidade impacta os negócios</li><li>Ferramentas e metodologias práticas</li><li>Cases da Microsoft: Xbox Adaptive Controller</li><li>O futuro da acessibilidade em IA</li></ul><p>O evento é gratuito e aberto ao público, mas as vagas são limitadas. A palestra será transmitida ao vivo pelo canal do YouTube do laboratório.</p><p><strong>Data:</strong> 15 de janeiro de 2025<br><strong>Horário:</strong> 14h às 17h<br><strong>Local:</strong> Auditório Central da UFRN</p>",
-    category: "Palestra",
-    createdAt: "2024-12-19",
-    imageUrl: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&h=600&fit=crop"
-  },
-  {
-    id: 6,
-    title: "IMPORTANTE: Laboratório em recesso durante as festas",
-    excerpt: "LATECE funcionará em horário reduzido de 23 de dezembro a 3 de janeiro. Atendimento emergencial disponível.",
-    content: "<p><strong>Atenção comunidade acadêmica e usuários:</strong></p><p>O Laboratório de Tecnologia Assistiva estará em recesso de fim de ano entre os dias 23 de dezembro de 2024 e 3 de janeiro de 2025.</p><p>Durante este período, o laboratório funcionará em horário reduzido:</p><ul><li><strong>23 a 31 de dezembro:</strong> 8h às 12h (apenas serviços essenciais)</li><li><strong>1º de janeiro:</strong> Fechado</li><li><strong>2 e 3 de janeiro:</strong> 8h às 12h (apenas serviços essenciais)</li></ul><p><strong>Retorno normal:</strong> 6 de janeiro de 2025</p><p>Para situações emergenciais, entre em contato pelo email emergencia@latece.ufrn.br ou telefone (84) 99999-9999 (plantão).</p><p>Desejamos a todos ótimas festas e um feliz ano novo!</p>",
-    category: "Aviso",
-    createdAt: "2024-12-21",
-    imageUrl: "https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=800&h=600&fit=crop"
-  },
-  {
-    id: 7,
-    title: "Estudante do LATECE vence prêmio nacional de inovação",
-    excerpt: "Beatriz Oliveira é premiada por desenvolvimento de app de navegação indoor para deficientes visuais.",
-    content: "<p>A estudante de doutorado Beatriz Oliveira, do LATECE, conquistou o primeiro lugar no Prêmio Nacional de Inovação em Tecnologia Assistiva 2024 com seu projeto de aplicativo de navegação indoor para pessoas com deficiência visual.</p><p>O aplicativo, chamado NaviIndoor, utiliza beacons Bluetooth e inteligência artificial para guiar usuários dentro de edifícios complexos como shoppings, hospitais e universidades.</p><p>'É uma honra receber este reconhecimento. O NaviIndoor nasceu da necessidade real de usuários do laboratório e foi desenvolvido em parceria com a comunidade de pessoas cegas', comenta Beatriz.</p><p>O prêmio inclui R$ 50.000 para desenvolvimento do projeto e uma bolsa de intercâmbio de 6 meses no MIT (Massachusetts Institute of Technology).</p><p>O aplicativo entrará em fase de testes beta em março de 2025 e estará disponível gratuitamente nas lojas de aplicativos.</p>",
-    category: "Notícia",
-    createdAt: "2024-12-05",
-    imageUrl: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop"
-  },
-  {
-    id: 8,
-    title: "Curso de Libras para iniciantes começa em fevereiro",
-    excerpt: "Inscrições abertas para curso básico de Língua Brasileira de Sinais voltado para comunidade universitária.",
-    content: "<p>O LATECE, em parceria com o Departamento de Letras da UFRN, oferecerá um curso básico de Libras (Língua Brasileira de Sinais) para a comunidade universitária.</p><p>O curso terá duração de 3 meses, com aulas duas vezes por semana, e é voltado para pessoas sem conhecimento prévio da língua. Ao final, os participantes receberão certificado de 60 horas.</p><p><strong>Informações:</strong></p><ul><li><strong>Início:</strong> 5 de fevereiro de 2025</li><li><strong>Duração:</strong> 3 meses (60 horas)</li><li><strong>Horário:</strong> Terças e quintas, 18h às 20h</li><li><strong>Vagas:</strong> 30 (prioridade para estudantes e servidores da UFRN)</li><li><strong>Investimento:</strong> Gratuito</li></ul><p>As aulas serão ministradas por instrutores surdos certificados, proporcionando uma imersão autêntica na cultura surda.</p><p>Inscrições até 25 de janeiro pelo email cursos@latece.ufrn.br</p>",
-    category: "Workshop",
-    createdAt: "2024-12-12",
-    imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
-  },
-  {
-    id: 9,
-    title: "Parceria com empresas resultará em 10 novas bolsas de pesquisa",
-    excerpt: "Acordos firmados com empresas de tecnologia garantem financiamento para projetos de mestrado e doutorado.",
-    content: "<p>O LATECE assinou acordos de cooperação técnico-científica com três grandes empresas de tecnologia que resultarão na criação de 10 novas bolsas de pesquisa para estudantes de mestrado e doutorado.</p><p>As empresas parceiras - TechAccessible, InclusiveTech e AssistBrasil - investirão conjuntamente R$ 2 milhões ao longo dos próximos três anos para financiar pesquisas em áreas estratégicas de tecnologia assistiva.</p><p><strong>Áreas prioritárias:</strong></p><ul><li>Inteligência artificial aplicada à acessibilidade</li><li>Realidade virtual e aumentada para reabilitação</li><li>Internet das Coisas para ambientes assistivos</li><li>Dispositivos vestíveis para monitoramento de saúde</li></ul><p>Os estudantes selecionados trabalharão em projetos conjuntos entre o laboratório e as empresas, com possibilidade de estágio e futura contratação.</p><p>Edital com critérios de seleção será publicado em janeiro de 2025.</p>",
-    category: "Notícia",
-    createdAt: "2024-12-08",
-    imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop"
-  }
+  
 ]
 
 // Reactive data
+// Estados Reativos
 const searchQuery = ref('')
+const searchDebounced = ref('') // Usado para a query real
 const selectedCategory = ref('')
 const currentPage = ref(1)
-const itemsPerPage = 6
-const isLoading = ref(false)
+const itemsPerPage = 6 // Deve bater com o padrão do back ou ser enviado
 const selectedNews = ref<any>(null)
+let searchTimeout: NodeJS.Timeout
 
-// Computed properties
-const filteredNews = computed(() => {
-  let filtered = [...newsData]
-  
-  // Filter by search
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter(news =>
-      news.title.toLowerCase().includes(query) ||
-      news.excerpt.toLowerCase().includes(query) ||
-      news.content.toLowerCase().includes(query)
-    )
-  }
-  
-  // Filter by category
-  if (selectedCategory.value) {
-    filtered = filtered.filter(news => news.category === selectedCategory.value)
-  }
-  
-  return filtered
+// --- Integração com Backend (useFetch) ---
+const { data: newsResponse, status, refresh, error } = await useFetch('/api/news', {
+  // A query é reativa: se as variáveis mudarem, o Nuxt refaz o fetch
+  query: computed(() => ({
+    page: currentPage.value,
+    limit: itemsPerPage,
+    search: searchDebounced.value,
+    category: selectedCategory.value,
+    status: 'published' // Opcional
+  })),
+  watch: [currentPage, selectedCategory, searchDebounced]
 })
 
-const totalPages = computed(() => 
-  Math.ceil(filteredNews.value.length / itemsPerPage)
-)
+// Computados baseados na resposta da API
+const paginatedNews = computed(() => newsResponse.value?.news || [])
+const totalPages = computed(() => newsResponse.value?.pagination?.pages || 0)
+const isLoading = computed(() => status.value === 'pending')
 
-const paginatedNews = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return filteredNews.value.slice(start, end)
-})
-
+// Visibilidade dos botões de paginação
 const visiblePages = computed(() => {
   const pages = []
-  if (totalPages.value <= 1) return []
-  const start = Math.max(1, currentPage.value - 2)
-  const end = Math.min(totalPages.value, currentPage.value + 2)
+  const total = totalPages.value
+  
+  if (total <= 1) return []
+  
+  const current = currentPage.value
+  const start = Math.max(1, current - 2)
+  const end = Math.min(total, current + 2)
+  
   for (let i = start; i <= end; i++) {
     pages.push(i)
   }
   return pages
 })
 
-// Methods
+const handleSearchInput = () => {
+  clearTimeout(searchTimeout)
+  searchTimeout = setTimeout(() => {
+    searchDebounced.value = searchQuery.value
+    currentPage.value = 1 // Volta para página 1 ao buscar
+  }, 500)
+}
+
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
@@ -268,6 +198,7 @@ const goToPage = (page: number) => {
 }
 
 const formatDate = (dateString: string) => {
+  if (!dateString) return ''
   return new Date(dateString).toLocaleDateString('pt-BR', {
     year: 'numeric',
     month: 'long',
@@ -276,11 +207,13 @@ const formatDate = (dateString: string) => {
 }
 
 const getCategorySlug = (category: string) => {
+  if (!category) return ''
   return category.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
 const clearFilters = () => {
   searchQuery.value = ''
+  searchDebounced.value = ''
   selectedCategory.value = ''
   currentPage.value = 1
 }
@@ -293,10 +226,12 @@ const closeModal = () => {
   selectedNews.value = null
 }
 
-// Watch for filter changes
-watch([searchQuery, selectedCategory], () => {
+// Watchers
+// qnd mudar a categoria, volta para pag 1
+watch(selectedCategory, () => {
   currentPage.value = 1
 })
+
 </script>
 
 <style scoped lang="scss">

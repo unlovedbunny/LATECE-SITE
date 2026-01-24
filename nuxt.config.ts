@@ -18,9 +18,14 @@ export default defineNuxtConfig({
   },
 
   // TypeScript configuration
+  // Observação: o `typeCheck` foi desativado para contornar um problema
+  // do TypeScript/Nuxt com caminhos do Windows contendo caracteres acentuados
+  // (ex.: usuário \"Artemísia Kimberlly\"), que impede a leitura correta do tsconfig.
+  // Caso o projeto seja executado em um ambiente sem esse problema, você pode
+  // reativar o type-check definindo `typeCheck: true`.
   typescript: {
     strict: true,
-    typeCheck: true
+    typeCheck: false
   },
 
   // CSS configuration
@@ -31,6 +36,8 @@ export default defineNuxtConfig({
 
   // Runtime config
   runtimeConfig: {
+    adminRegistrationKey: process.env.ADMIN_REGISTRATION_KEY,
+    jwtSecret: process.env.JWT_SECRET,
     public: {
       // CORRIGIDO: O apiBase agora é um caminho relativo.
       // O Nuxt saberá que deve fazer a requisição para seu próprio backend.

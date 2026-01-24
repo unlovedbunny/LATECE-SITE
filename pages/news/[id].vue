@@ -73,8 +73,13 @@ import { useRoute, useAsyncData, createError, useHead, useRequestURL } from '#im
 // --- INICIALIZAÇÃO E BUSCA DE DADOS (LÓGICA EXISTENTE) ---
 const route = useRoute();
 const newsStore = useNewsStore();
-const id = route.params.id as string;
-const numericId = Number(id);
+const id = route.params.id as string | undefined;
+const numericId = id ? Number(id) : NaN;
+
+// Se o ID não existir ou não for numérico, já retorna 404 antes de chamar a API
+if (!id || Number.isNaN(numericId)) {
+  throw createError({ statusCode: 404, message: 'Notícia não encontrada', fatal: true });
+}
 
 const { data: newsItem, pending: isLoading } = await useAsyncData(
   `news-item-${numericId}`,
@@ -82,7 +87,7 @@ const { data: newsItem, pending: isLoading } = await useAsyncData(
 );
 
 if (!newsItem.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Página não encontrada', fatal: true });
+  throw createError({ statusCode: 404, message: 'Página não encontrada', fatal: true });
 }
 
 // --- MELHORIA 1: FUNÇÕES AUXILIARES ---

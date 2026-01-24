@@ -39,10 +39,16 @@ export const useAuthStore = defineStore('auth', {
         return { success: true };
       } catch (error: any) {
         console.error('Login error:', error);
-        this.logout(); // Limpa o estado em caso de falha
+        // Limpa o estado local sem redirecionar o usuário
+        this.user = null
+        this.token = null
+        this.isAuthenticated = false
+        if (process.client) {
+          localStorage.removeItem('auth_token')
+        }
         return { 
           success: false, 
-          error: error.data?.statusMessage || 'Erro ao fazer login' 
+          error: error.data?.message || error.data?.statusMessage || 'Erro ao fazer login' 
         };
       } finally {
         this.isLoading = false;
@@ -66,10 +72,10 @@ export const useAuthStore = defineStore('auth', {
       
       try {
         const { $api } = useNuxtApp()
-        // O token já é adicionado pelo plugin, não precisa enviar nos headers aqui
-        const response = await $api('/auth/verify')
+        // O token já é adicionado pelo plugin via header Authorization
+        const response = await $api<{ user: User }>('/api/auth/verify')
         
-        this.user = response.data.user
+        this.user = response.user
         this.isAuthenticated = true
         return true
       } catch (error) {

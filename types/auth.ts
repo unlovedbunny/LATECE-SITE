@@ -1,10 +1,8 @@
-export interface User {
-  id: number
-  username: string
-  email: string
-  role: 'admin' | 'editor' | 'viewer'
-  fullName: string
-}
+import type { User as BaseUser } from './index'
+
+// Reutiliza o tipo de usuário global, mas sem o hash da senha,
+// que nunca deve ser exposto para o frontend.
+export type User = Omit<BaseUser, 'passwordHash'>
 
 export interface LoginCredentials {
   username: string

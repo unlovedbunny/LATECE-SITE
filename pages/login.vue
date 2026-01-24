@@ -62,27 +62,74 @@ const router = useRouter()
 
 const loginForm = ref({ username: '', password: '' })
 const showPassword = ref(false)
-const isLoading = ref(false)
 const errorMessage = ref('')
-const errors = ref({ username: '', password: '' })
+const errors = ref<{ username: string; password: string }>({ username: '', password: '' })
+
+// Usa o estado de loading da própria store de auth
+const isLoading = computed(() => authStore.isLoading)
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
 }
 
+// Limpa erros de campo quando o usuário altera os valores
+watch(
+  () => loginForm.value.username,
+  () => {
+    errors.value.username = ''
+    errorMessage.value = ''
+  }
+)
+
+watch(
+  () => loginForm.value.password,
+  () => {
+    errors.value.password = ''
+    errorMessage.value = ''
+  }
+)
+
+const resetFieldErrors = () => {
+  errors.value = { username: '', password: '' }
+}
+
+const validateForm = () => {
+  resetFieldErrors()
+  let isValid = true
+
+  const username = loginForm.value.username.trim()
+  const password = loginForm.value.password
+
+  if (!username) {
+    errors.value.username = 'Informe o usuário ou e-mail.'
+    isValid = false
+  } else if (username.length < 3) {
+    errors.value.username = 'Usuário ou e-mail muito curto.'
+    isValid = false
+  }
+
+  if (!password) {
+    errors.value.password = 'Informe a senha.'
+    isValid = false
+  } else if (password.length < 6) {
+    errors.value.password = 'A senha deve ter pelo menos 6 caracteres.'
+    isValid = false
+  }
+
+  return isValid
+}
+
 const handleLogin = async () => {
-  // Validação simples (pode ser melhorada)
-  if (!loginForm.value.username || !loginForm.value.password) {
-    errorMessage.value = 'Por favor, preencha todos os campos.'
+  errorMessage.value = ''
+
+  if (!validateForm()) {
+    errorMessage.value = 'Por favor, corrija os campos destacados.'
     return
   }
 
-  isLoading.value = true
-  errorMessage.value = ''
-  
-  // CORRIGIDO: Trata a resposta da action da store
+  // Chama a action da store que lida com o estado de loading
   const result = await authStore.login({
-    username: loginForm.value.username,
+    username: loginForm.value.username.trim(),
     password: loginForm.value.password
   })
   
@@ -91,8 +138,6 @@ const handleLogin = async () => {
   } else {
     errorMessage.value = result.error || 'Ocorreu um erro inesperado.'
   }
-  
-  isLoading.value = false
 }
 
 onMounted(() => {

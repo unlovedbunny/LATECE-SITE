@@ -6,7 +6,8 @@ export default defineEventHandler(async (event) => {
   // Log 1: Verifica se o arquivo da API foi acionado
   console.log('\n--- DEBUG: Requisição recebida em /api/news/[id].get.ts ---')
 
-  const newsId = parseInt(getRouterParam(event, 'id') as string)
+  const rawId = getRouterParam(event, 'id') as string | undefined
+  const newsId = rawId ? parseInt(rawId, 10) : NaN
   // Log 2: Mostra o ID que foi extraído da URL
   console.log(`[PASSO 2] ID extraído da URL: ${newsId}`)
 
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
     console.log('[ERRO PASSO 2] O ID não é um número válido. Retornando erro 400.')
     throw createError({
       statusCode: 400,
-      statusMessage: 'O ID da notícia deve ser um número.',
+      message: 'O ID da notícia deve ser um número.',
     })
   }
 
@@ -33,7 +34,7 @@ export default defineEventHandler(async (event) => {
     console.log('[ERRO PASSO 4] Nenhuma linha encontrada. Retornando erro 404.')
     throw createError({
       statusCode: 404,
-      statusMessage: 'Notícia não encontrada.',
+      message: 'Notícia não encontrada.',
     })
   }
 

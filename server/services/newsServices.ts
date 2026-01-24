@@ -1,5 +1,5 @@
 import { query } from '~/server/utils/db';
-import type { News, NewsFilters, NewsStatus } from '~/types/news';
+import type { News, NewsFilters } from '~/types/news';
 
 // Usamos Partial<News> para a atualização, pois nem todos os campos são enviados
 type NewsUpdatePayload = Partial<Omit<News, 'id' | 'createdAt' | 'updatedAt'>>;
@@ -38,11 +38,26 @@ export const newsService = {
     const totalResult = await query(totalQuery, params);
     const total = parseInt(totalResult.rows[0].count, 10);
     
-    // Query para obter os itens da página atual
+    // Query para obter os itens da página atual, já convertendo nomes de coluna
+    // snake_case para camelCase via aliases
     const dataQuery = `
-      SELECT * FROM news 
-      ${whereString} 
-      ORDER BY id DESC 
+      SELECT
+        id,
+        title,
+        content,
+        excerpt,
+        image_url AS "imageUrl",
+        status,
+        category,
+        featured,
+        tags,
+        published_at AS "publishedAt",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt",
+        author_id AS "authorId"
+      FROM news
+      ${whereString}
+      ORDER BY id DESC
       LIMIT $${paramIndex++} OFFSET $${paramIndex++}
     `;
     const dataResult = await query(dataQuery, [...params, limit, offset]);
@@ -62,7 +77,27 @@ export const newsService = {
    * Busca uma notícia pelo ID
    */
   async findById(id: number): Promise<News | null> {
-    const result = await query('SELECT * FROM news WHERE id = $1', [id]);
+    const result = await query(
+      `
+      SELECT
+        id,
+        title,
+        content,
+        excerpt,
+        image_url AS "imageUrl",
+        status,
+        category,
+        featured,
+        tags,
+        published_at AS "publishedAt",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt",
+        author_id AS "authorId"
+      FROM news
+      WHERE id = $1
+      `,
+      [id]
+    );
     return result.rows[0] || null;
   },
 
@@ -72,9 +107,22 @@ export const newsService = {
   async create(data: NewsCreatePayload): Promise<News> {
     const { title, content, excerpt, imageUrl, status, category, featured, tags } = data;
     const sql = `
-      INSERT INTO news (title, content, excerpt, "imageUrl", status, category, featured, tags) 
+      INSERT INTO news (title, content, excerpt, image_url, status, category, featured, tags) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
-      RETURNING *
+      RETURNING
+        id,
+        title,
+        content,
+        excerpt,
+        image_url AS "imageUrl",
+        status,
+        category,
+        featured,
+        tags,
+        published_at AS "publishedAt",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt",
+        author_id AS "authorId"
     `;
     const params = [title, content, excerpt, imageUrl, status, category, featured, tags || []];
     const result = await query(sql, params);
@@ -90,10 +138,42 @@ export const newsService = {
       return this.findById(id); // Se não há nada a atualizar, retorna o item atual
     }
     
-    const setClause = fields.map((field, index) => `"${field}" = $${index + 2}`).join(', ');
+    // Mapeia campos do modelo (camelCase) para colunas do banco (snake_case)
+    const columnMap: Record<string, string> = {
+      imageUrl: 'image_url',
+      publishedAt: 'published_at',
+      authorId: 'author_id',
+    };
+
+    const setClause = fields
+      .map((field, index) => {
+        const column = columnMap[field] ?? field;
+        return `"${column}" = $${index + 2}`;
+      })
+      .join(', ');
+
     const params = [id, ...fields.map(field => (data as any)[field])];
     
-    const sql = `UPDATE news SET ${setClause}, "updatedAt" = NOW() WHERE id = $1 RETURNING *`;
+    const sql = `
+      UPDATE news
+      SET ${setClause},
+          "updated_at" = NOW()
+      WHERE id = $1
+      RETURNING
+        id,
+        title,
+        content,
+        excerpt,
+        image_url AS "imageUrl",
+        status,
+        category,
+        featured,
+        tags,
+        published_at AS "publishedAt",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt",
+        author_id AS "authorId"
+    `;
     const result = await query(sql, params);
     return result.rows[0] || null;
   },

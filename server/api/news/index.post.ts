@@ -45,7 +45,24 @@ export default defineEventHandler(async (event) => {
 
   // 2. Prepara os dados para o banco
   const { title, content, status, category, excerpt } = fields
-  const tags = fields.tags ? JSON.parse(fields.tags) : [] // Converte a string de tags de volta para array
+
+  // Converte a string de tags de volta para array com validação segura
+  let tags: string[] = []
+  try {
+    tags = fields.tags ? JSON.parse(fields.tags) : []
+    if (!Array.isArray(tags)) {
+      throw new Error('Tags devem ser um array.')
+    }
+  } catch (error) {
+    // Se a conversão das tags falhar, remove a imagem enviada (se houver)
+    if (imageUrl) {
+      await deleteFile(imageUrl)
+    }
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Formato de tags inválido. Envie um array JSON de strings.',
+    })
+  }
   const authorId = user.userId
   
   // Define a data de publicação apenas se o status for 'published'
