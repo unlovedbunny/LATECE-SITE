@@ -103,6 +103,9 @@
 </template>
 
 <script setup lang="ts">
+import { useEquipmentStore } from '@/stores/equipment'
+import type { Equipment } from '@/types/equipment'
+
 // Meta tags
 useHead({
   title: 'Equipamentos - Laboratório de Tecnologia Assistiva',
@@ -111,141 +114,40 @@ useHead({
   ]
 })
 
-// Dados fictícios dos equipamentos
-const equipmentData = [
-  {
-    id: 1,
-    name: "Comunicador Visual CAA",
-    category: "Comunicação",
-    description: "Sistema de comunicação aumentativa e alternativa com tela touch screen e síntese de voz integrada.",
-    location: "Sala 101 - Laboratório Principal",
-    status: "available",
-    specifications: "Tela 10 polegadas, bateria 8h, 5000+ símbolos pré-programados",
-    notes: "Ideal para pessoas com dificuldades de fala. Possui software personalizável.",
-    imageUrl: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=600&fit=crop"
-  },
-  {
-    id: 2,
-    name: "Cadeira de Rodas Motorizada",
-    category: "Mobilidade",
-    description: "Cadeira de rodas elétrica com controle joystick adaptável e diversos recursos de segurança.",
-    location: "Sala 102 - Área de Mobilidade",
-    status: "in-use",
-    specifications: "Velocidade máxima 8km/h, autonomia 20km, capacidade 120kg",
-    notes: "Requer treinamento prévio. Agendar uso com 48h de antecedência.",
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop"
-  },
-  {
-    id: 3,
-    name: "Leitor de Tela NVDA Pro",
-    category: "Visual",
-    description: "Software leitor de tela profissional com suporte para múltiplos idiomas e navegadores.",
-    location: "Estação 05 - Computadores Adaptados",
-    status: "available",
-    specifications: "Compatível com Windows 10/11, suporte a braille, OCR integrado",
-    notes: "Licenças disponíveis para uso no laboratório.",
-    imageUrl: "https://images.unsplash.com/photo-1517430816045-df4b7de01c9d?w=800&h=600&fit=crop"
-  },
-  {
-    id: 4,
-    name: "Amplificador de Som Individual",
-    category: "Auditivo",
-    description: "Sistema de amplificação sonora portátil com cancelamento de ruído ambiente.",
-    location: "Sala 103 - Recursos Auditivos",
-    status: "available",
-    specifications: "Amplificação até 40dB, cancelamento de ruído ativo, bateria 12h",
-    notes: "Inclui 3 tipos de fones de ouvido para diferentes necessidades.",
-    imageUrl: "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800&h=600&fit=crop"
-  },
-  {
-    id: 5,
-    name: "Teclado Ergonômico Grande",
-    category: "Computação",
-    description: "Teclado com teclas ampliadas, alto contraste e feedback tátil para facilitar a digitação.",
-    location: "Estação 03 - Computadores Adaptados",
-    status: "maintenance",
-    specifications: "Teclas 2x maiores, conexão USB/Bluetooth, iluminação ajustável",
-    notes: "Em manutenção preventiva. Previsão de retorno: 3 dias.",
-    imageUrl: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&h=600&fit=crop"
-  },
-  {
-    id: 6,
-    name: "Mouse Trackball Adaptado",
-    category: "Computação",
-    description: "Mouse com bola de rolagem grande, ideal para pessoas com limitações motoras finas.",
-    location: "Estação 08 - Computadores Adaptados",
-    status: "available",
-    specifications: "5 botões programáveis, conexão wireless, ergonomia ajustável",
-    notes: "Pode ser usado com qualquer parte do corpo: mão, cotovelo, queixo.",
-    imageUrl: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&h=600&fit=crop"
-  },
-  {
-    id: 7,
-    name: "Lupa Eletrônica de Mesa",
-    category: "Visual",
-    description: "Lupa eletrônica com ampliação até 50x e diversos modos de contraste para baixa visão.",
-    location: "Sala 104 - Recursos Visuais",
-    status: "available",
-    specifications: "Tela 15 polegadas, ampliação 2x-50x, 8 modos de contraste",
-    notes: "Ideal para leitura de textos impressos e objetos pequenos.",
-    imageUrl: "https://images.unsplash.com/photo-1516085216930-c93a002a8b01?w=800&h=600&fit=crop"
-  },
-  {
-    id: 8,
-    name: "Impressora Braille",
-    category: "Visual",
-    description: "Impressora braille de alta velocidade para produção de materiais táteis.",
-    location: "Sala 105 - Produção Braille",
-    status: "in-use",
-    specifications: "120 caracteres/segundo, papel especial 120g, conexão USB/Rede",
-    notes: "Uso mediante agendamento. Fornecemos o papel braille.",
-    imageUrl: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&h=600&fit=crop"
-  },
-  {
-    id: 9,
-    name: "Acionador por Sopro",
-    category: "Comunicação",
-    description: "Dispositivo que permite controlar computador ou comunicador através de sopro e sucção.",
-    location: "Sala 101 - Laboratório Principal",
-    status: "available",
-    specifications: "Sensibilidade ajustável, 2 modos de operação, compatível USB",
-    notes: "Requer calibração individual. Assistência técnica disponível.",
-    imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop"
-  }
-]
+const equipmentStore = useEquipmentStore()
 
-// Reactive data
 const searchQuery = ref('')
 const selectedCategory = ref('')
-const selectedEquipment = ref<any>(null)
+const selectedEquipment = ref<Equipment | null>(null)
 
-// Computed properties
+// Busca equipamentos do backend ao montar a página
+onMounted(() => {
+  equipmentStore.fetchEquipment()
+})
+
 const filteredEquipment = computed(() => {
-  let equipment = equipmentData
-  
-  // Filter by search query
+  let list = equipmentStore.equipment
+
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    equipment = equipment.filter(item => 
+    list = list.filter(item =>
       item.name.toLowerCase().includes(query) ||
       item.description.toLowerCase().includes(query)
     )
   }
-  
-  // Filter by category
+
   if (selectedCategory.value) {
-    equipment = equipment.filter(item => item.category === selectedCategory.value)
+    list = list.filter(item => item.category === selectedCategory.value)
   }
-  
-  return equipment
+
+  return list
 })
 
-// Methods
 const filterEquipment = () => {
-  // Filtering is handled by computed property
+  // A filtragem é reativa via computed
 }
 
-const viewEquipmentDetails = (equipment: any) => {
+const viewEquipmentDetails = (equipment: Equipment) => {
   selectedEquipment.value = equipment
 }
 
@@ -253,13 +155,14 @@ const closeEquipmentDetails = () => {
   selectedEquipment.value = null
 }
 
-const getStatusText = (status: string) => {
-  const statusMap: Record<string, string> = {
-    'available': 'Disponível',
-    'in-use': 'Em uso',
-    'maintenance': 'Manutenção'
+const getStatusText = (status: Equipment['status']) => {
+  const statusMap: Record<Equipment['status'], string> = {
+    available: 'Disponível',
+    in_use: 'Em uso',
+    maintenance: 'Manutenção',
+    unavailable: 'Indisponível',
   }
-  return statusMap[status] || 'Indisponível'
+  return statusMap[status]
 }
 </script>
 

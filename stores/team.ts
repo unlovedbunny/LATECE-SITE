@@ -23,7 +23,7 @@ export const useTeamStore = defineStore('team', {
       this.error = null
       try {
         const { $api } = useNuxtApp()
-        const responseData = await $api<TeamMember[]>('/team', { method: 'GET' })
+        const responseData = await $api<TeamMember[]>('/api/team', { method: 'GET' })
         this.members = responseData
       } catch (error: any) {
         this.error = error.data?.error?.message || 'Erro ao carregar membros da equipe'
@@ -38,7 +38,7 @@ export const useTeamStore = defineStore('team', {
       this.error = null
       try {
         const { $api } = useNuxtApp()
-        const responseData = await $api<TeamMember>(`/team/${id}`, { method: 'GET' })
+        const responseData = await $api<TeamMember>(`/api/team/${id}`, { method: 'GET' })
         this.currentMember = responseData
         return this.currentMember
       } catch (error: any) {

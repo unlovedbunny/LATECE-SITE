@@ -24,9 +24,9 @@ export const useEquipmentStore = defineStore('equipment', {
       
       try {
         const { $api } = useNuxtApp()
-        const response = await $api('/equipment', { method: 'GET' })
+        const response = await $api<Equipment[]>('/api/equipment', { method: 'GET' })
         
-        this.equipment = response.data
+        this.equipment = response
       } catch (error: any) {
         this.error = error.data?.error?.message || 'Erro ao carregar equipamentos'
         console.error('Fetch equipment error:', error)
@@ -41,9 +41,9 @@ export const useEquipmentStore = defineStore('equipment', {
       
       try {
         const { $api } = useNuxtApp()
-        const response = await $api(`/equipment/${id}`, { method: 'GET' })
+        const response = await $api<Equipment>(`/api/equipment/${id}`, { method: 'GET' })
         
-        this.currentEquipment = response.data
+        this.currentEquipment = response
         return this.currentEquipment
       } catch (error: any) {
         this.error = error.data?.error?.message || 'Equipamento não encontrado'
@@ -57,9 +57,9 @@ export const useEquipmentStore = defineStore('equipment', {
     async fetchCategories() {
       try {
         const { $api } = useNuxtApp()
-        const response = await $api('/equipment/categories', { method: 'GET' })
+        const response = await $api<string[]>('/api/equipment/categories', { method: 'GET' })
         
-        this.categories = response.data
+        this.categories = response
       } catch (error) {
         console.error('Fetch categories error:', error)
       }

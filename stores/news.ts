@@ -207,9 +207,9 @@ export const useNewsStore = defineStore('news', {
       this.error = null
       try {
         const { $api } = useNuxtApp()
-        // Pede para a API apenas notícias em destaque, com um limite de 3
-        const responseData = await $api<any[]>(`/api/news?featured=true&limit=3`)
-        this.featuredNews = toCamelCase(responseData) as News[]
+        // Usa o mesmo endpoint de listagem, filtrando por destaque
+        const response = await $api<{ data: any[]; total: number }>(`/api/news?featured=true&limit=3`)
+        this.featuredNews = toCamelCase(response.data) as News[]
       } catch (error: any) {
         this.error = error.data?.message || 'Erro ao carregar destaques'
         console.error('Fetch featured news error:', error)

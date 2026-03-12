@@ -22,7 +22,10 @@ export default defineEventHandler(async (event) => {
 
   // 3. Define rotas que são públicas APENAS para o método GET
   const publicGetRoutes = [
-    '/api/news'
+    '/api/news',
+    '/api/equipment',
+    '/api/publications',
+    '/api/team',
   ];
 
   const isPublicGetRoute = publicGetRoutes.some(route => url.startsWith(route));

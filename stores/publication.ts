@@ -27,8 +27,7 @@ export const usePublicationStore = defineStore('publication', {
       this.error = null
       try {
         const { $api } = useNuxtApp()
-        // O $fetch já retorna o corpo da resposta diretamente
-        const responseData = await $api<Publication[]>('/publications', { method: 'GET' })
+        const responseData = await $api<Publication[]>('/api/publications', { method: 'GET' })
         this.publications = responseData
       } catch (error: any) {
         this.error = error.data?.error?.message || 'Erro ao carregar publicações'
@@ -43,7 +42,7 @@ export const usePublicationStore = defineStore('publication', {
       this.error = null
       try {
         const { $api } = useNuxtApp()
-        const responseData = await $api<Publication>(`/publications/${id}`, { method: 'GET' })
+        const responseData = await $api<Publication>(`/api/publications/${id}`, { method: 'GET' })
         this.currentPublication = responseData
         return this.currentPublication
       } catch (error: any) {

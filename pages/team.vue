@@ -121,7 +121,9 @@
 </template>
 
 <script setup lang="ts">
-// Meta tags
+import { useTeamStore } from '@/stores/team'
+import type { TeamMember } from '@/types/team'
+
 useHead({
   title: 'Equipe - Laboratório de Tecnologia Assistiva',
   meta: [
@@ -129,140 +131,25 @@ useHead({
   ]
 })
 
-// Dados fictícios da equipe
-const teamData = [
-  // Coordenadores
-  {
-    id: 1,
-    name: "Dra. Ana Carolina Silva",
-    role: "Coordenadora Geral",
-    bio: "Doutora em Engenharia Biomédica com 15 anos de experiência em Tecnologia Assistiva. Especialista em desenvolvimento de dispositivos para pessoas com deficiência visual.",
-    email: "ana.silva@latece.ufrn.br",
-    lattesUrl: "http://lattes.cnpq.br/exemplo1",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=faces",
-    type: "coordinator"
-  },
-  {
-    id: 2,
-    name: "Dr. Roberto Mendes",
-    role: "Vice-Coordenador",
-    bio: "Doutor em Ciência da Computação, pesquisador em interfaces adaptativas e sistemas de comunicação aumentativa. Autor de mais de 50 publicações na área.",
-    email: "roberto.mendes@latece.ufrn.br",
-    lattesUrl: "http://lattes.cnpq.br/exemplo2",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    photoUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces",
-    type: "coordinator"
-  },
-  
-  // Colaboradores
-  {
-    id: 3,
-    name: "Profa. Mariana Costa",
-    role: "Pesquisadora Sênior",
-    bio: "Especialista em ergonomia e design inclusivo. Coordena projetos de desenvolvimento de mobiliário e ambientes acessíveis.",
-    email: "mariana.costa@latece.ufrn.br",
-    lattesUrl: "http://lattes.cnpq.br/exemplo3",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    photoUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces",
-    type: "collaborator"
-  },
-  {
-    id: 4,
-    name: "Dr. Felipe Andrade",
-    role: "Engenheiro Biomédico",
-    bio: "Desenvolve próteses e órteses personalizadas utilizando impressão 3D e tecnologias de fabricação digital.",
-    email: "felipe.andrade@latece.ufrn.br",
-    lattesUrl: "http://lattes.cnpq.br/exemplo4",
-    photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces",
-    type: "collaborator"
-  },
-  {
-    id: 5,
-    name: "Profa. Juliana Santos",
-    role: "Terapeuta Ocupacional",
-    bio: "Especialista em reabilitação e adaptação de tecnologias assistivas para diferentes contextos de uso.",
-    email: "juliana.santos@latece.ufrn.br",
-    lattesUrl: "http://lattes.cnpq.br/exemplo5",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    photoUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces",
-    type: "collaborator"
-  },
-  {
-    id: 6,
-    name: "Prof. Carlos Eduardo Lima",
-    role: "Designer de Produto",
-    bio: "Foca no desenvolvimento de produtos acessíveis com metodologia centrada no usuário e co-design.",
-    email: "carlos.lima@latece.ufrn.br",
-    photoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces",
-    type: "collaborator"
-  },
-  
-  // Estudantes
-  {
-    id: 7,
-    name: "Lucas Ferreira",
-    role: "Mestrando - Eng. Elétrica",
-    email: "lucas.ferreira@ufrn.br",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    photoUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=faces",
-    type: "student"
-  },
-  {
-    id: 8,
-    name: "Beatriz Oliveira",
-    role: "Doutoranda - Ciência da Computação",
-    email: "beatriz.oliveira@ufrn.br",
-    photoUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces",
-    type: "student"
-  },
-  {
-    id: 9,
-    name: "Pedro Henrique Costa",
-    role: "Mestrando - Design",
-    email: "pedro.costa@ufrn.br",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    type: "student"
-  },
-  {
-    id: 10,
-    name: "Amanda Rodrigues",
-    role: "IC - Eng. Biomédica",
-    email: "amanda.rodrigues@ufrn.br",
-    photoUrl: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=400&fit=crop&crop=faces",
-    type: "student"
-  },
-  {
-    id: 11,
-    name: "Rafael Santos",
-    role: "Mestrando - Terapia Ocupacional",
-    email: "rafael.santos@ufrn.br",
-    type: "student"
-  },
-  {
-    id: 12,
-    name: "Camila Alves",
-    role: "IC - Ciência da Computação",
-    email: "camila.alves@ufrn.br",
-    linkedinUrl: "https://linkedin.com/in/exemplo",
-    type: "student"
-  }
-]
+const teamStore = useTeamStore()
 
-// Computed properties para filtrar membros por tipo
-const coordinators = computed(() => 
-  teamData.filter(member => member.type === 'coordinator')
+onMounted(() => {
+  teamStore.fetchMembers()
+})
+
+const coordinators = computed(() =>
+  teamStore.members.filter(member => member.role === 'coordinator')
 )
 
-const collaborators = computed(() => 
-  teamData.filter(member => member.type === 'collaborator')
+const collaborators = computed(() =>
+  teamStore.members.filter(member => ['researcher', 'technician', 'collaborator'].includes(member.role))
 )
 
-const students = computed(() => 
-  teamData.filter(member => member.type === 'student')
+const students = computed(() =>
+  teamStore.members.filter(member => member.role === 'student')
 )
 
-const allMembers = computed(() => teamData)
+const allMembers = computed<TeamMember[]>(() => teamStore.members)
 
 // Helper function to get initials from name
 const getInitials = (name: string): string => {

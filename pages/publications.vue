@@ -127,141 +127,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { usePublicationStore } from '@/stores/publication'
+import type { Publication } from '@/types/publication'
 
-// 1. Definição da Interface para garantir consistência dos dados
-interface Publication {
-  id: number;
-  title: string;
-  authors: string;
-  year: number;
-  type: string;
-  status: 'published' | 'submitted' | 'in_progress' | string;
-  abstract: string;
-  keywords: string[];
-  fileUrl: string | null;
-}
+const publicationStore = usePublicationStore()
 
-// 2. Dados com tipagem explícita
-const publications = ref<Publication[]>([
-  {
-    id: 1,
-    title: 'Desenvolvimento de Interfaces Acessíveis para Pessoas com Deficiência Visual',
-    authors: 'Silva, A. B.; Santos, C. D.; Oliveira, E. F.',
-    year: 2024,
-    type: 'Artigo',
-    status: 'published',
-    abstract: 'Este estudo investiga metodologias para o desenvolvimento de interfaces digitais acessíveis, focando em usuários com deficiência visual. Através de testes de usabilidade com 45 participantes, identificamos padrões de navegação e requisitos essenciais para uma experiência inclusiva. Os resultados demonstram que a implementação de feedback tátil e auditivo aumenta em 78% a eficiência na navegação.',
-    keywords: ['acessibilidade', 'deficiência visual', 'interface', 'usabilidade', 'tecnologia assistiva'],
-    fileUrl: '#'
-  },
-  {
-    id: 2,
-    title: 'Tecnologias Assistivas no Contexto Educacional: Uma Revisão Sistemática',
-    authors: 'Costa, M. L.; Ferreira, P. R.; Almeida, J. K.',
-    year: 2024,
-    type: 'Artigo',
-    status: 'published',
-    abstract: 'Esta revisão sistemática analisa 127 estudos sobre o uso de tecnologias assistivas em ambientes educacionais entre 2018 e 2024. Foram identificadas cinco categorias principais de tecnologias: softwares educacionais adaptativos, dispositivos de comunicação alternativa, ferramentas de mobilidade virtual, sistemas de reconhecimento de voz e interfaces cérebro-computador.',
-    keywords: ['educação inclusiva', 'tecnologia assistiva', 'revisão sistemática', 'aprendizagem'],
-    fileUrl: '#'
-  },
-  {
-    id: 3,
-    title: 'Aplicação de Machine Learning para Predição de Necessidades Assistivas',
-    authors: 'Rodrigues, T. H.; Lima, N. S.',
-    year: 2023,
-    type: 'Dissertação',
-    status: 'published',
-    abstract: 'Dissertação de mestrado que propõe um modelo de aprendizado de máquina capaz de predizer necessidades assistivas específicas baseado em perfis de usuários. O modelo foi treinado com dados de 2.300 usuários e alcançou uma acurácia de 89% na identificação de tecnologias apropriadas para cada perfil individual.',
-    keywords: ['machine learning', 'inteligência artificial', 'personalização', 'tecnologia assistiva'],
-    fileUrl: '#'
-  },
-  {
-    id: 4,
-    title: 'Design Participativo em Tecnologia Assistiva: Envolvendo Usuários no Processo',
-    authors: 'Martins, R. A.; Souza, B. C.; Pereira, L. M.; Cardoso, V. N.',
-    year: 2023,
-    type: 'Artigo',
-    status: 'published',
-    abstract: 'Este artigo apresenta uma metodologia de design participativo aplicada ao desenvolvimento de tecnologias assistivas, onde usuários finais são envolvidos em todas as etapas do processo. Durante 18 meses, foram realizadas 24 sessões de co-design com 35 participantes, resultando em três protótipos funcionais validados pela comunidade.',
-    keywords: ['design participativo', 'co-design', 'metodologia', 'inclusão'],
-    fileUrl: '#'
-  },
-  {
-    id: 5,
-    title: 'Avaliação de Dispositivos Móveis para Comunicação Alternativa e Aumentativa',
-    authors: 'Barros, F. G.; Nunes, I. J.',
-    year: 2022,
-    type: 'Capítulo de Livro',
-    status: 'published',
-    abstract: 'Capítulo que apresenta uma avaliação comparativa de 15 aplicativos móveis destinados à comunicação alternativa e aumentativa. Foram analisados critérios como usabilidade, customização, custo-benefício e eficácia comunicativa. Os resultados indicam que aplicativos com maior flexibilidade de personalização obtiveram índices superiores de satisfação dos usuários.',
-    keywords: ['comunicação alternativa', 'aplicativos móveis', 'avaliação', 'CAA'],
-    fileUrl: '#'
-  },
-  {
-    id: 6,
-    title: 'Realidade Virtual como Ferramenta de Reabilitação Motora',
-    authors: 'Campos, D. P.; Azevedo, G. R.; Teixeira, K. L.',
-    year: 2024,
-    type: 'Artigo',
-    status: 'submitted',
-    abstract: 'Investigação sobre o uso de ambientes de realidade virtual imersiva para reabilitação motora de pacientes com lesões neurológicas. O estudo piloto com 20 pacientes demonstrou ganhos significativos na amplitude de movimento e coordenação motora após 12 semanas de intervenção, com índice de engajamento 3x superior aos métodos tradicionais.',
-    keywords: ['realidade virtual', 'reabilitação', 'neurologia', 'fisioterapia'],
-    fileUrl: '#'
-  },
-  {
-    id: 7,
-    title: 'Framework para Desenvolvimento de Jogos Acessíveis',
-    authors: 'Mendes, H. O.; Castro, Q. W.',
-    year: 2023,
-    type: 'Artigo',
-    status: 'published',
-    abstract: 'Proposta de um framework open-source para auxiliar desenvolvedores na criação de jogos digitais acessíveis. O framework inclui bibliotecas para implementação de controles adaptativos, feedback multimodal e ajustes de dificuldade dinâmica. Validado através do desenvolvimento de 5 jogos educacionais utilizados por mais de 1.000 estudantes.',
-    keywords: ['jogos acessíveis', 'gamificação', 'framework', 'desenvolvimento'],
-    fileUrl: '#'
-  },
-  {
-    id: 8,
-    title: 'Análise Ergonômica de Dispositivos Assistivos para Mobilidade',
-    authors: 'Freitas, U. V.; Dias, Y. X.; Rocha, Z. A.',
-    year: 2022,
-    type: 'Tese',
-    status: 'published',
-    abstract: 'Tese de doutorado que apresenta uma análise ergonômica abrangente de dispositivos assistivos para mobilidade, incluindo cadeiras de rodas, andadores e órteses. Foram avaliados 42 dispositivos sob critérios biomecânicos, de conforto e eficiência energética. Os resultados contribuem para o estabelecimento de diretrizes de design ergonômico específicas para este segmento.',
-    keywords: ['ergonomia', 'mobilidade', 'biomecânica', 'design'],
-    fileUrl: '#'
-  },
-  {
-    id: 9,
-    title: 'Internet das Coisas Aplicada à Autonomia de Pessoas com Deficiência',
-    authors: 'Ribeiro, E. B.; Carvalho, M. D.; Gomes, O. F.',
-    year: 2024,
-    type: 'Artigo',
-    status: 'in_progress',
-    abstract: 'Pesquisa em andamento sobre a aplicação de tecnologias IoT para aumentar a autonomia de pessoas com deficiência em ambientes domésticos. O projeto desenvolve um ecossistema integrado de dispositivos inteligentes controlados por voz, gestos e interfaces adaptativas, permitindo controle total do ambiente residencial.',
-    keywords: ['IoT', 'domótica', 'autonomia', 'smart home', 'controle adaptativo'],
-    fileUrl: null
-  }
-])
-
-// Dados reativos com tipos inferidos ou explícitos
 const searchQuery = ref('')
 const selectedType = ref('')
 const selectedYear = ref('')
 const selectedPublication = ref<Publication | null>(null)
 
-// Propriedades computadas
+onMounted(() => {
+  publicationStore.fetchPublications()
+})
+
 const filteredPublications = computed(() => {
-  let filtered = publications.value
+  let filtered = publicationStore.publications
 
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(item => 
       item.title.toLowerCase().includes(query) ||
       item.authors.toLowerCase().includes(query) ||
-      item.abstract.toLowerCase().includes(query) ||
-      item.keywords.some(keyword => keyword.toLowerCase().includes(query))
+      (item.abstract ?? '').toLowerCase().includes(query) ||
+      (item.keywords ?? []).some(keyword => keyword.toLowerCase().includes(query))
     )
   }
   
@@ -281,14 +171,13 @@ const filterPublications = () => {
   // Filtragem reativa automática pelo computed
 }
 
-const getStatusLabel = (status: string): string => {
-  // Uso de Record para evitar erro de indexação (Element implicitly has an 'any' type)
-  const labels: Record<string, string> = {
+const getStatusLabel = (status: Publication['status']): string => {
+  const labels: Record<Publication['status'], string> = {
     published: 'Publicado',
     submitted: 'Submetido',
     in_progress: 'Em Andamento'
   }
-  return labels[status] || status
+  return labels[status]
 }
 
 const viewPublicationDetails = (publication: Publication) => {

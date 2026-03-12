@@ -15,7 +15,7 @@
         </div>
 
         <div class="top-bar-right">
-          <div class="social-links">
+          <!-- <div class="social-links">
             <a href="#" target="_blank" class="social-link" aria-label="Instagram">
               <span class="icon">📷</span>
             </a>
@@ -25,20 +25,20 @@
             <a href="#" target="_blank" class="social-link" aria-label="LinkedIn">
               <span class="icon">💼</span>
             </a>
-          </div>
+          </div> -->
 
           <div class="divider"></div>
 
           <div class="user-links">
             <template v-if="authStore.isAuthenticated">
               <NuxtLink to="/admin" class="user-link">
-                <span class="icon">⚙️</span>
+                <span class="icon"></span>
                 <span>Administração</span>
               </NuxtLink>
             </template>
             <template v-else>
               <NuxtLink to="/login" class="user-link">
-                <span class="icon">🔐</span>
+                <span class="icon"></span>
                 <span>Login</span>
               </NuxtLink>
             </template>
@@ -66,27 +66,27 @@
           <!-- Desktop Navigation -->
           <nav class="desktop-nav">
             <NuxtLink class="nav-link" to="/">
-              <span class="nav-icon">🏠</span>
+              <span class="nav-icon"></span>
               <span>{{ $t('nav.home') }}</span>
             </NuxtLink>
             <NuxtLink class="nav-link" to="/about">
-              <span class="nav-icon">ℹ️</span>
+              <span class="nav-icon"></span>
               <span>{{ $t('nav.about') }}</span>
             </NuxtLink>
             <NuxtLink class="nav-link" to="/team">
-              <span class="nav-icon">👥</span>
+              <span class="nav-icon"></span>
               <span>{{ $t('nav.team') }}</span>
             </NuxtLink>
             <NuxtLink class="nav-link" to="/equipment">
-              <span class="nav-icon">🔧</span>
+              <span class="nav-icon"></span>
               <span>{{ $t('nav.equipment') }}</span>
             </NuxtLink>
             <NuxtLink class="nav-link" to="/publications">
-              <span class="nav-icon">📚</span>
+              <span class="nav-icon"></span>
               <span>{{ $t('nav.publications') }}</span>
             </NuxtLink>
             <NuxtLink class="nav-link" to="/news">
-              <span class="nav-icon">📰</span>
+              <span class="nav-icon"></span>
               <span>{{ $t('nav.news') }}</span>
             </NuxtLink>
           </nav>
