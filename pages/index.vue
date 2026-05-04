@@ -120,8 +120,10 @@ const formatDate = (dateString: string | undefined) => {
   min-height: 600px;
   display: flex;
   align-items: center;
-  padding-left: 30px;
+  justify-content: center;
+  padding: 0 1rem;
   overflow: hidden;
+  text-align: center;
   
   // Imagem de fundo do laboratório
   &::before {
@@ -155,6 +157,11 @@ const formatDate = (dateString: string | undefined) => {
   .container {
     position: relative;
     z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
   }
   
   .hero-content {
