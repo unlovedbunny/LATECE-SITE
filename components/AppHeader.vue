@@ -15,20 +15,7 @@
         </div>
 
         <div class="top-bar-right">
-          <!-- <div class="social-links">
-            <a href="#" target="_blank" class="social-link" aria-label="Instagram">
-              <span class="icon">📷</span>
-            </a>
-            <a href="#" target="_blank" class="social-link" aria-label="Facebook">
-              <span class="icon">👥</span>
-            </a>
-            <a href="#" target="_blank" class="social-link" aria-label="LinkedIn">
-              <span class="icon">💼</span>
-            </a>
-          </div> -->
-
           <div class="divider"></div>
-
           <div class="user-links">
             <template v-if="authStore.isAuthenticated">
               <NuxtLink to="/admin" class="user-link">
@@ -52,18 +39,19 @@
     <header class="main-header" :class="{ 'scrolled': isScrolled }">
       <div class="container">
         <div class="header-content">
+
           <!-- Logo -->
           <NuxtLink class="logo" to="/">
             <div class="logo-icon">
-              <img src="../assets/logo.png" alt="logo latece" width="170">
+              <img src="../assets/logo.png" alt="logo latece" width="170"/>
             </div>
             <div class="logo-text">
-              <div class="logo-title">LATECE</div>
-              <div class="logo-subtitle">Laboratório de Tecnologia Assistiva</div>
+              <!-- <div class="logo-title">LATECE</div> -->
+              <div class="logo-subtitle">Laboratório de Tecnologia Assistiva do Centro de Educação</div>
             </div>
           </NuxtLink>
 
-          <!-- Desktop Navigation -->
+          <!-- User Section (Desktop) -->
           <nav class="desktop-nav">
             <NuxtLink class="nav-link" to="/">
               <span class="nav-icon"></span>
