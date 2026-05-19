@@ -84,7 +84,7 @@ import { useNewsStore } from '@/stores/news'
 import { computed, onMounted } from 'vue'
 
 useHead({
-  title: 'Portal LATECE - Laboratório de Tecnologia Assistiva',
+  title: 'LATECE',
   meta: [
     { name: 'description', content: 'Portal do Laboratório de Tecnologia Assistiva da UFRN' }
   ]
@@ -310,23 +310,23 @@ const formatDate = (dateString: string | undefined) => {
     padding: 0 1.5rem;
   }
 
-  .mission-content {
+  .mission-content { //feito
     background: white;
     border-radius: 1.5rem;
-    padding: 2.5rem 2rem;
+    padding: 3.5rem 3rem;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
     border: 1px solid rgba(148, 163, 184, 0.3);
   }
 
-  .section-title {
-    font-size: 1.75rem;
+  .section-title { //feito
+    font-size: 2.05rem;
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 1rem;
   }
 
-  .mission-text {
-    font-size: 1.05rem;
+  .mission-text { //feito
+    font-size: 1.255rem;
     color: #4b5563;
     line-height: 1.8;
   }
@@ -334,15 +334,14 @@ const formatDate = (dateString: string | undefined) => {
 
 // Featured news
 .featured-news {
-  background: linear-gradient(to bottom, #eef2ff 0%, #f9fafb 100%);
-  padding: 3.5rem 0 4rem;
+  background: #f9fafb;
+  padding: 3rem 0 4rem;
 
   .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 1.5rem;
   }
-
   .news-header {
     display: flex;
     align-items: center;
@@ -352,7 +351,7 @@ const formatDate = (dateString: string | undefined) => {
   }
 
   .section-title {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
     font-weight: 800;
     color: #0f172a;
   }
@@ -371,8 +370,8 @@ const formatDate = (dateString: string | undefined) => {
     background: white;
     border-radius: 1.25rem;
     overflow: hidden;
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
-    border: 1px solid rgba(148, 163, 184, 0.3);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+    border: 1px solid rgba(148, 163, 184, 0.30);
     display: flex;
     flex-direction: column;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
@@ -380,7 +379,7 @@ const formatDate = (dateString: string | undefined) => {
     &:hover {
       transform: translateY(-6px);
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
-      border-color: rgba(37, 99, 235, 0.5);
+      border-color: rgba(37, 99, 235, 0.35);
     }
   }
 
@@ -403,7 +402,7 @@ const formatDate = (dateString: string | undefined) => {
     flex-wrap: wrap;
     gap: 0.35rem;
     font-size: 0.85rem;
-    color: #6b7280;
+    color: #64748b;
   }
 
   .news-title {
@@ -414,8 +413,8 @@ const formatDate = (dateString: string | undefined) => {
   }
 
   .news-excerpt {
-    font-size: 0.95rem;
-    color: #4b5563;
+    font-size: 1rem;
+    color: #475569;
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -452,8 +451,8 @@ const formatDate = (dateString: string | undefined) => {
 // Quick access
 .quick-access {
   padding: 3.5rem 0 4rem;
-  background: #0f172a;
-  color: white;
+  background: #1565C0;
+  color: rgba(255, 255, 255, 0.82); //aquiw
 
   .container {
     max-width: 1100px;
@@ -466,6 +465,8 @@ const formatDate = (dateString: string | undefined) => {
     font-weight: 800;
     margin-bottom: 2rem;
     text-align: left;
+    color: white;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   }
 
   .quick-access-grid {
@@ -481,14 +482,16 @@ const formatDate = (dateString: string | undefined) => {
   .quick-card {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.5rem 1.25rem;
-    border-radius: 1rem;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    color: inherit;
+    gap: 0.75rem;
+     padding: 1.7rem 1.5rem;
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white; //inherit
     text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 
     &:hover {
       transform: translateY(-4px);
@@ -504,13 +507,16 @@ const formatDate = (dateString: string | undefined) => {
   }
 
   .quick-title {
+    color: rgba(255,255,255,0.96);
+    text-shadow:
+    0 2px 10px rgba(0,0,0,0.22);
     font-size: 1.1rem;
     font-weight: 700;
   }
 
   .quick-text {
     font-size: 0.95rem;
-    color: #e5e7eb;
+    color: rgba(255,255,255,0.82);
   }
 }
 

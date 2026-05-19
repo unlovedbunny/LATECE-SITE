@@ -7,7 +7,7 @@
           .footer-logos
             img(src="/images/logo01.png" alt="Logo LATECE" height="40" style="object-fit: contain;")
             img(src="/images/logo-ufrn.png" alt="Logo UFRN" height="70" style="object-fit: contain;")
-          p.description Laboratório de Tecnologia Assistiva do Centro de Educação da UFRN
+          p.description Laboratório de Tecnologia Assistiva do Centro de Educação
           p.tagline Promovendo inclusão e acessibilidade através da tecnologia
 
         //- Quick Links

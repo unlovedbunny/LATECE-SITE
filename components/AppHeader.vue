@@ -371,8 +371,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .logo-subtitle {
-      font-size: 1.1rem;
-      color: #475569;
+      font-size: 1.125rem;
+      color: #1e3a8a;
       font-weight: 500;
       max-width: 420px;
       line-height: 1.4;
@@ -403,12 +403,12 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   .nav-link {
     color: rgba(255, 255, 255, 0.82);
     text-decoration: none;
-    font-size: 1.02rem;
+    font-size: 1.08rem;
     font-weight: 600;
-    padding: 16px 24px;
+    padding: 18px 28px;
     display: block;
-    letter-spacing: 0.02em;
-    border-bottom: 3px solid transparent;
+    letter-spacing: 0.1em;
+    border-bottom: 4px solid transparent;
     transition: $transition-fast;
     white-space: nowrap;
 
