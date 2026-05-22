@@ -4,13 +4,49 @@
     <div class="top-bar">
       <div class="container top-bar-content">
         <div class="contact-info">
+          <!-- Email -->
           <a href="mailto:latece@ufrn.br" class="info-link">
             <span class="icon">📧</span>
             <span>latece@ufrn.br</span>
           </a>
-          <a href="tel:+558412345678" class="info-link">
+
+          <!-- Telefone -->
+          <a href="tel:+558432150000" class="info-link">
             <span class="icon">📞</span>
-            <span>(84) 1234-5678</span>
+            <span>(84) 3215-0000</span>
+          </a>
+          <!-- Instagram -->
+          <a
+            href="https://www.instagram.com/latece_ufrn/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            aria-label="Instagram do LATECE"
+          >
+            <img
+              src="@/assets/instagram_icon.png"
+              alt="Instagram"
+              class="social-icon"
+            />
+
+            <span class="social-text">latece_ufrn</span>
+          </a>
+
+          <!-- YouTube -->
+          <a
+            href="https://www.youtube.com/channel/UCie5HHDcac4k2-7DaKWEuTQ"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            aria-label="YouTube do LATECE"
+          >
+            <img
+              src="@/assets/youtube_icon.png"
+              alt="YouTube"
+              class="social-icon"
+            />
+
+            <span class="social-text">LATECE CE</span>
           </a>
         </div>
 
@@ -36,10 +72,9 @@
     </div>
 
     <!-- Main Header: Logo Row -->
-    <header class="main-header" :class="{ 'scrolled': isScrolled }">
+    <header class="main-header" :class="{ scrolled: isScrolled }">
       <div class="container">
         <div class="header-content">
-
           <!-- Logo -->
           <NuxtLink class="logo" to="/">
             <div class="logo-icon">
@@ -69,33 +104,46 @@
                     <div class="user-name">{{ authStore.user?.fullName }}</div>
                     <div class="user-role">Administrador</div>
                   </div>
-                  <span class="dropdown-arrow" :class="{ 'open': showUserMenu }">▼</span>
+                  <span class="dropdown-arrow" :class="{ open: showUserMenu }"
+                    >▼</span
+                  >
                 </button>
 
                 <Transition name="dropdown">
-                  <div class="dropdown-menu" v-show="showUserMenu" @click.away="showUserMenu = false">
+                  <div
+                    class="dropdown-menu"
+                    v-show="showUserMenu"
+                    @click.away="showUserMenu = false"
+                  >
                     <div class="dropdown-header">
                       <div class="dropdown-user-avatar">
                         <span>{{ authStore.userInitials }}</span>
                       </div>
                       <div class="dropdown-user-info">
-                        <div class="dropdown-user-name">{{ authStore.user?.fullName }}</div>
-                        <div class="dropdown-user-email">{{ authStore.user?.email }}</div>
+                        <div class="dropdown-user-name">
+                          {{ authStore.user?.fullName }}
+                        </div>
+                        <div class="dropdown-user-email">
+                          {{ authStore.user?.email }}
+                        </div>
                       </div>
                     </div>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                       <NuxtLink class="dropdown-item" to="/admin">
                         <span class="item-icon">⚙️</span>
-                        <span>{{ $t('nav.admin') }}</span>
+                        <span>{{ $t("nav.admin") }}</span>
                       </NuxtLink>
                       <NuxtLink class="dropdown-item" to="/profile">
                         <span class="item-icon">👤</span>
                         <span>Meu Perfil</span>
                       </NuxtLink>
-                      <button class="dropdown-item logout" @click="handleLogout">
+                      <button
+                        class="dropdown-item logout"
+                        @click="handleLogout"
+                      >
                         <span class="item-icon">🚪</span>
-                        <span>{{ $t('nav.logout') }}</span>
+                        <span>{{ $t("nav.logout") }}</span>
                       </button>
                     </div>
                   </div>
@@ -108,7 +156,7 @@
           <button
             class="mobile-menu-button"
             @click="showMobileMenu = !showMobileMenu"
-            :class="{ 'active': showMobileMenu }"
+            :class="{ active: showMobileMenu }"
             :aria-expanded="showMobileMenu"
             aria-label="Menu"
           >
@@ -124,12 +172,18 @@
       <!-- Nav Bar Row (below logo) -->
       <nav class="desktop-nav" aria-label="Navegação principal">
         <div class="container nav-inner">
-          <NuxtLink class="nav-link" to="/">{{ $t('nav.home') }}</NuxtLink>
-          <NuxtLink class="nav-link" to="/about">{{ $t('nav.about') }}</NuxtLink>
-          <NuxtLink class="nav-link" to="/team">{{ $t('nav.team') }}</NuxtLink>
-          <NuxtLink class="nav-link" to="/equipment">{{ $t('nav.equipment') }}</NuxtLink>
-          <NuxtLink class="nav-link" to="/publications">{{ $t('nav.publications') }}</NuxtLink>
-          <NuxtLink class="nav-link" to="/news">{{ $t('nav.news') }}</NuxtLink>
+          <NuxtLink class="nav-link" to="/">{{ $t("nav.home") }}</NuxtLink>
+          <NuxtLink class="nav-link" to="/about">{{
+            $t("nav.about")
+          }}</NuxtLink>
+          <NuxtLink class="nav-link" to="/team">{{ $t("nav.team") }}</NuxtLink>
+          <NuxtLink class="nav-link" to="/equipment">{{
+            $t("nav.equipment")
+          }}</NuxtLink>
+          <NuxtLink class="nav-link" to="/publications">{{
+            $t("nav.publications")
+          }}</NuxtLink>
+          <NuxtLink class="nav-link" to="/news">{{ $t("nav.news") }}</NuxtLink>
         </div>
       </nav>
     </header>
@@ -139,47 +193,79 @@
       <div class="mobile-menu" v-show="showMobileMenu">
         <div class="container">
           <nav class="mobile-nav">
-            <NuxtLink class="mobile-nav-link" to="/" @click="showMobileMenu = false">
+            <NuxtLink
+              class="mobile-nav-link"
+              to="/"
+              @click="showMobileMenu = false"
+            >
               <span class="nav-icon">🏠</span>
-              <span>{{ $t('nav.home') }}</span>
+              <span>{{ $t("nav.home") }}</span>
             </NuxtLink>
-            <NuxtLink class="mobile-nav-link" to="/about" @click="showMobileMenu = false">
+            <NuxtLink
+              class="mobile-nav-link"
+              to="/about"
+              @click="showMobileMenu = false"
+            >
               <span class="nav-icon">ℹ️</span>
-              <span>{{ $t('nav.about') }}</span>
+              <span>{{ $t("nav.about") }}</span>
             </NuxtLink>
-            <NuxtLink class="mobile-nav-link" to="/team" @click="showMobileMenu = false">
+            <NuxtLink
+              class="mobile-nav-link"
+              to="/team"
+              @click="showMobileMenu = false"
+            >
               <span class="nav-icon">👥</span>
-              <span>{{ $t('nav.team') }}</span>
+              <span>{{ $t("nav.team") }}</span>
             </NuxtLink>
-            <NuxtLink class="mobile-nav-link" to="/equipment" @click="showMobileMenu = false">
+            <NuxtLink
+              class="mobile-nav-link"
+              to="/equipment"
+              @click="showMobileMenu = false"
+            >
               <span class="nav-icon">🔧</span>
-              <span>{{ $t('nav.equipment') }}</span>
+              <span>{{ $t("nav.equipment") }}</span>
             </NuxtLink>
-            <NuxtLink class="mobile-nav-link" to="/publications" @click="showMobileMenu = false">
+            <NuxtLink
+              class="mobile-nav-link"
+              to="/publications"
+              @click="showMobileMenu = false"
+            >
               <span class="nav-icon">📚</span>
-              <span>{{ $t('nav.publications') }}</span>
+              <span>{{ $t("nav.publications") }}</span>
             </NuxtLink>
-            <NuxtLink class="mobile-nav-link" to="/news" @click="showMobileMenu = false">
+            <NuxtLink
+              class="mobile-nav-link"
+              to="/news"
+              @click="showMobileMenu = false"
+            >
               <span class="nav-icon">📰</span>
-              <span>{{ $t('nav.news') }}</span>
+              <span>{{ $t("nav.news") }}</span>
             </NuxtLink>
 
             <div class="mobile-nav-divider"></div>
 
             <template v-if="authStore.isAuthenticated">
-              <NuxtLink class="mobile-nav-link" to="/admin" @click="showMobileMenu = false">
+              <NuxtLink
+                class="mobile-nav-link"
+                to="/admin"
+                @click="showMobileMenu = false"
+              >
                 <span class="nav-icon">⚙️</span>
-                <span>{{ $t('nav.admin') }}</span>
+                <span>{{ $t("nav.admin") }}</span>
               </NuxtLink>
               <button class="mobile-nav-link" @click="handleLogout">
                 <span class="nav-icon">🚪</span>
-                <span>{{ $t('nav.logout') }}</span>
+                <span>{{ $t("nav.logout") }}</span>
               </button>
             </template>
             <template v-else>
-              <NuxtLink class="mobile-nav-link" to="/login" @click="showMobileMenu = false">
+              <NuxtLink
+                class="mobile-nav-link"
+                to="/login"
+                @click="showMobileMenu = false"
+              >
                 <span class="nav-icon">🔐</span>
-                <span>{{ $t('nav.login') }}</span>
+                <span>{{ $t("nav.login") }}</span>
               </NuxtLink>
             </template>
           </nav>
@@ -190,39 +276,42 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from "@/stores/auth";
 
-const authStore = useAuthStore()
-const showUserMenu = ref(false)
-const showMobileMenu = ref(false)
-const isScrolled = ref(false)
+const authStore = useAuthStore();
+const showUserMenu = ref(false);
+const showMobileMenu = ref(false);
+const isScrolled = ref(false);
 
 const handleLogout = async () => {
-  await authStore.logout()
-  showUserMenu.value = false
-  showMobileMenu.value = false
-}
+  await authStore.logout();
+  showUserMenu.value = false;
+  showMobileMenu.value = false;
+};
 
-watch(() => useRoute().path, () => {
-  showMobileMenu.value = false
-})
+watch(
+  () => useRoute().path,
+  () => {
+    showMobileMenu.value = false;
+  },
+);
 
 onMounted(() => {
   const handleScroll = () => {
-    isScrolled.value = window.scrollY > 10
-  }
-  window.addEventListener('scroll', handleScroll)
+    isScrolled.value = window.scrollY > 10;
+  };
+  window.addEventListener("scroll", handleScroll);
   onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-  })
-})
+    window.removeEventListener("scroll", handleScroll);
+  });
+});
 </script>
 
 <style scoped lang="scss">
-$primary-blue: #005A9C;
-$nav-bg: #1565C0;
-$nav-active-border: #64B5F6;
-$primary-gradient: linear-gradient(135deg, #005A9C 0%, #4D9DE0 100%);
+$primary-blue: #005a9c;
+$nav-bg: #1565c0;
+$nav-active-border: #64b5f6;
+$primary-gradient: linear-gradient(135deg, #005a9c 0%, #4d9de0 100%);
 $transition-fast: all 0.2s ease-in-out;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -256,29 +345,64 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .top-bar-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 9.5rem;
 }
 
 .contact-info {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.1rem;
 }
 
+/* Email e telefone */
 .info-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+
   color: rgba(255, 255, 255, 0.85);
-  transition: $transition-fast;
+  text-decoration: none;
   font-weight: 500;
+
+  transition: $transition-fast;
+
+  &:hover {
+    color: white;
+  }
+
+  .icon {
+    font-size: 0.95rem;
+  }
+}
+
+/* Instagram e YouTube */
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+
+  transition: all 0.25s ease;
 
   &:hover {
     color: white;
     transform: translateY(-1px);
   }
+}
 
-  .icon { font-size: 1rem; }
+.social-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
+
+.social-text {
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1;
 }
 
 .divider {
@@ -329,7 +453,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
 
     .logo-icon img {
-      height: 58px; 
+      height: 58px;
     }
   }
 }
@@ -348,34 +472,48 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
    ================================= */
 .logo {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 0.25rem;
+
+  width: 100%;
+
   transition: $transition-smooth;
   text-decoration: none;
+  text-align: center;
 
   &:hover {
-    opacity: 0.9;
+    opacity: 0.95;
   }
 
   .logo-icon img {
-    height: 50px;   
+    height: 88px;
     width: auto;
     transition: $transition-smooth;
+
+    @media (max-width: 768px) {
+      height: 72px;
+    }
   }
 
   .logo-text {
-    display: none;
-
-    @media (min-width: 640px) {
-      display: block;
-    }
+    display: block;
 
     .logo-subtitle {
-      font-size: 1.125rem;
+      font-size: 1.1rem;
       color: #1e3a8a;
-      font-weight: 500;
-      max-width: 420px;
-      line-height: 1.4;
+      font-weight: 800;
+      max-width: 760px;
+      line-height: 2.5;
+      letter-spacing: 0.02em;
+
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+
+      @media (max-width: 768px) {
+        font-size: 0.98rem;
+        max-width: 90%;
+      }
     }
   }
 }
@@ -590,7 +728,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     transition: $transition-fast;
 
-    .item-icon { font-size: 1.125rem; }
+    .item-icon {
+      font-size: 1.125rem;
+    }
 
     &:hover {
       background: rgba(37, 99, 235, 0.05);
@@ -599,7 +739,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &.logout {
       color: #dc2626;
-      &:hover { background: rgba(220, 38, 38, 0.05); }
+      &:hover {
+        background: rgba(220, 38, 38, 0.05);
+      }
     }
   }
 }
@@ -623,12 +765,21 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: none;
   }
 
-  &:hover { background: rgba(37, 99, 235, 0.05); }
+  &:hover {
+    background: rgba(37, 99, 235, 0.05);
+  }
 
   &.active {
-    .line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .line:nth-child(2) { opacity: 0; transform: translateX(-10px); }
-    .line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .line:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .line:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    .line:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
   }
 
   .hamburger {
@@ -661,7 +812,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: none;
   }
 
-  .container { padding: 1.5rem; }
+  .container {
+    padding: 1.5rem;
+  }
 
   .mobile-nav {
     display: flex;
@@ -684,7 +837,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transition: $transition-fast;
     font-size: 1rem;
 
-    .nav-icon { font-size: 1.25rem; }
+    .nav-icon {
+      font-size: 1.25rem;
+    }
 
     &:hover {
       color: $primary-blue;
@@ -732,11 +887,17 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    SCROLLBAR
    ================================= */
-.mobile-menu::-webkit-scrollbar { width: 8px; }
-.mobile-menu::-webkit-scrollbar-track { background: #f8fafc; }
+.mobile-menu::-webkit-scrollbar {
+  width: 8px;
+}
+.mobile-menu::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
 .mobile-menu::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
-  &:hover { background: #94a3b8; }
+  &:hover {
+    background: #94a3b8;
+  }
 }
 </style>

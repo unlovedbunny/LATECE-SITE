@@ -29,24 +29,34 @@
           
           .objectives__grid
             .objective-item.card
-              .objective-icon.objective-icon--research
-              h3.objective-title {{ $t('about.research') }}
-              p.objective-text {{ $t('about.researchText') }}
-            
+              .objective-icon.objective-icon--teaching
+              h3.objective-title {{ $t('about.teaching') }}
+              p.objective-text {{ $t('about.teachingText') }}
+
             .objective-item.card
-              .objective-icon.objective-icon--education
-              h3.objective-title {{ $t('about.education') }}
-              p.objective-text {{ $t('about.educationText') }}
-            
+              .objective-icon.objective-icon--training
+              h3.objective-title {{ $t('about.training') }}
+              p.objective-text {{ $t('about.trainingText') }}
+
             .objective-item.card
-              .objective-icon.objective-icon--community
-              h3.objective-title {{ $t('about.community') }}
-              p.objective-text {{ $t('about.communityText') }}
-            
+              .objective-icon.objective-icon--assistive
+              h3.objective-title {{ $t('about.assistive') }}
+              p.objective-text {{ $t('about.assistiveText') }}
+
             .objective-item.card
-              .objective-icon.objective-icon--innovation
-              h3.objective-title {{ $t('about.innovation') }}
-              p.objective-text {{ $t('about.innovationText') }}
+              .objective-icon.objective-icon--materials
+              h3.objective-title {{ $t('about.materials') }}
+              p.objective-text {{ $t('about.materialsText') }}
+
+            .objective-item.card
+              .objective-icon.objective-icon--communication
+              h3.objective-title {{ $t('about.communication') }}
+              p.objective-text {{ $t('about.communicationText') }}
+
+            .objective-item.card
+              .objective-icon.objective-icon--partnerships
+              h3.objective-title {{ $t('about.partnerships') }}
+              p.objective-text {{ $t('about.partnershipsText') }}
     
     // Justification Section
     section.justification
@@ -76,11 +86,15 @@
 <script setup lang="ts">
 // Meta tags
 useHead({
-  title: 'Sobre o LATECE - Laboratório de Tecnologia Assistiva',
+  title: "Sobre o LATECE - Laboratório de Tecnologia Assistiva",
   meta: [
-    { name: 'description', content: 'Conheça o Laboratório de Tecnologia Assistiva da UFRN, sua missão, visão e objetivos' }
-  ]
-})
+    {
+      name: "description",
+      content:
+        "Conheça o Laboratório de Tecnologia Assistiva da UFRN, sua missão, visão e objetivos",
+    },
+  ],
+});
 </script>
 
 <style scoped lang="scss">
@@ -88,19 +102,23 @@ useHead({
 // Variables & Base Styles
 //=================================================================
 // Colors (assuming these values)
-$primary-blue: #005A9C;
-$light-blue: #4D9DE0;
-$olive-green: #7C982F;
-$mustard: #E3B448;
-$terracotta: #BD6B45;
-$dark-aqua: #368F8B;
+$primary-blue: #005a9c;
+$light-blue: #4d9de0;
+$olive-green: #7c982f;
+$mustard: #e3b448;
+$terracotta: #bd6b45;
+$dark-aqua: #368f8b;
 $white: #ffffff;
 $gray-50: #f9fafb;
 $gray-700: #4a5568;
 
 // Gradients
 $primary-gradient: linear-gradient(to bottom right, $primary-blue, $light-blue);
-$secondary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+$secondary-gradient: linear-gradient(
+  135deg,
+  $primary-blue 0%,
+  $light-blue 100%
+);
 
 // Transitions
 $transition-normal: all 0.3s ease-in-out;
@@ -127,9 +145,9 @@ section {
   color: $primary-blue;
   margin-bottom: 3rem;
   text-align: center;
-  
+
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -8px;
     left: 50%;
@@ -221,7 +239,7 @@ section {
     &--vision {
       background-color: $light-blue;
     }
-    
+
     &__svg {
       width: 2rem;
       height: 2rem;
@@ -235,14 +253,14 @@ section {
 //=================================================================
 .objectives {
   background-color: $gray-50;
-  
+
   &__content {
     max-width: 56rem;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
   }
-  
+
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -253,7 +271,7 @@ section {
   .objective-item {
     padding: 1.5rem;
   }
-  
+
   .objective-icon {
     width: 3rem;
     height: 3rem;
@@ -263,25 +281,44 @@ section {
     justify-content: center;
     margin-bottom: 1rem;
 
-    &--research { background-color: $olive-green; }
-    &--education { background-color: $mustard; }
-    &--community { background-color: $terracotta; }
-    &--innovation { background-color: $dark-aqua; }
-    
+    &--teaching {
+      background-color: $olive-green;
+    }
+
+    &--training {
+      background-color: $mustard;
+    }
+
+    &--assistive {
+      background-color: $terracotta;
+    }
+
+    &--materials {
+      background-color: $dark-aqua;
+    }
+
+    &--communication {
+      background-color: #7e57c2;
+    }
+
+    &--partnerships {
+      background-color: #ef6c00;
+    }
+
     &__svg {
       width: 1.5rem;
       height: 1.5rem;
       color: $white;
     }
   }
-  
+
   .objective-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: $primary-blue;
     margin-bottom: 0.75rem;
   }
-  
+
   .objective-text {
     color: $gray-700;
   }
@@ -292,32 +329,32 @@ section {
 //=================================================================
 .justification {
   background-color: $white;
-  
+
   &__content {
     max-width: 56rem;
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   &-prose {
     p {
       font-size: 1.125rem;
       color: $gray-700;
       margin-bottom: 1.5rem;
-      
+
       &:last-of-type {
         margin-bottom: 2rem;
       }
     }
   }
-  
+
   .highlight-box {
     background: rgba($light-blue, 0.1);
     border-left: 4px solid $primary-blue;
     padding: 1.5rem;
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    
+
     &__title {
       font-size: 1.125rem;
       font-weight: 500;
@@ -343,7 +380,7 @@ section {
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
-  
+
   .cta-text {
     font-size: 1.25rem;
     margin-bottom: 2rem;
@@ -379,7 +416,7 @@ section {
   &.btn-secondary {
     background-color: $white;
     color: $primary-blue;
-    
+
     &:hover {
       background-color: rgba($white, 0.9);
       transform: translateY(-2px);
