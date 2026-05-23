@@ -315,24 +315,19 @@ $primary-gradient: linear-gradient(135deg, #005a9c 0%, #4d9de0 100%);
 $transition-fast: all 0.2s ease-in-out;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-/* =================================
-   GLOBAL CONTAINER
-   ================================= */
-
 .container {
-  width: min(100% - 2rem, 1400px);
-  margin-inline: auto;
+  width: min(95%, 1400px);
+  margin: auto;
 }
 
 /* =================================
    TOP BAR
    ================================= */
-
 .top-bar {
   background: linear-gradient(135deg, #487fff 0%, #003791 100%);
   color: white;
-  padding: 0.35rem 0;
-  font-size: 1rem;
+  padding: 0.35rem 0; //ajustado
+  font-size: 1rem; //ajustado
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
   @media (max-width: 768px) {
@@ -344,26 +339,21 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: clamp(1rem, 2vw, 2rem);
-  flex-wrap: wrap;
 }
 
 .top-bar-right {
   display: flex;
   align-items: center;
-  gap: clamp(0.8rem, 1.5vw, 1.5rem);
-  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .contact-info {
   display: flex;
   align-items: center;
-  gap: clamp(0.7rem, 1vw, 1rem);
-  flex-wrap: wrap;
+  gap: 0.9rem;
 }
 
 /* Email e telefone */
-
 .info-link {
   display: flex;
   align-items: center;
@@ -381,12 +371,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .icon {
     font-size: 0.95rem;
-    flex-shrink: 0;
   }
 }
 
 /* Instagram e YouTube */
-
 .social-link {
   display: flex;
   align-items: center;
@@ -408,7 +396,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 18px;
   object-fit: contain;
   display: block;
-  flex-shrink: 0;
 }
 
 .social-text {
@@ -421,17 +408,12 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 1px;
   height: 20px;
   background: rgba(255, 255, 255, 0.2);
-
-  @media (max-width: 900px) {
-    display: none;
-  }
 }
 
 .user-links {
   display: flex;
   align-items: center;
-  gap: 1.03rem;
-  flex-wrap: wrap;
+  gap: 1.03rem; //ajustado
 }
 
 .user-link {
@@ -443,7 +425,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0.375rem 0.75rem;
   border-radius: 6px;
   font-weight: 500;
-  white-space: nowrap;
 
   &:hover {
     color: white;
@@ -454,7 +435,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    MAIN HEADER (logo row + nav row)
    ================================= */
-
 .header-wrapper {
   position: sticky;
   top: 0;
@@ -482,22 +462,13 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding:
-    clamp(0.8rem, 1.4vw, 1.4rem)
-    clamp(1rem, 3vw, 3rem);
-
-  gap: clamp(1rem, 2vw, 2.5rem);
-
-  min-height: clamp(110px, 12vw, 145px);
-
-  width: 100%;
+  padding: 6px 0;
+  gap: 2rem;
 }
 
 /* =================================
    LOGO
    ================================= */
-
 .logo {
   display: flex;
   flex-direction: column;
@@ -506,7 +477,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 0.1rem;
 
   width: 100%;
-  min-width: 0;
 
   transition: $transition-smooth;
   text-decoration: none;
@@ -522,25 +492,22 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transition: $transition-smooth;
 
     @media (max-width: 768px) {
-      height: 58px;
+      height: 58px; //ajustado
     }
   }
 
   .logo-text {
     display: block;
-    width: 100%;
 
-    .logo-subtitle {
+    .logo-subtitle { //ajustado
       font-size: 1.1rem;
       color: #1e3a8a;
       font-weight: 800;
-      max-width: min(100%, 500px);
-      line-height: 1.5rem;
+      max-width: 500px;
+      line-height: 1.5rem; //ajustado 
       letter-spacing: 0.042rem;
 
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-
-      margin-inline: auto;
 
       @media (max-width: 768px) {
         font-size: 0.98rem;
@@ -565,38 +532,22 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-
-    width: 100%;
-    max-width: 1600px;
-
-    margin: 0 auto;
-
-    padding-left: clamp(1rem, 2vw, 2rem);
-    padding-right: clamp(1rem, 2vw, 2rem);
-
-    gap: clamp(0.2rem, 0.6vw, 0.8rem);
+    gap: 0;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .nav-link {
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.82);
     text-decoration: none;
-
-    padding:
-      clamp(12px, 1vw, 18px)
-      clamp(20px, 2vw, 34px);
-
-    font-size: clamp(0.98rem, 1vw, 1.12rem);
-
-    font-weight: 600;
+  padding:
+    clamp(8px, 1vw, 14px)
+    clamp(12px, 1.5vw, 22px);
+    font-size: clamp(0.82rem, 0.95vw, 1rem);
     display: block;
-
-    letter-spacing: 0.08em;
-
+    letter-spacing: 0.1em;
     border-bottom: 4px solid transparent;
-
     transition: $transition-fast;
-
     white-space: nowrap;
 
     &:hover {
@@ -617,10 +568,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    USER SECTION (desktop)
    ================================= */
-
 .user-section {
   display: none;
-  flex-shrink: 0;
 
   @media (min-width: 1024px) {
     display: flex;
@@ -637,13 +586,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
   padding: 0.5rem 1rem;
-
   border-radius: 12px;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   border: 1px solid #e2e8f0;
-
   cursor: pointer;
   transition: $transition-smooth;
 
@@ -656,16 +602,12 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   .user-avatar {
     width: 38px;
     height: 38px;
-
     background: $primary-gradient;
     border-radius: 10px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
-    flex-shrink: 0;
 
     span {
       color: white;
@@ -676,17 +618,12 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .user-info {
     text-align: left;
-    min-width: 0;
 
     .user-name {
       font-size: 0.9375rem;
       font-weight: 600;
       color: #0f172a;
       line-height: 1.3;
-
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .user-role {
@@ -711,14 +648,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: absolute;
   right: 0;
   top: calc(100% + 0.75rem);
-
-  width: min(280px, calc(100vw - 2rem));
-
+  width: 280px;
   background: white;
   border-radius: 16px;
-
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-
   border: 1px solid #e2e8f0;
   overflow: hidden;
 
@@ -726,22 +659,17 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 0.75rem;
-
     padding: 1.25rem;
-
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 
     .dropdown-user-avatar {
       width: 48px;
       height: 48px;
-
       background: $primary-gradient;
       border-radius: 12px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       flex-shrink: 0;
 
       span {
@@ -760,7 +688,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         font-weight: 700;
         color: #0f172a;
         margin-bottom: 2px;
-
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -769,7 +696,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       .dropdown-user-email {
         font-size: 0.8125rem;
         color: #64748b;
-
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -790,28 +716,20 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 0.75rem;
-
     width: 100%;
     text-align: left;
-
     padding: 0.875rem 1rem;
-
     font-size: 0.9375rem;
     font-weight: 500;
-
     color: #475569;
-
     background: none;
     border: none;
-
     border-radius: 10px;
-
     cursor: pointer;
     transition: $transition-fast;
 
     .item-icon {
       font-size: 1.125rem;
-      flex-shrink: 0;
     }
 
     &:hover {
@@ -821,7 +739,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &.logout {
       color: #dc2626;
-
       &:hover {
         background: rgba(220, 38, 38, 0.05);
       }
@@ -832,24 +749,17 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    MOBILE MENU BUTTON
    ================================= */
-
 .mobile-menu-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 48px;
   height: 48px;
-
   background: none;
   border: none;
-
   border-radius: 12px;
-
   cursor: pointer;
   transition: $transition-smooth;
-
-  flex-shrink: 0;
 
   @media (min-width: 1024px) {
     display: none;
@@ -863,12 +773,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     .line:nth-child(1) {
       transform: translateY(8px) rotate(45deg);
     }
-
     .line:nth-child(2) {
       opacity: 0;
       transform: translateX(-10px);
     }
-
     .line:nth-child(3) {
       transform: translateY(-8px) rotate(-45deg);
     }
@@ -893,13 +801,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    MOBILE MENU
    ================================= */
-
 .mobile-menu {
   background: white;
   border-top: 1px solid #e2e8f0;
-
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-
   max-height: calc(100vh - 70px);
   overflow-y: auto;
 
@@ -908,7 +813,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .container {
-    padding-block: 1.5rem;
+    padding: 1.5rem;
   }
 
   .mobile-nav {
@@ -921,26 +826,19 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 1rem;
-
     width: 100%;
     text-align: left;
-
     padding: 1rem 1.25rem;
-
     color: #475569;
     font-weight: 600;
-
     background: none;
     border: none;
-
     border-radius: 12px;
-
     transition: $transition-fast;
     font-size: 1rem;
 
     .nav-icon {
       font-size: 1.25rem;
-      flex-shrink: 0;
     }
 
     &:hover {
@@ -966,12 +864,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    TRANSITIONS
    ================================= */
-
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
@@ -982,7 +878,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .slide-down-leave-active {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .slide-down-enter-from,
 .slide-down-leave-to {
   opacity: 0;
@@ -992,19 +887,15 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 /* =================================
    SCROLLBAR
    ================================= */
-
 .mobile-menu::-webkit-scrollbar {
   width: 8px;
 }
-
 .mobile-menu::-webkit-scrollbar-track {
   background: #f8fafc;
 }
-
 .mobile-menu::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
-
   &:hover {
     background: #94a3b8;
   }

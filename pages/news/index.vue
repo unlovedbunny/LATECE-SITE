@@ -236,9 +236,15 @@ watch(selectedCategory, () => {
 
 <style scoped lang="scss">
 // Variables
-$primary-blue: #1D8A9F;
-$light-blue: #64B8D1;
-$primary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+$primary-blue: #005a9c;
+$light-blue: #4d9de0;
+
+$primary-gradient: linear-gradient(
+  135deg,
+  #005a9c 0%,
+  #0f76bc 55%,
+  #4d9de0 100%
+);
 $text-dark: #111827;
 $text-light: #6b7280;
 $bg-light: #f9fafb;
@@ -267,7 +273,7 @@ $border-color: #e5e7eb;
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom; //img de fundo tela inicial
   background-size: cover;
   opacity: 0.3;
 }

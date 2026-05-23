@@ -1,86 +1,121 @@
 <template lang="pug">
-  .about-page
-    // Hero Section
-    section.hero
-      .container.hero__container
-        h1.hero-title {{ $t('about.title') }}
-        p.hero-subtitle {{ $t('about.subtitle') }}
-    
-    // Mission and Vision Section
-    section.mission-vision
-      .container
-        .mission-vision__content
-          .mission-vision__grid
-            .mission-card.card
-              .icon
-              h2.card-title {{ $t('about.mission') }}
-              p.card-text {{ $t('about.missionText') }}
-            
-            .vision-card.card
-              .icon.icon--vision
-              h2.card-title {{ $t('about.vision') }}
-              p.card-text {{ $t('about.visionText') }}
-    
-    // Objectives Section
-    section.objectives
-      .container
-        .objectives__content
-          h2.section-title {{ $t('about.objectives') }}
-          
-          .objectives__grid
-            .objective-item.card
-              .objective-icon.objective-icon--teaching
-              h3.objective-title {{ $t('about.teaching') }}
-              p.objective-text {{ $t('about.teachingText') }}
+.about-page
+  // Hero Section
+  section.hero
+    .container.hero__container
+      h1.hero-title {{ $t('about.title') }}
+      p.hero-subtitle {{ $t('about.subtitle') }}
 
-            .objective-item.card
-              .objective-icon.objective-icon--training
-              h3.objective-title {{ $t('about.training') }}
-              p.objective-text {{ $t('about.trainingText') }}
+  // Quem Somos Section
+  section.about-intro
+    .container
+      .about-intro__grid
 
-            .objective-item.card
-              .objective-icon.objective-icon--assistive
-              h3.objective-title {{ $t('about.assistive') }}
-              p.objective-text {{ $t('about.assistiveText') }}
+        // Texto lateral esquerda
+        .about-intro__content
+          h2.about-intro__title Quem Somos
 
-            .objective-item.card
-              .objective-icon.objective-icon--materials
-              h3.objective-title {{ $t('about.materials') }}
-              p.objective-text {{ $t('about.materialsText') }}
+          .about-intro__text
+            p
+              | O Laboratório de Tecnologia Assistiva do Centro de Educação (LATECE), vinculado ao Laboratório Interdisciplinar de Formação de Educadores (LIFE) da Universidade Federal do Rio Grande do Norte, é um espaço de ensino, pesquisa e extensão dedicado à Tecnologia Assistiva.
 
-            .objective-item.card
-              .objective-icon.objective-icon--communication
-              h3.objective-title {{ $t('about.communication') }}
-              p.objective-text {{ $t('about.communicationText') }}
+            p
+              | A Tecnologia Assistiva compreende recursos, estratégias, serviços e práticas voltados à promoção da acessibilidade, autonomia e participação de pessoas com deficiência e com necessidades educacionais específicas (BRASIL, 2015). O laboratório atua em diferentes áreas da Tecnologia Assistiva, como Comunicação Alternativa, acessibilidade ao computador, adequação postural, mobilidade, acessibilidade sensorial e produção de materiais pedagógicos acessíveis.
 
-            .objective-item.card
-              .objective-icon.objective-icon--partnerships
-              h3.objective-title {{ $t('about.partnerships') }}
-              p.objective-text {{ $t('about.partnershipsText') }}
-    
-    // Justification Section
-    section.justification
-      .container
-        .justification__content
-          h2.section-title {{ $t('about.justification') }}
-          
-          .justification-prose
-            p {{ $t('about.justificationText1') }}
-            p {{ $t('about.justificationText2') }}
-            p {{ $t('about.justificationText3') }}
-            
-            .highlight-box
-              p.highlight-box__title {{ $t('about.highlight') }}
-              p {{ $t('about.highlightText') }}
-    
-    // CTA Section
-    section.cta
-      .container.cta__container
-        h2.cta-title {{ $t('about.cta') }}
-        p.cta-text {{ $t('about.ctaText') }}
-        .cta-actions
-          NuxtLink.btn.btn-secondary.btn-lg(to="/team") {{ $t('about.meetTeam') }}
-          NuxtLink.btn.btn-outline.btn-lg(to="/equipment") {{ $t('about.exploreEquipment') }}
+            p
+              | Fundado em 2017, o LATECE desenvolve pesquisas, ações formativas e projetos voltados à acessibilidade e à inclusão. O laboratório mantém parcerias com escolas, serviços especializados, setores da universidade e instituições de ensino superior, como a Universidade do Estado do Rio Grande do Norte (UERN), a Universidade do Estado do Rio de Janeiro (UERJ) e a Universidade Federal Rural do Rio de Janeiro (UFRRJ). Parte das ações e recursos do laboratório é viabilizada por meio de editais de pesquisa e inovação financiados pelo Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq) e pela Financiadora de Estudos e Projetos (FINEP).
+
+        // Lateral direita
+        .about-intro__side
+          .about-image-wrapper
+            img.about-image(
+              src="@/assets/testinho.png"
+              alt="Equipe do LATECE"
+            )
+
+          NuxtLink.team-button(to="/team")
+            span.team-button__icon →
+            span Nossa Equipe
+
+  // Mission and Vision Section
+  section.mission-vision
+    .container
+      .mission-vision__content
+        .mission-vision__grid
+          .mission-card.card
+            .icon
+            h2.card-title {{ $t('about.mission') }}
+            p.card-text {{ $t('about.missionText') }}
+
+          .vision-card.card
+            .icon.icon--vision
+            h2.card-title {{ $t('about.vision') }}
+            p.card-text {{ $t('about.visionText') }}
+
+  // Objectives Section
+  section.objectives
+    .container
+      .objectives__content
+        h2.section-title {{ $t('about.objectives') }}
+
+        .objectives__grid
+          .objective-item.card
+            .objective-icon.objective-icon--teaching
+            h3.objective-title {{ $t('about.teaching') }}
+            p.objective-text {{ $t('about.teachingText') }}
+
+          .objective-item.card
+            .objective-icon.objective-icon--training
+            h3.objective-title {{ $t('about.training') }}
+            p.objective-text {{ $t('about.trainingText') }}
+
+          .objective-item.card
+            .objective-icon.objective-icon--assistive
+            h3.objective-title {{ $t('about.assistive') }}
+            p.objective-text {{ $t('about.assistiveText') }}
+
+          .objective-item.card
+            .objective-icon.objective-icon--materials
+            h3.objective-title {{ $t('about.materials') }}
+            p.objective-text {{ $t('about.materialsText') }}
+
+          .objective-item.card
+            .objective-icon.objective-icon--communication
+            h3.objective-title {{ $t('about.communication') }}
+            p.objective-text {{ $t('about.communicationText') }}
+
+          .objective-item.card
+            .objective-icon.objective-icon--partnerships
+            h3.objective-title {{ $t('about.partnerships') }}
+            p.objective-text {{ $t('about.partnershipsText') }}
+
+  // Justification Section
+  section.justification
+    .container
+      .justification__content
+        h2.section-title {{ $t('about.justification') }}
+
+        .justification-prose
+          p {{ $t('about.justificationText1') }}
+          p {{ $t('about.justificationText2') }}
+          p {{ $t('about.justificationText3') }}
+
+          .highlight-box
+            p.highlight-box__title {{ $t('about.highlight') }}
+            p {{ $t('about.highlightText') }}
+
+  // CTA Section
+  section.cta
+    .container.cta__container
+      h2.cta-title {{ $t('about.cta') }}
+      p.cta-text {{ $t('about.ctaText') }}
+
+      .cta-actions
+        NuxtLink.btn.btn-secondary.btn-lg(to="/team")
+          | {{ $t('about.meetTeam') }}
+
+        NuxtLink.btn.btn-outline.btn-lg(to="/equipment")
+          | {{ $t('about.exploreEquipment') }}
 </template>
 
 <script setup lang="ts">
@@ -101,7 +136,6 @@ useHead({
 //=================================================================
 // Variables & Base Styles
 //=================================================================
-// Colors (assuming these values)
 $primary-blue: #005a9c;
 $light-blue: #4d9de0;
 $olive-green: #7c982f;
@@ -109,38 +143,38 @@ $mustard: #e3b448;
 $terracotta: #bd6b45;
 $dark-aqua: #368f8b;
 $white: #ffffff;
+$black: #000000;
 $gray-50: #f9fafb;
 $gray-700: #4a5568;
 
-// Gradients
 $primary-gradient: linear-gradient(to bottom right, $primary-blue, $light-blue);
+
 $secondary-gradient: linear-gradient(
   135deg,
   $primary-blue 0%,
   $light-blue 100%
 );
 
-// Transitions
 $transition-normal: all 0.3s ease-in-out;
 
+//=================================================================
 // Base Container
+//=================================================================
 .container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  width: min(94%, 1400px);
+  margin-inline: auto;
 }
 
+//=================================================================
 // Section Base
+//=================================================================
 section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-block: clamp(3rem, 6vw, 5rem);
 }
 
 .section-title {
   position: relative;
-  font-size: 1.875rem;
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
   font-weight: 700;
   color: $primary-blue;
   margin-bottom: 3rem;
@@ -159,9 +193,11 @@ section {
   }
 }
 
+//=================================================================
 // Card Base
+//=================================================================
 .card {
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
   transition: $transition-normal;
 
   &:hover {
@@ -173,8 +209,7 @@ section {
 // Hero Section
 //=================================================================
 .hero {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-block: clamp(2.2rem, 4vw, 3rem);
   background: $primary-gradient;
   color: $white;
 
@@ -183,7 +218,7 @@ section {
   }
 
   .hero-title {
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 800;
     color: white;
     margin-bottom: 1.5rem;
@@ -191,8 +226,130 @@ section {
   }
 
   .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    margin-bottom: 2.5rem;
+  }
+}
+
+//=================================================================
+// Quem Somos Section
+//=================================================================
+.about-intro {
+  background: white;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 420px);
+
+    gap: clamp(2rem, 5vw, 5rem);
+
+    align-items: start;
+
+    @media (max-width: 980px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__title {
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    font-weight: 800;
+    color: $primary-blue;
     margin-bottom: 2rem;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    p {
+      font-size: clamp(1rem, 1.3vw, 1.12rem);
+      line-height: 1.9;
+      color: #475569;
+      text-align: justify;
+    }
+  }
+
+  &__side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 1.5rem;
+  }
+}
+
+.about-image-wrapper {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.team-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+
+  width: 100%;
+  max-width: 230px;
+
+  padding: 1rem 1.4rem;
+
+  border-radius: 0.8rem;
+
+  background: linear-gradient(
+    135deg,
+    #0f76bc 0%,
+    #1693de 100%
+  );
+
+  color: white;
+  text-decoration: none;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+
+  box-shadow: 0 10px 25px rgba(15, 118, 188, 0.25);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 35px rgba(15, 118, 188, 0.35);
+  }
+
+  &__icon {
+    width: 28px;
+    height: 28px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.18);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1rem;
+    font-weight: 800;
+
+    transition: transform 0.25s ease;
+  }
+
+  &:hover &__icon {
+    transform: translateX(4px);
   }
 }
 
@@ -204,14 +361,13 @@ section {
 
   &__content {
     max-width: 72rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: clamp(1.5rem, 3vw, 3rem);
   }
 
   .card-title {
@@ -222,8 +378,8 @@ section {
   }
 
   .card-text {
-    color: $gray-700;
-    line-height: 1.625;
+    color: #0f172a;
+    line-height: 1.8;
   }
 
   .icon {
@@ -231,19 +387,10 @@ section {
     height: 4rem;
     background-color: $primary-blue;
     border-radius: 9999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-bottom: 1.5rem;
 
     &--vision {
       background-color: $light-blue;
-    }
-
-    &__svg {
-      width: 2rem;
-      height: 2rem;
-      color: $white;
     }
   }
 }
@@ -255,17 +402,14 @@ section {
   background-color: $gray-50;
 
   &__content {
-    max-width: 56rem;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    max-width: 1200px;
+    margin-inline: auto;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-    text-align: left;
   }
 
   .objective-item {
@@ -276,9 +420,6 @@ section {
     width: 3rem;
     height: 3rem;
     border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-bottom: 1rem;
 
     &--teaching {
@@ -304,12 +445,6 @@ section {
     &--partnerships {
       background-color: #ef6c00;
     }
-
-    &__svg {
-      width: 1.5rem;
-      height: 1.5rem;
-      color: $white;
-    }
   }
 
   .objective-title {
@@ -320,7 +455,8 @@ section {
   }
 
   .objective-text {
-    color: $gray-700;
+    color: #0f172a;
+    line-height: 1.7;
   }
 }
 
@@ -331,14 +467,14 @@ section {
   background-color: $white;
 
   &__content {
-    max-width: 56rem;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 1000px;
+    margin-inline: auto;
   }
 
   &-prose {
     p {
-      font-size: 1.125rem;
+      font-size: 1.05rem;
+      line-height: 1.9;
       color: $gray-700;
       margin-bottom: 1.5rem;
 
@@ -351,14 +487,16 @@ section {
   .highlight-box {
     background: rgba($light-blue, 0.1);
     border-left: 4px solid $primary-blue;
+
     padding: 1.5rem;
+
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 
     &__title {
       font-size: 1.125rem;
-      font-weight: 500;
-      color: $primary-blue;
+      font-weight: 700;
+      color: $primary-blue !important;
       margin-bottom: 0.5rem;
     }
   }
@@ -376,22 +514,21 @@ section {
   }
 
   .cta-title {
-    font-size: 1.875rem;
+    font-size: clamp(1.8rem, 3vw, 2.3rem);
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
 
   .cta-text {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
     margin-bottom: 2rem;
   }
 
   .cta-actions {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    gap: 1rem;
   }
 }
 
@@ -400,17 +537,22 @@ section {
 //=================================================================
 .btn {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+
+  padding: 0.9rem 1.7rem;
+
+  border-radius: 0.75rem;
+
   font-weight: 600;
   text-decoration: none;
+
   transition: $transition-normal;
+
   cursor: pointer;
   border: 2px solid transparent;
 
   &.btn-lg {
     padding: 1rem 2rem;
-    font-size: 1.125rem;
+    font-size: 1.05rem;
   }
 
   &.btn-secondary {
@@ -418,7 +560,7 @@ section {
     color: $primary-blue;
 
     &:hover {
-      background-color: rgba($white, 0.9);
+      background-color: rgba($white, 0.92);
       transform: translateY(-2px);
     }
   }
@@ -433,30 +575,6 @@ section {
       color: $primary-blue;
       transform: translateY(-2px);
     }
-  }
-}
-
-//=================================================================
-// Media Queries (Responsiveness)
-//=================================================================
-// Small screens (sm)
-@media (min-width: 640px) {
-  .cta-actions {
-    flex-direction: row;
-  }
-}
-
-// Medium screens (md)
-@media (min-width: 768px) {
-  .objectives__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-// Large screens (lg)
-@media (min-width: 1024px) {
-  .mission-vision__grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

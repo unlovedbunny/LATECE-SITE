@@ -187,9 +187,15 @@ const getInitials = (name: string): string => {
 
 <style scoped lang="scss">
 // Variáveis
-$primary-blue: #1D8A9F;
-$light-blue: #64B8D1;
-$primary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+$primary-blue: #005a9c;
+$light-blue: #4d9de0;
+
+$primary-gradient: linear-gradient(
+  135deg,
+  #005a9c 0%,
+  #0f76bc 55%,
+  #4d9de0 100%
+);
 $gray-50: #f9fafb;
 $gray-200: #e5e7eb;
 $gray-400: #9ca3af;

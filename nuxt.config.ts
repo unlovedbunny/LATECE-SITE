@@ -2,6 +2,8 @@ import { fileURLToPath } from 'url' // Importe isso no topo do arquivo
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
+  
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   
@@ -51,6 +53,9 @@ export default defineNuxtConfig({
 
   // App configuration
   app: {
+
+    baseURL: '/LATECE-SITE/',
+
     head: {
       title: 'Portal LATECE - Laboratório de Tecnologia Assistiva',
       meta: [
@@ -141,6 +146,7 @@ export default defineNuxtConfig({
 
   // Nitro configuration
   nitro: {
+    preset: 'github_pages',
     experimental: {
       wasm: true
     }
