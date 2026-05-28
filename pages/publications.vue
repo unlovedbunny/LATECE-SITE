@@ -200,8 +200,6 @@ const downloadPublication = (publication: Publication) => {
 
 <style scoped lang="scss">
 // Variáveis
-$primary-blue: #005a9c;
-$light-blue: #4d9de0;
 
 $primary-gradient: linear-gradient(
   135deg,

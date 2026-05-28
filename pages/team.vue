@@ -36,7 +36,7 @@
                 rel="noopener noreferrer"
                 :aria-label="`Ver currículo Lattes de ${member.name}`"
               )
-                img(src="/images/lattes.png" alt="Lattes" width="24" height="24" style="object-fit: contain;")
+                img(src="/images/icons/lattes.png" alt="Lattes" width="24" height="24" style="object-fit: contain;")
               a.member-link(
                 v-if="member.linkedinUrl"
                 :href="member.linkedinUrl"
@@ -82,7 +82,7 @@
                 rel="noopener noreferrer"
                 :aria-label="`Ver currículo Lattes de ${member.name}`"
               )
-                img(src="/images/lattes.png" alt="Lattes" width="24" height="24" style="object-fit: contain;")
+                img(src="/images/icons/lattes.png" alt="Lattes" width="24" height="24" style="object-fit: contain;")
 
               a.member-link(
                 v-if="member.linkedinUrl"
@@ -120,7 +120,7 @@
                 rel="noopener noreferrer"
                 :aria-label="`Ver currículo Lattes de ${member.name}`"
               )
-                img(src="/images/lattes.png" alt="Lattes" width="20" height="20" style="object-fit: contain;")
+                img(src="/images/icons/lattes.png" alt="Lattes" width="20" height="20" style="object-fit: contain;")
               a.member-link(
                 v-if="member.linkedinUrl"
                 :href="member.linkedinUrl"
@@ -187,8 +187,6 @@ const getInitials = (name: string): string => {
 
 <style scoped lang="scss">
 // Variáveis
-$primary-blue: #005a9c;
-$light-blue: #4d9de0;
 
 $primary-gradient: linear-gradient(
   135deg,

@@ -236,8 +236,6 @@ watch(selectedCategory, () => {
 
 <style scoped lang="scss">
 // Variables
-$primary-blue: #005a9c;
-$light-blue: #4d9de0;
 
 $primary-gradient: linear-gradient(
   135deg,

@@ -28,6 +28,7 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/scss/variables.scss";
 .app-layout {
   min-height: 100vh;
   background-color: #f9fafb;

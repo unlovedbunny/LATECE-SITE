@@ -840,7 +840,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: absolute;
     inset: 0;
 
-    background: url('../assets/imagem.png') center/cover no-repeat;
+    background: url('../assets/images/backgrounds/imagem.png') center/cover no-repeat;
 
     z-index: 1;
   }

@@ -2,11 +2,13 @@
   footer.site-footer
     .container
       .footer-grid
+
         //- Logo and description
+        
         .footer-section
           .footer-logos
-            img(src="/images/logo01.png" alt="Logo LATECE" height="40" style="object-fit: contain;")
-            img(src="/images/logo-ufrn.png" alt="Logo UFRN" height="70" style="object-fit: contain;")
+            img(src="@/assets/images/logos/logo.png" alt="Logo LATECE" height="40" style="object-fit: contain;")
+            img(src="@/assets/images/logos/logo-ufrn.png" alt="Logo UFRN" height="70" style="object-fit: contain;")
           p.description Laboratório de Tecnologia Assistiva do Centro de Educação
           p.tagline Promovendo inclusão e acessibilidade através da tecnologia
 
@@ -46,7 +48,7 @@
                 rel="noopener noreferrer"
                 aria-label="Instagram do LATECE"
               )
-                svg(width="22" height="22" fill="currentColor" viewBox="0 0 24 24")
+                svg(width="32" height="22" fill="currentColor" viewBox="0 0 24 24")
                   path(d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z")
               a.youtube-link(
                 href="https://www.youtube.com/channel/UCie5HHDcac4k2-7DaKWEuTQ"
@@ -68,23 +70,13 @@
 
 <style scoped lang="scss">
 //================================
-// Variables
-//================================
-$primary-blue: #005A9C;
-$light-blue: #4D9DE0;
-$white: #ffffff;
-$gray-200: #e5e7eb; // For primary text on dark background
-$gray-300: #d1d5db; // For secondary text on dark background
-$gray-600: #4b5563; // For the border on dark background
-$radius-lg: 0.5rem;
-
-//================================
 // Main Footer Layout
 //================================
 .site-footer {
   background-color: $primary-blue;
   color: $white;
   padding: 3rem 0;
+  background: #1565c0;
 }
 
 .container {
@@ -144,6 +136,7 @@ $radius-lg: 0.5rem;
       color: $primary-blue;
       font-weight: 700;
       font-size: 1.125rem;
+      
     }
   }
 
@@ -166,32 +159,34 @@ $radius-lg: 0.5rem;
 //================================
 // Titles, Lists, and Links
 //================================
-.footer-title {
-  font-size: 1.125rem;
+.footer-title { //feito
+  font-size: 1.35rem;
   font-weight: 600;
   position: relative;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 1.125rem;
+  color: rgba(255, 255, 255, 0.82);
 
-  &::after {
-    content: '';
+  &::after { //feito
+    content: "";
     position: absolute;
-    bottom: 0;
+    bottom: -0.25rem;
     left: 0;
-    width: 30px;
-    height: 2px;
+    width: 20px;
+    height: 2.625px;
     background-color: $light-blue;
-    border-radius: 1px;
+    border-radius: 10px;
   }
 }
 
-.footer-list {
+.footer-list { //feito
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 3;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  font-size: 1.125rem;
 }
 
 .footer-link {
@@ -208,11 +203,11 @@ $radius-lg: 0.5rem;
 //================================
 // Contact Section
 //================================
-.contact-info {
+.contact-info { //feito
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   color: $gray-200;
 }
 
@@ -232,7 +227,8 @@ $radius-lg: 0.5rem;
 //================================
 // Footer Bottom Bar
 //================================
-.footer-bottom {
+
+.footer-bottom { //feito
   border-top: 1px solid $gray-600;
   margin-top: 2rem;
   padding-top: 2rem;
@@ -241,9 +237,10 @@ $radius-lg: 0.5rem;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  
 }
 
-.copyright {
+.copyright { //feito
   font-size: 0.875rem;
   color: $gray-300;
   text-align: center;
@@ -260,14 +257,16 @@ $radius-lg: 0.5rem;
   }
 }
 
-.social-icons-item {
+.social-icons-item { //feito
   justify-content: flex-start;
-  margin-left: -2px;
+  margin-left: -6px;
 }
 
 .youtube-link {
   color: $gray-200;
-  transition: color 0.2s ease-in-out, transform 0.2s;
+  transition:
+    color 0.2s ease-in-out,
+    transform 0.2s;
   display: inline-flex;
 
   &:hover {
@@ -278,7 +277,9 @@ $radius-lg: 0.5rem;
 
 .instagram-link {
   color: $gray-200;
-  transition: color 0.2s ease-in-out, transform 0.2s;
+  transition:
+    color 0.2s ease-in-out,
+    transform 0.2s;
   display: inline-flex;
 
   &:hover {
@@ -293,7 +294,7 @@ $radius-lg: 0.5rem;
     gap: 0;
   }
   .copyright {
-    text-align: left; 
+    text-align: left;
   }
 }
 </style>

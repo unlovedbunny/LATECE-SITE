@@ -24,7 +24,7 @@
             aria-label="Instagram do LATECE"
           >
             <img
-              src="@/assets/instagram_icon.png"
+              src="@/assets/images/icons/instagram_icon.png"
               alt="Instagram"
               class="social-icon"
             />
@@ -41,7 +41,7 @@
             aria-label="YouTube do LATECE"
           >
             <img
-              src="@/assets/youtube_icon.png"
+              src="@/assets/images/icons/youtube_icon.png"
               alt="YouTube"
               class="social-icon"
             />
@@ -78,7 +78,7 @@
           <!-- Logo -->
           <NuxtLink class="logo" to="/">
             <div class="logo-icon">
-              <img src="../assets/logo.png" alt="logo latece" />
+              <img src="../assets/images/logos/logo.png" alt="logo latece" />
             </div>
             <div class="logo-text">
               <div class="logo-subtitle">

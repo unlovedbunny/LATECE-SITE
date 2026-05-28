@@ -29,7 +29,7 @@
         .about-intro__side
           .about-image-wrapper
             img.about-image(
-              src="@/assets/testinho.png"
+              src="@/assets/images/illustrations/testinho.png"
               alt="Equipe do LATECE"
             )
 
@@ -133,27 +133,8 @@ useHead({
 </script>
 
 <style scoped lang="scss">
-//=================================================================
-// Variables & Base Styles
-//=================================================================
-$primary-blue: #005a9c;
-$light-blue: #4d9de0;
-$olive-green: #7c982f;
-$mustard: #e3b448;
-$terracotta: #bd6b45;
-$dark-aqua: #368f8b;
-$white: #ffffff;
-$black: #000000;
-$gray-50: #f9fafb;
-$gray-700: #4a5568;
 
-$primary-gradient: linear-gradient(to bottom right, $primary-blue, $light-blue);
-
-$secondary-gradient: linear-gradient(
-  135deg,
-  $primary-blue 0%,
-  $light-blue 100%
-);
+@use "@/assets/scss/variables" as *;
 
 $transition-normal: all 0.3s ease-in-out;
 
@@ -399,7 +380,6 @@ section {
 // Objectives Section
 //=================================================================
 .objectives {
-  background-color: $gray-50;
 
   &__content {
     max-width: 1200px;
@@ -475,7 +455,6 @@ section {
     p {
       font-size: 1.05rem;
       line-height: 1.9;
-      color: $gray-700;
       margin-bottom: 1.5rem;
 
       &:last-of-type {
