@@ -2,7 +2,8 @@
 .equipment-page
   // Hero Section
   section.hero
-    .hero-content
+    .container.hero__container
+      .hero-content
       h1.hero-title Equipamentos de Tecnologia Assistiva
       p.hero-subtitle Explore nossos recursos e tecnologias para acessibilidade
   
@@ -169,12 +170,6 @@ const getStatusText = (status: Equipment['status']) => {
 <style scoped lang="scss">
 // Variáveis
 
-$primary-gradient: linear-gradient(
-  135deg,
-  #005a9c 0%,
-  #0f76bc 55%,
-  #4d9de0 100%
-);
 
 // Reset e Container
 .equipment-page {
@@ -189,7 +184,7 @@ $primary-gradient: linear-gradient(
 
 // Hero Section
 .hero {
-  background: $primary-gradient;
+  @include hero-background;
   padding: 5rem 1rem;
   text-align: center;
   color: white;
@@ -203,8 +198,6 @@ $primary-gradient: linear-gradient(
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
-    background-size: cover;
     opacity: 0.3;
   }
 }
@@ -219,6 +212,7 @@ $primary-gradient: linear-gradient(
   font-weight: 800;
   color: white;
   margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   animation: fadeInDown 0.8s ease-out;
 
   @media (max-width: 768px) {
@@ -275,7 +269,7 @@ $primary-gradient: linear-gradient(
 
   &:focus {
     outline: none;
-    border-color: $primary-blue;
+    border-color: $primary-color;
     box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
   }
 }
@@ -292,7 +286,7 @@ $primary-gradient: linear-gradient(
 
   &:focus {
     outline: none;
-    border-color: $primary-blue;
+    border-color: $primary-color;
     box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
   }
 }
@@ -359,7 +353,7 @@ $primary-gradient: linear-gradient(
   top: 1rem;
   left: 1rem;
   background: rgba(255,255,255,0.95);
-  color: $primary-blue;
+  color: $primary-color;
   padding: 0.4rem 1rem;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -374,7 +368,7 @@ $primary-gradient: linear-gradient(
 .equipment-name {
   font-size: 1.4rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: $primary-color;
   margin-bottom: 0.75rem;
 }
 
@@ -418,12 +412,12 @@ $primary-gradient: linear-gradient(
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s;
-  border: 2px solid $primary-blue;
+  border: 2px solid $primary-color;
   background: transparent;
-  color: $primary-blue;
+  color: $primary-color;
 
   &:hover {
-    background: $primary-blue;
+    background: $primary-color;
     color: white;
     transform: translateY(-2px);
   }
@@ -520,7 +514,7 @@ $primary-gradient: linear-gradient(
 .modal-title {
   font-size: 1.8rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: $primary-color;
 }
 
 .close-button {
@@ -572,7 +566,7 @@ $primary-gradient: linear-gradient(
 .info-label {
   font-size: 1.1rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: $primary-color;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;

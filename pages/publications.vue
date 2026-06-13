@@ -2,7 +2,8 @@
   .publications-page
     // Hero Section
     section.hero
-      .container
+      .container.hero__container
+      .hero-content
         h1.hero-title Publicações Científicas
         p.hero-subtitle Conheça nossas pesquisas e contribuições para a área de Tecnologia Assistiva
 
@@ -200,13 +201,8 @@ const downloadPublication = (publication: Publication) => {
 
 <style scoped lang="scss">
 // Variáveis
+@import "@/assets/scss/variables.scss";
 
-$primary-gradient: linear-gradient(
-  135deg,
-  #005a9c 0%,
-  #0f76bc 55%,
-  #4d9de0 100%
-);
 $gray-50: #f9fafb;
 $gray-100: #f3f4f6;
 $gray-200: #e5e7eb;
@@ -247,10 +243,10 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
 
 // Hero Section
 .hero {
-  padding: 6rem 0 5rem;
-  background: $primary-gradient;
-  color: white;
+  @include hero-background;
+  padding: 5rem 1rem;
   text-align: center;
+  color: white;
   position: relative;
   overflow: hidden;
 
@@ -261,9 +257,14 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.4;
+    opacity: 0.3;
+
   }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
@@ -271,23 +272,18 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
   font-weight: 800;
   color: white;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.2);
-  position: relative;
-  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeInDown 0.8s ease-out;
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 }
 
 .hero-subtitle {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   opacity: 0.95;
-  max-width: 700px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  font-weight: 300;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -333,7 +329,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
 
     &:focus {
       outline: none;
-      border-color: $primary-blue;
+      border-color: $primary-color;
       box-shadow: 0 0 0 3px $focus-ring-color;
     }
 
@@ -375,7 +371,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
 
   &:focus {
     outline: none;
-    border-color: $primary-blue;
+    border-color: $primary-color;
     box-shadow: 0 0 0 3px $focus-ring-color;
   }
 
@@ -407,7 +403,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(29, 138, 159, 0.15);
-    border-color: $primary-blue;
+    border-color: $primary-color;
   }
 }
 
@@ -438,7 +434,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
 
 .publication-type {
   padding: 0.375rem 1rem;
-  background: linear-gradient(135deg, $primary-blue, $light-blue);
+  background: linear-gradient(135deg, $primary-color, $light-blue);
   color: white;
   border-radius: 2rem;
   font-size: 0.875rem;
@@ -486,7 +482,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
   transition: color 0.2s;
 
   .publication-item:hover & {
-    color: $primary-blue;
+    color: $primary-color;
   }
 }
 
@@ -525,7 +521,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
   transition: all 0.2s;
 
   &:hover {
-    background-color: $primary-blue;
+    background-color: $primary-color;
     color: white;
     transform: translateY(-1px);
   }
@@ -556,7 +552,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
   white-space: nowrap;
 
   &.btn-primary {
-    background: linear-gradient(135deg, $primary-blue, $light-blue);
+    background: linear-gradient(135deg, $primary-color, $light-blue);
     color: white;
     box-shadow: 0 2px 8px rgba(29, 138, 159, 0.3);
 
@@ -572,11 +568,11 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
 
   &.btn-outline {
     background-color: white;
-    border-color: $primary-blue;
-    color: $primary-blue;
+    border-color: $primary-color;
+    color: $primary-color;
 
     &:hover {
-      background-color: $primary-blue;
+      background-color: $primary-color;
       color: white;
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(29, 138, 159, 0.2);
@@ -684,7 +680,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.3);
 .meta-label {
   font-size: 0.875rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: $primary-color;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;

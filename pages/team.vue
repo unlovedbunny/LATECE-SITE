@@ -2,7 +2,8 @@
 .team-page
   // Hero Section
   section.hero
-    .hero-content
+    .container.hero__container
+      .hero-content
       h1.hero-title Nossa Equipe
       p.hero-subtitle Conheça os profissionais dedicados à Tecnologia Assistiva
 
@@ -188,12 +189,12 @@ const getInitials = (name: string): string => {
 <style scoped lang="scss">
 // Variáveis
 
-$primary-gradient: linear-gradient(
+/* $primary-gradient: linear-gradient(
   135deg,
   #005a9c 0%,
   #0f76bc 55%,
   #4d9de0 100%
-);
+); */
 $gray-50: #f9fafb;
 $gray-200: #e5e7eb;
 $gray-400: #9ca3af;
@@ -208,24 +209,27 @@ $gray-700: #374151;
 }
 
 // Hero Section
-.hero {
-  background: $primary-gradient;
-  padding: 5rem 1rem;
-  text-align: center;
-  color: white;
-  position: relative;
-  overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
-    background-size: cover;
-    opacity: 0.3;
+.hero {
+  @include hero-background;
+  padding-block: clamp(2.2rem, 4vw, 3rem);
+  color: $white;
+
+  &__container {
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.7rem, 3vw, 1.7rem);
+    margin-bottom: 2.5rem;
   }
 }
 
@@ -273,7 +277,7 @@ $gray-700: #374151;
   position: relative;
   font-size: 1.875rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: black;
   margin-bottom: 3rem;
   text-align: center;
   padding-bottom: 0.5rem;
@@ -389,7 +393,7 @@ $gray-700: #374151;
 .member-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: $primary-blue;
+  color: black;
   margin-bottom: 0.5rem;
 }
 
@@ -414,7 +418,7 @@ $gray-700: #374151;
 }
 
 .member-link {
-  color: $primary-blue;
+  color: $primary-color;
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;

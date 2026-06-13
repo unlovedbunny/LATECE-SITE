@@ -1,6 +1,3 @@
-// Import variables
-@use 'variables' as *;
-
 // Base styles
 * {
   box-sizing: border-box;
@@ -27,7 +24,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: $font-bold;
   line-height: 1.2;
   margin: 0 0 $spacing-md 0;
-  color: $primary-blue;
+  color: $primary-color;
 }
 
 h1 {
@@ -78,7 +75,7 @@ p {
 }
 
 a {
-  color: $primary-blue;
+  color: $primary-color;
   text-decoration: none;
   transition: color $transition-fast;
   
@@ -87,7 +84,7 @@ a {
   }
   
   &:focus {
-    outline: 2px solid $primary-blue;
+    outline: 2px solid $primary-color;
     outline-offset: 2px;
   }
 }
@@ -124,10 +121,10 @@ a {
 .btn-primary {
   background: $primary-gradient;
   color: $white;
-  border-color: $primary-blue;
+  border-color: $primary-color;
   
   &:hover:not(:disabled) {
-    background: $primary-blue;
+    background: $primary-color;
     transform: translateY(-1px);
     box-shadow: $shadow-lg;
   }
@@ -135,22 +132,22 @@ a {
 
 .btn-secondary {
   background: $white;
-  color: $primary-blue;
-  border-color: $primary-blue;
+  color: $primary-color;
+  border-color: $primary-color;
   
   &:hover:not(:disabled) {
-    background: $primary-blue;
+    background: $primary-color;
     color: $white;
   }
 }
 
 .btn-outline {
   background: transparent;
-  color: $primary-blue;
-  border-color: $primary-blue;
+  color: $primary-color;
+  border-color: $primary-color;
   
   &:hover:not(:disabled) {
-    background: $primary-blue;
+    background: $primary-color;
     color: $white;
   }
 }
@@ -181,8 +178,8 @@ a {
 
 .card-header {
   padding: $spacing-lg;
-  border-bottom: 1px solid rgba($primary-blue, 0.1);
-  background: rgba($primary-blue, 0.05);
+  border-bottom: 1px solid rgba($primary-color, 0.1);
+  background: rgba($primary-color, 0.05);
 }
 
 .card-body {
@@ -191,8 +188,8 @@ a {
 
 .card-footer {
   padding: $spacing-lg;
-  border-top: 1px solid rgba($primary-blue, 0.1);
-  background: rgba($primary-blue, 0.02);
+  border-top: 1px solid rgba($primary-color, 0.1);
+  background: rgba($primary-color, 0.02);
 }
 
 // Forms
@@ -216,13 +213,13 @@ a {
   line-height: 1.5;
   color: $dark-gray;
   background-color: $white;
-  border: 2px solid rgba($primary-blue, 0.2);
+  border: 2px solid rgba($primary-color, 0.2);
   border-radius: $radius-md;
   transition: border-color $transition-fast, box-shadow $transition-fast;
   
   &:focus {
     outline: none;
-    border-color: $primary-blue;
+    border-color: $primary-color;
     box-shadow: $focus-ring;
   }
   
@@ -241,15 +238,15 @@ a {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-.text-primary { color: $primary-blue; }
+.text-primary { color: $primary-color; }
 .text-secondary { color: $light-blue; }
 .text-success { color: $moss-green; }
 .text-warning { color: $mustard; }
 .text-danger { color: $terracotta; }
 .text-muted { color: rgba($dark-gray, 0.6); }
 
-.bg-primary { background-color: $primary-blue; }
-.bg-light { background-color: rgba($primary-blue, 0.05); }
+.bg-primary { background-color: $primary-color; }
+.bg-light { background-color: rgba($primary-color, 0.05); }
 .bg-gradient { background: $primary-gradient; }
 
 .d-none { display: none; }
@@ -310,7 +307,7 @@ a {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: $primary-blue;
+  background: $primary-color;
   color: $white;
   padding: 8px;
   text-decoration: none;
@@ -332,7 +329,7 @@ a {
   }
   
   .card {
-    border: 2px solid $primary-blue;
+    border: 2px solid $primary-color;
   }
 }
 
@@ -352,7 +349,7 @@ a {
 // Keyboard navigation styles
 .keyboard-navigation {
   *:focus {
-    outline: 2px solid $primary-blue !important;
+    outline: 2px solid $primary-color !important;
     outline-offset: 2px !important;
   }
 }
@@ -400,7 +397,7 @@ a {
 
 // Focus styles for better accessibility
 *:focus {
-  outline: 2px solid $primary-blue;
+  outline: 2px solid $primary-color;
   outline-offset: 2px;
 }
 
@@ -409,7 +406,7 @@ a {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: $primary-blue;
+  background: $primary-color;
   color: white;
   padding: 8px 16px;
   text-decoration: none;

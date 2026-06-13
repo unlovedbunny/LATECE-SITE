@@ -3,6 +3,7 @@
   // Hero Section
   section.hero
     .container.hero__container
+      .hero-content
       h1.hero-title {{ $t('about.title') }}
       p.hero-subtitle {{ $t('about.subtitle') }}
 
@@ -34,7 +35,7 @@
             )
 
           NuxtLink.team-button(to="/team")
-            span.team-button__icon →
+            // span.team-button__icon →
             span Nossa Equipe
 
   // Mission and Vision Section
@@ -141,6 +142,7 @@ $transition-normal: all 0.3s ease-in-out;
 //=================================================================
 // Base Container
 //=================================================================
+
 .container {
   width: min(94%, 1400px);
   margin-inline: auto;
@@ -149,6 +151,7 @@ $transition-normal: all 0.3s ease-in-out;
 //=================================================================
 // Section Base
 //=================================================================
+
 section {
   padding-block: clamp(3rem, 6vw, 5rem);
 }
@@ -157,7 +160,7 @@ section {
   position: relative;
   font-size: clamp(1.8rem, 3vw, 2.2rem);
   font-weight: 700;
-  color: $primary-blue;
+  color: black;
   margin-bottom: 3rem;
   text-align: center;
 
@@ -177,6 +180,7 @@ section {
 //=================================================================
 // Card Base
 //=================================================================
+
 .card {
   padding: clamp(1.5rem, 3vw, 2rem);
   transition: $transition-normal;
@@ -190,8 +194,8 @@ section {
 // Hero Section
 //=================================================================
 .hero {
+  @include hero-background;
   padding-block: clamp(2.2rem, 4vw, 3rem);
-  background: $primary-gradient;
   color: $white;
 
   &__container {
@@ -207,7 +211,7 @@ section {
   }
 
   .hero-subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-size: clamp(1.7rem, 3vw, 1.7rem);
     margin-bottom: 2.5rem;
   }
 }
@@ -218,63 +222,63 @@ section {
 .about-intro {
   background: white;
 
-  &__grid {
+  &__grid { //grid para o texto e a imagem
     display: grid;
-    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 420px);
+    grid-template-columns: minmax(0, 1.3fr) minmax(380px, 520px);
 
     gap: clamp(2rem, 5vw, 5rem);
 
     align-items: start;
 
-    @media (max-width: 980px) {
+    @media (max-width: 980px) { //quebra para telas menores
       grid-template-columns: 1fr;
     }
   }
 
-  &__title {
-    font-size: clamp(2rem, 3vw, 2.6rem);
+  &__title { //título quem somos
+    font-size: clamp(3rem, 3vw, 2.6rem);
     font-weight: 800;
-    color: $primary-blue;
+    color: $gray-400;
     margin-bottom: 2rem;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   }
 
-  &__text {
+  &__text { //espaçamento entre os parágrafos
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 
+    //texto quem somos
     p {
-      font-size: clamp(1rem, 1.3vw, 1.12rem);
+      font-size: clamp(1.55rem, 1.3vw, 1.12rem);
       line-height: 1.9;
-      color: #475569;
+      color: $gray-600;
       text-align: justify;
     }
   }
 
-  &__side {
+  &__side { //lado da imagem
     display: flex;
     flex-direction: column;
     align-items: center;
-
     gap: 1.5rem;
   }
 }
 
-.about-image-wrapper {
+.about-image-wrapper { //estilização da imagem
   width: 100%;
   border-radius: 1rem;
   overflow: hidden;
-
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
 }
 
-.about-image {
+.about-image { //estilização da imagem
   width: 100%;
   height: auto;
   display: block;
 }
 
-.team-button {
+.team-button { // botão para a equipe
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -283,20 +287,21 @@ section {
   width: 100%;
   max-width: 230px;
 
-  padding: 1rem 1.4rem;
+  padding: 1.2rem 1.4rem;
 
   border-radius: 0.8rem;
 
   background: linear-gradient(
     135deg,
-    #0f76bc 0%,
-    #1693de 100%
-  );
+    #7e40e9 20%
+  ); 
 
-  color: white;
-  text-decoration: none;
+  color: white; //cor do texto do botão
 
-  font-size: 1rem;
+   border-top: 1px dashed white;   // linha de cima
+   border-bottom: 1px dashed white; // linha de baixo
+
+  font-size: 1.25rem;
   font-weight: 700;
 
   transition:
@@ -304,39 +309,18 @@ section {
     box-shadow 0.25s ease,
     background 0.25s ease;
 
-  box-shadow: 0 10px 25px rgba(15, 118, 188, 0.25);
+  // box-shadow: 0 10px 25px rgba(15, 118, 188, 0.25);
 
-  &:hover {
+  &:hover { 
     transform: translateY(-3px);
-    box-shadow: 0 16px 35px rgba(15, 118, 188, 0.35);
-  }
-
-  &__icon {
-    width: 28px;
-    height: 28px;
-
-    border-radius: 999px;
-
-    background: rgba(255,255,255,0.18);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 1rem;
-    font-weight: 800;
-
-    transition: transform 0.25s ease;
-  }
-
-  &:hover &__icon {
-    transform: translateX(4px);
+    box-shadow: 0 16px 35px rgba(98, 0, 255, 0.35);
   }
 }
 
 //=================================================================
 // Mission & Vision Section
 //=================================================================
+
 .mission-vision {
   background-color: $white;
 
@@ -354,7 +338,7 @@ section {
   .card-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: $primary-blue;
+    color: black;
     margin-bottom: 1rem;
   }
 
@@ -366,12 +350,12 @@ section {
   .icon {
     width: 4rem;
     height: 4rem;
-    background-color: $primary-blue;
+    background-color: $orange-red;
     border-radius: 9999px;
     margin-bottom: 1.5rem;
 
     &--vision {
-      background-color: $light-blue;
+      background-color: $green;
     }
   }
 }
@@ -430,7 +414,7 @@ section {
   .objective-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: $primary-blue;
+    color: black;
     margin-bottom: 0.75rem;
   }
 
@@ -445,27 +429,25 @@ section {
 //=================================================================
 .justification {
   background-color: $white;
-
+  
   &__content {
     max-width: 1000px;
     margin-inline: auto;
   }
-
+  
   &-prose {
     p {
       font-size: 1.05rem;
       line-height: 1.9;
       margin-bottom: 1.5rem;
-
+      
       &:last-of-type {
         margin-bottom: 2rem;
       }
     }
   }
-
+  
   .highlight-box {
-    background: rgba($light-blue, 0.1);
-    border-left: 4px solid $primary-blue;
 
     padding: 1.5rem;
 
@@ -473,9 +455,9 @@ section {
     border-bottom-right-radius: 0.5rem;
 
     &__title {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: $primary-blue !important;
+      font-size: 1.59rem;
+      font-weight: 900;
+      color: black !important;
       margin-bottom: 0.5rem;
     }
   }
@@ -485,8 +467,8 @@ section {
 // CTA Section
 //=================================================================
 .cta {
-  background: $secondary-gradient;
-  color: $white;
+    @include hero-background;
+    color: white;
 
   &__container {
     text-align: center;
@@ -494,6 +476,7 @@ section {
 
   .cta-title {
     font-size: clamp(1.8rem, 3vw, 2.3rem);
+    color: white;
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
@@ -536,7 +519,7 @@ section {
 
   &.btn-secondary {
     background-color: $white;
-    color: $primary-blue;
+    // color: $primary-color;
 
     &:hover {
       background-color: rgba($white, 0.92);
@@ -551,7 +534,7 @@ section {
 
     &:hover {
       background-color: $white;
-      color: $primary-blue;
+      //color: $primary-color;
       transform: translateY(-2px);
     }
   }

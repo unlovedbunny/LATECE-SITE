@@ -308,10 +308,11 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-$primary-blue: #005a9c;
-$nav-bg: #1565c0;
-$nav-active-border: #64b5f6;
-$primary-gradient: linear-gradient(135deg, #005a9c 0%, #4d9de0 100%);
+// LATECE Brand Colors (Purple)
+$primary-color: #2e1065;
+$nav-bg: #461491;
+$nav-active-border: #a78bfa;
+$primary-gradient: linear-gradient(135deg, #461491 0%, #7f38f1 55%, #5C57A6 100%);
 $transition-fast: all 0.2s ease-in-out;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -329,7 +330,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
    ================================= */
 
 .top-bar {
-  background: linear-gradient(135deg, #487fff 0%, #003791 100%);
+  background: linear-gradient(135deg, #7f38f1 0%, #2e1065 100%);
   color: white;
   padding: 0.35rem 0;
   font-size: 1rem;
@@ -532,7 +533,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     .logo-subtitle {
       font-size: 1.1rem;
-      color: #1e3a8a;
+      color: #2e1065;
       font-weight: 800;
       max-width: min(100%, 500px);
       line-height: 1.5rem;
@@ -664,7 +665,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     align-items: center;
     justify-content: center;
 
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
     flex-shrink: 0;
 
     span {
@@ -815,8 +816,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &:hover {
-      background: rgba(37, 99, 235, 0.05);
-      color: $primary-blue;
+      background: rgba(124, 58, 237, 0.05);
+      color: $primary-color;
     }
 
     &.logout {
@@ -856,7 +857,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    background: rgba(37, 99, 235, 0.05);
+    background: rgba(124, 58, 237, 0.05);
   }
 
   &.active {
@@ -883,7 +884,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     .line {
       width: 100%;
       height: 3px;
-      background: $primary-blue;
+      background: $primary-color;
       border-radius: 2px;
       transition: $transition-smooth;
     }
@@ -944,14 +945,14 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &:hover {
-      color: $primary-blue;
-      background: rgba(37, 99, 235, 0.05);
+      color: $primary-color;
+      background: rgba(124, 58, 237, 0.05);
       transform: translateX(4px);
     }
 
     &.router-link-active {
-      color: $primary-blue;
-      background: rgba(37, 99, 235, 0.08);
+      color: $primary-color;
+      background: rgba(124, 58, 237, 0.08);
       font-weight: 700;
     }
   }

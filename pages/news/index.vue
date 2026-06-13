@@ -1,3 +1,4 @@
+
 <template lang="pug">
 .news-page-container
   // Hero Header
@@ -237,12 +238,6 @@ watch(selectedCategory, () => {
 <style scoped lang="scss">
 // Variables
 
-$primary-gradient: linear-gradient(
-  135deg,
-  #005a9c 0%,
-  #0f76bc 55%,
-  #4d9de0 100%
-);
 $text-dark: #111827;
 $text-light: #6b7280;
 $bg-light: #f9fafb;
@@ -258,7 +253,7 @@ $border-color: #e5e7eb;
 // Hero Header
 .page-header {
   position: relative;
-  background: $primary-gradient;
+  @include hero-background;
   padding: 4rem 1rem;
   text-align: center;
   color: white;
@@ -271,7 +266,6 @@ $border-color: #e5e7eb;
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom; //img de fundo tela inicial
   background-size: cover;
   opacity: 0.3;
 }
@@ -347,7 +341,7 @@ $border-color: #e5e7eb;
 
   &:focus {
     outline: none;
-    border-color: $primary-blue;
+    border-color: $primary-color;
     box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
   }
 }
@@ -526,7 +520,7 @@ $border-color: #e5e7eb;
   gap: 0.5rem;
   background: transparent;
   border: none;
-  color: $primary-blue;
+  color: $primary-color;
   font-weight: 600;
   padding: 0;
   cursor: pointer;
@@ -561,15 +555,15 @@ $border-color: #e5e7eb;
   transition: all 0.2s;
 
   &:hover:not(:disabled) {
-    border-color: $primary-blue;
-    color: $primary-blue;
+    border-color: $primary-color;
+    color: $primary-color;
     background: rgba(29, 138, 159, 0.05);
   }
 
   &.active {
-    background: $primary-blue;
+    background: $primary-color;
     color: white;
-    border-color: $primary-blue;
+    border-color: $primary-color;
   }
 
   &:disabled {
@@ -679,7 +673,7 @@ $border-color: #e5e7eb;
     line-height: 1.8;
 
     :deep(p) { margin-bottom: 1.25rem; }
-    :deep(strong) { font-weight: 700; color: $primary-blue; }
+    :deep(strong) { font-weight: 700; color: $primary-color; }
     :deep(ul) { 
       margin-bottom: 1.5rem; 
       padding-left: 1.5rem;
@@ -699,7 +693,7 @@ $border-color: #e5e7eb;
 }
 
 .clear-filters-button {
-  background: $primary-blue;
+  background: $primary-color;
   color: white;
   border: none;
   padding: 0.75rem 2rem;
@@ -719,7 +713,7 @@ $border-color: #e5e7eb;
     width: 50px;
     height: 50px;
     border: 4px solid rgba(29, 138, 159, 0.1);
-    border-left-color: $primary-blue;
+    border-left-color: $primary-color;
     border-radius: 50%;
     margin: 0 auto 1.5rem;
     animation: spin 1s linear infinite;

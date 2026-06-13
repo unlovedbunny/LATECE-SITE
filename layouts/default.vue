@@ -38,7 +38,7 @@ onMounted(async () => {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: $primary-blue;
+  background: $primary-color;
   color: white;
   padding: 8px;
   text-decoration: none;

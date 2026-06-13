@@ -1,9 +1,31 @@
 // LATECE Brand Colors
+//purple scale
+$purple-dark: #5B1FA6;
+$purple-primary: #7C3AED;
+$purple-deep: #6B21A8;
+$purple-medium: #9333EA; 
+$purple-light: #C4B5FD;
+$purple-soft: #EDE9FE;
+$purple-muted: #D8B4FE;
+$purple-bg: #F3E8FF;
+$purple-900: #2e1065;
+$purple-800: #a78bfa;
+$purple-700: #0f172a;
+$purple-600: #461491;
 // Cores Primárias
-$primary-blue: #1D8A9F;
+
+$primary-color: $purple-900;
+
+$primary-gradient: linear-gradient(
+  135deg,
+  #461491 0%,
+  #7f38f1 55%,
+  #5C57A6 100%
+);
+
+// $primary-color: #1D8A9F; 
 $light-blue: #64B8D1;
-$dark-gray: #333333;
-$white: #FFFFFF;
+$white: #FFFFFF; 
 
 // Cores Secundárias / Complementares
 $olive-green: #928B45;
@@ -12,16 +34,36 @@ $terracotta: #C77A5B;
 $burnt-orange: #D29C6C;
 $moss-green: #7B855D;
 $dark-aqua: #369D85;
+$orange-red: #E25822;
+$green: #4CAF50;
 
-// Gray scale (adiciona isso)
+// Gray scale
 $gray-50: #f9fafb;
+$dark-gray: #333333;
 $gray-200: #e5e7eb;
 $gray-300: #d1d5db;
-$gray-700: #4a5568;
+$gray-400: #9ca3af;
+$gray-500: #4b5563;
 $gray-600: #4b5563;
+$gray-700: #4a5568;
+$gray-800: #1f2937;
+$gray-900: #383838;
 
-// Gradients
-$primary-gradient: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+
+ // Gradients
+
+ $primary-dark: darken($primary-color, 12%);
+$primary-light: lighten($primary-color, 15%);
+
+
+/* blue
+$primary-gradient: linear-gradient(
+  135deg,
+  #005a9c 0%,
+  #0f76bc 55%,
+  #4d9de0 100%
+); */
+
 $secondary-gradient: linear-gradient(135deg, $olive-green 0%, $mustard 100%);
 
 // Typography
@@ -81,5 +123,52 @@ $transition-normal: 0.3s ease-in-out;
 $transition-slow: 0.5s ease-in-out;
 
 // Accessibility
-$focus-ring: 0 0 0 3px rgba($primary-blue, 0.3);
-$focus-ring-inset: inset 0 0 0 3px rgba($primary-blue, 0.3);
+$focus-ring: 0 0 0 3px rgba($primary-color, 0.3);
+$focus-ring-inset: inset 0 0 0 3px rgba($primary-color, 0.3);
+
+// ================================================================
+// HERO BACKGROUND (GLOBAL)
+// ================================================================
+
+@mixin hero-background {
+  background: $primary-gradient;
+
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+
+    background: url('data:image/svg+xml,<svg ... />') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+/* blue
+@mixin hero-background {
+  background: linear-gradient(
+    135deg,
+    #005a9c 0%,
+    #0f76bc 55%,
+    #4d9de0 100%
+  ); */
+
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>')
+      no-repeat bottom;
+
+    background-size: cover;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}

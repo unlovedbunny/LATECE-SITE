@@ -112,13 +112,20 @@ const formatDate = (dateString: string | undefined) => {
   })
 }
 </script>
-  
-```vue
+
 <style scoped lang="scss">
-$primary-blue: #005a9c;
-$nav-bg: #1565c0;
-$nav-active-border: #64b5f6;
-$primary-gradient: linear-gradient(135deg, #005a9c 0%, #4d9de0 100%);
+// LATECE Brand Colors (Purple)
+$primary-color: #2e1065;
+$nav-bg: #461491;
+$nav-active-border: #A78BFA;
+
+$primary-gradient: linear-gradient(
+  135deg,
+  #461491 0%,
+  #7f38f1 55%,
+  #5C57A6 100%
+);
+
 $transition-fast: all 0.2s ease-in-out;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -136,7 +143,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
    ================================= */
 
 .top-bar {
-  background: linear-gradient(135deg, #487fff 0%, #003791 100%);
+  background: linear-gradient(135deg, #7f38f1 0%, #461491 100%);
   color: white;
   padding: 0.35rem 0;
   font-size: 1rem;
@@ -333,7 +340,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     .logo-subtitle {
       font-size: 1.1rem;
-      color: #1e3a8a;
+      color: #2e1065;
       font-weight: 800;
       max-width: min(100%, 500px);
       line-height: 1.5rem;
@@ -455,7 +462,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     align-items: center;
     justify-content: center;
 
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
     flex-shrink: 0;
 
     span {
@@ -606,8 +613,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &:hover {
-      background: rgba(37, 99, 235, 0.05);
-      color: $primary-blue;
+      background: rgba(124, 58, 237, 0.05);
+      color: $primary-color;
     }
 
     &.logout {
@@ -647,7 +654,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    background: rgba(37, 99, 235, 0.05);
+    background: rgba(124, 58, 237, 0.05);
   }
 
   &.active {
@@ -674,7 +681,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     .line {
       width: 100%;
       height: 3px;
-      background: $primary-blue;
+      background: $primary-color;
       border-radius: 2px;
       transition: $transition-smooth;
     }
@@ -735,14 +742,14 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &:hover {
-      color: $primary-blue;
-      background: rgba(37, 99, 235, 0.05);
+      color: $primary-color;
+      background: rgba(124, 58, 237, 0.05);
       transform: translateX(4px);
     }
 
     &.router-link-active {
-      color: $primary-blue;
-      background: rgba(37, 99, 235, 0.08);
+      color: $primary-color;
+      background: rgba(124, 58, 237, 0.08);
       font-weight: 700;
     }
   }
@@ -800,21 +807,6 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: #94a3b8;
   }
 }
-</style>
-```
-
----
-
-```vue
-<style scoped lang="scss">
-/* =================================
-   GLOBAL CONTAINER
-   ================================= */
-
-.container {
-  width: min(100% - 2rem, 1100px);
-  margin-inline: auto;
-}
 
 /* =================================
    HERO
@@ -836,11 +828,13 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &::before {
     content: '';
-
     position: absolute;
     inset: 0;
 
-    background: url('../assets/images/backgrounds/imagem.png') center/cover no-repeat;
+    background-image: url('images/backgrounds/lab.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     z-index: 1;
   }
@@ -853,9 +847,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     background: linear-gradient(
       135deg,
-      rgba(37, 99, 235, 0.92) 0%,
-      rgba(59, 130, 246, 0.88) 20%,
-      rgba(14, 165, 233, 0.85) 80%
+      rgba(46, 16, 101, 0.92) 0%,
+      rgba(91, 31, 166, 0.88) 15%,
+      rgba(124, 58, 237, 0.85) 40%
     );
 
     z-index: 2;
@@ -873,7 +867,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .hero-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 900;
 
     color: white;
@@ -889,7 +883,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .hero-subtitle {
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
 
     margin-bottom: 1rem;
 
@@ -901,13 +895,13 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .hero-description {
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    font-size: clamp(1.125rem, 1.5vw, 1.25rem);
 
     margin-bottom: 2.5rem;
 
-    line-height: 1.7;
+    line-height: 2;
 
-    opacity: 0.95;
+    opacity: 100%;
 
     max-width: min(100%, 650px);
 
@@ -952,7 +946,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     .btn-secondary {
       background: white;
-      color: $primary-blue;
+      color: $primary-color;
 
       &:hover {
         background: rgba(255, 255, 255, 0.95);
@@ -1118,7 +1112,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
 
-      border-color: rgba(37, 99, 235, 0.35);
+      border-color: rgba(124, 58, 237, 0.35);
     }
   }
 
@@ -1209,8 +1203,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     border-radius: 999px;
 
-    border: 3px solid rgba(37, 99, 235, 0.3);
-    border-top-color: #2563eb;
+    border: 3px solid rgba(124, 58, 237, 0.3);
+    border-top-color: #7C3AED;
 
     animation: spin 1s linear infinite;
   }
@@ -1225,7 +1219,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     clamp(3rem, 6vw, 4rem)
     0;
 
-  background: #1565c0;
+  background: #461491;
 
   color: rgba(255, 255, 255, 0.82);
 
@@ -1285,14 +1279,14 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     &:hover {
       transform: translateY(-4px);
 
-      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.7);
+      box-shadow: 0 16px 30px rgba(46, 16, 101, 0.7);
 
-      border-color: rgba(59, 130, 246, 0.8);
+      border-color: rgba(167, 139, 250, 0.8);
 
       background: radial-gradient(
         circle at top left,
-        rgba(59, 130, 246, 0.4),
-        rgba(15, 23, 42, 0.95)
+        rgba(124, 58, 237, 0.4),
+        rgba(46, 16, 101, 0.95)
       );
     }
   }

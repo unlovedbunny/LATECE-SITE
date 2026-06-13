@@ -149,7 +149,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 // Variáveis (ajuste conforme seu design system)
-$primary-blue: #1D8A9F;
+$primary-color: #1D8A9F;
 $light-blue: #64B8D1;
 $gray-50: #f9fafb;
 $gray-400: #9ca3af;
@@ -187,7 +187,7 @@ $focus-ring: 0 0 0 2px rgba(29, 138, 159, 0.5);
   justify-content: center;
   width: 4rem;
   height: 4rem;
-  background: linear-gradient(to bottom right, $primary-blue, $light-blue);
+  background: linear-gradient(to bottom right, $primary-color, $light-blue);
   border-radius: 0.5rem;
   margin: 0 auto 1rem;
 
@@ -251,7 +251,7 @@ $focus-ring: 0 0 0 2px rgba(29, 138, 159, 0.5);
 
   &:focus {
     outline: none;
-    border-color: $primary-blue;
+    border-color: $primary-color;
     box-shadow: $focus-ring;
   }
 
@@ -303,7 +303,7 @@ $focus-ring: 0 0 0 2px rgba(29, 138, 159, 0.5);
 
 .forgot-link {
   font-size: 0.875rem;
-  color: $primary-blue;
+  color: $primary-color;
   text-decoration: none;
 
   &:hover {
@@ -320,7 +320,7 @@ $focus-ring: 0 0 0 2px rgba(29, 138, 159, 0.5);
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 0.375rem;
-  background-color: $primary-blue;
+  background-color: $primary-color;
   color: white;
   font-size: 0.875rem;
   font-weight: 500;

@@ -7,10 +7,20 @@
         
         .footer-section
           .footer-logos
-            img(src="@/assets/images/logos/logo.png" alt="Logo LATECE" height="40" style="object-fit: contain;")
-            img(src="@/assets/images/logos/logo-ufrn.png" alt="Logo UFRN" height="70" style="object-fit: contain;")
-          p.description Laboratório de Tecnologia Assistiva do Centro de Educação
-          p.tagline Promovendo inclusão e acessibilidade através da tecnologia
+            img.logo-latece(
+              src="@/assets/images/logos/logo.png"
+              alt="Logo LATECE"
+            )
+            img.logo-ufrn(
+              src="@/assets/images/logos/logo-ufrn.png"
+              alt="Logo UFRN"
+            )
+
+          p.description
+            | Laboratório de Tecnologia Assistiva do Centro de Educação
+
+          p.tagline
+            | Promovendo inclusão e acessibilidade através da tecnologia
 
         //- Quick Links
         .footer-section
@@ -69,29 +79,25 @@
 </template>
 
 <style scoped lang="scss">
+
+
 //================================
 // Main Footer Layout
 //================================
 .site-footer {
-  background-color: $primary-blue;
+  background-color: $primary-color;
   color: $white;
-  padding: 3rem 0;
-  background: #1565c0;
+  padding: 4rem 0;
+  background: $purple-900;
 }
 
 .container {
   width: 100%;
   max-width: 1280px; // Standard container max-width
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 01rem;
 }
 
-.footer-logos {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
 
 .footer-grid {
   display: grid;
@@ -113,16 +119,42 @@
 }
 
 //================================
+// LOGOS
+//================================
+
+.footer-logos {
+  display: flex;
+  align-items: center;
+  gap: 0.05rem;
+  margin-top: 0;
+}
+
+.logo-latece {
+  height: 50px;
+  object-fit: contain;
+}
+
+.logo-ufrn {
+  height: 100px;
+  object-fit: contain;
+}
+
+//================================
 // Footer Sections
 //================================
 .footer-section {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
   .logo {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
     margin-bottom: 1rem;
   }
-
+  
   .logo-icon {
     width: 2.5rem;
     height: 2.5rem;
@@ -133,10 +165,9 @@
     justify-content: center;
 
     span {
-      color: $primary-blue;
+      color: $primary-color;
       font-weight: 700;
       font-size: 1.125rem;
-      
     }
   }
 
@@ -148,10 +179,13 @@
   .description {
     color: $gray-200;
     margin-bottom: 1rem;
+    font-size: 1.24rem; // AUMENTA TEXTO
+    font-weight: 500;
+    line-height: 1.6;
   }
 
   .tagline {
-    font-size: 0.875rem;
+    font-size: 1.05rem;
     color: $gray-300;
   }
 }
@@ -159,7 +193,7 @@
 //================================
 // Titles, Lists, and Links
 //================================
-.footer-title { //feito
+.footer-title {
   font-size: 1.35rem;
   font-weight: 600;
   position: relative;
@@ -167,19 +201,19 @@
   margin-bottom: 1.125rem;
   color: rgba(255, 255, 255, 0.82);
 
-  &::after { //feito
+  &::after {
     content: "";
     position: absolute;
     bottom: -0.25rem;
     left: 0;
     width: 20px;
     height: 2.625px;
-    background-color: $light-blue;
+    background-color: $purple-800;
     border-radius: 10px;
   }
 }
 
-.footer-list { //feito
+.footer-list {
   list-style: none;
   padding: 0;
   margin: 3;
@@ -203,7 +237,7 @@
 //================================
 // Contact Section
 //================================
-.contact-info { //feito
+.contact-info {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -228,8 +262,8 @@
 // Footer Bottom Bar
 //================================
 
-.footer-bottom { //feito
-  border-top: 1px solid $gray-600;
+.footer-bottom {
+  border-top: 1px solid $purple-600;
   margin-top: 2rem;
   padding-top: 2rem;
   display: flex;
@@ -237,10 +271,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  
 }
 
-.copyright { //feito
+.copyright {
   font-size: 0.875rem;
   color: $gray-300;
   text-align: center;
@@ -257,7 +290,7 @@
   }
 }
 
-.social-icons-item { //feito
+.social-icons-item {
   justify-content: flex-start;
   margin-left: -6px;
 }

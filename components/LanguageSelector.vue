@@ -59,7 +59,7 @@ watch(() => useRoute().path, () => {
 </script>
 <style scoped lang="scss">
 // Variáveis (ajuste as cores conforme seu design system)
-$primary-blue: #1D8A9F;
+$primary-color: #1D8A9F;
 $gray-100: #f3f4f6;
 $gray-200: #e5e7eb;
 $gray-300: #d1d5db;
@@ -150,7 +150,7 @@ $focus-ring-color: rgba(29, 138, 159, 0.4);
   }
 
   &.is-active {
-    background-color: $primary-blue;
+    background-color: $primary-color;
     color: white;
   }
 }
