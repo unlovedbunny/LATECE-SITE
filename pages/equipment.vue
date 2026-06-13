@@ -4,9 +4,9 @@
   section.hero
     .container.hero__container
       .hero-content
-      h1.hero-title Equipamentos de Tecnologia Assistiva
-      p.hero-subtitle Explore nossos recursos e tecnologias para acessibilidade
-  
+        h1.hero-title Equipamentos de Tecnologia Assistiva
+        p.hero-subtitle Explore nossos recursos e tecnologias para acessibilidade
+
   // Filter and Search Section
   section.filters
     .container
@@ -18,18 +18,17 @@
           input.search-input(
             v-model="searchQuery"
             placeholder="Buscar equipamento..."
-            @input="filterEquipment"
           )
-        
+
         // Category Filter
-        select.filter-select(v-model="selectedCategory" @change="filterEquipment")
+        select.filter-select(v-model="selectedCategory")
           option(value="") Todas as Categorias
-          option(value="Comunicação") Comunicação
-          option(value="Mobilidade") Mobilidade
-          option(value="Visual") Visual
-          option(value="Auditivo") Auditivo
-          option(value="Computação") Computação
-  
+          option(
+            v-for="category in categories"
+            :key="category.value"
+            :value="category.value"
+          ) {{ category.label }}
+
   // Equipment Grid Section
   section.equipment-grid
     .container
@@ -38,35 +37,23 @@
         .empty-icon 🔍
         h3.empty-title Nenhum equipamento encontrado
         p.empty-subtitle Tente ajustar os filtros de busca
-      
+
       // Equipment Grid
       .grid-container(v-else)
         .equipment-card(
           v-for="equipment in filteredEquipment"
           :key="equipment.id"
+          @click="viewEquipmentDetails(equipment)"
         )
           .equipment-image
             img(
-              v-if="equipment.imageUrl"
-              :src="equipment.imageUrl"
+              :src="getImageUrl(equipment.imageUrl)"
               :alt="equipment.name"
+              loading="lazy"
             )
-            .image-placeholder(v-else) 📦
-            .equipment-category {{ equipment.category }}
-          
           .equipment-content
             h3.equipment-name {{ equipment.name }}
-            p.equipment-description {{ equipment.description }}
-            
-            .equipment-details
-              .detail-item
-                | 📍 {{ equipment.location }}
-            
-            .equipment-actions
-              button.btn(@click="viewEquipmentDetails(equipment)") Ver Detalhes
-              .equipment-status(:class="`status-${equipment.status}`")
-                .status-dot
-                span {{ getStatusText(equipment.status) }}
+            .equipment-category {{ getCategoryLabel(equipment.category) }}
 
   // Equipment Details Modal
   .modal(v-if="selectedEquipment" @click.self="closeEquipmentDetails")
@@ -74,39 +61,22 @@
       .modal-header
         h3.modal-title {{ selectedEquipment.name }}
         button.close-button(@click="closeEquipmentDetails") ✕
-      
+
       .modal-body
-        .modal-image(v-if="selectedEquipment.imageUrl")
-          img(:src="selectedEquipment.imageUrl" :alt="selectedEquipment.name")
-        
+        .modal-image
+          img(:src="getImageUrl(selectedEquipment.imageUrl)" :alt="selectedEquipment.name")
+
         .equipment-info
           .info-item
+            .info-label 🏷️ Categoria
+            .info-value {{ getCategoryLabel(selectedEquipment.category) }}
+
+          .info-item(v-if="selectedEquipment.description")
             .info-label 📝 Descrição
             .info-value {{ selectedEquipment.description }}
-          
-          .info-item
-            .info-label ⚙️ Especificações
-            .info-value {{ selectedEquipment.specifications }}
-          
-          .info-item
-            .info-label 📍 Localização
-            .info-value {{ selectedEquipment.location }}
-          
-          .info-item
-            .info-label 🔔 Status
-            .info-value.equipment-status(:class="`status-${selectedEquipment.status}`")
-              .status-dot
-              span {{ getStatusText(selectedEquipment.status) }}
-          
-          .info-item
-            .info-label 💡 Observações
-            .info-value {{ selectedEquipment.notes }}
 </template>
 
 <script setup lang="ts">
-import { useEquipmentStore } from '@/stores/equipment'
-import type { Equipment } from '@/types/equipment'
-
 // Meta tags
 useHead({
   title: 'Equipamentos - Laboratório de Tecnologia Assistiva',
@@ -115,25 +85,233 @@ useHead({
   ]
 })
 
-const equipmentStore = useEquipmentStore()
+// Tipagem do equipamento
+interface EquipmentItem {
+  id: number
+  name: string
+  category: string
+  imageUrl: string
+  description?: string
+}
+
+// Categorias disponíveis (baseadas na organização de pastas)
+const categories = [
+  { value: 'CAA', label: 'Comunicação Aumentativa e Alternativa' },
+  { value: 'VidaDiaria', label: 'Auxílio para Vida Diária e Prática' },
+  { value: 'AcessibilidadeComputador', label: 'Acessibilidade no Computador' },
+  { value: 'BaixaVisao', label: 'Baixa Visão e Tradução Sensorial' },
+  { value: 'LivrosJogos', label: 'Livros e Jogos Adaptados' },
+]
+
+// Dados estáticos dos equipamentos
+// Para adicionar um novo equipamento, basta adicionar um novo objeto ao array abaixo.
+// O caminho da imagem é relativo a /assets/images/equipments/
+const equipmentData: EquipmentItem[] = [
+  
+  // Comunicação Aumentativa e Alternativa (CAA)
+  {
+    id: 1,
+    name: 'Prancha de Comunicação (modelo 1)',
+    category: 'CAA',
+    imageUrl: 'comunicacao/PRANCHA-DE-CAA.jpeg',
+    description: 'Prancha com pictogramas para apoio à comunicação alternativa.',
+  },
+    {
+    id: 2,
+    name: 'Prancha de Comunicação (modelo 2)',
+    category: 'CAA',
+    imageUrl: 'comunicacao/PRANCHA-DE-CAA-2.jpeg',
+    description: 'Prancha com pictogramas para apoio à comunicação alternativa.',
+  },
+    {
+    id: 3,
+    name: 'Prancha de Comunicação (modelo 3)',
+    category: 'CAA',
+    imageUrl: 'comunicacao/PRANCHA-DE-CAA-3.jpeg',
+    description: 'Prancha com pictogramas para apoio à comunicação alternativa.',
+  },
+  {
+    id: 4,
+    name: 'Conversia',
+    category: 'CAA',
+    imageUrl: 'comunicacao/CONVERSIA.jpeg',
+    description: 'Dispositivo digital interativo utilizado para apoiar a comunicação por meio de símbolos e interfaces acessíveis.',
+  },
+  {
+    id: 5,
+    name: 'Expressia',
+    category: 'CAA',
+    imageUrl: 'comunicacao/EXPRESSIA.jpeg',
+    description: 'Software de comunicação que utiliza pictogramas para auxiliar na expressão de ideias, emoções e necessidades.',
+  },
+  {
+    id: 6,
+    name: 'Flip Book de Comunicação',
+    category: 'CAA',
+    imageUrl: 'comunicacao/FLIP-BOOK.jpeg',
+    description: 'Caderno com imagens organizadas que permite a comunicação por meio da seleção visual de símbolos.',
+  },
+  {
+    id: 7,
+    name: 'Vocalizador',
+    category: 'CAA',
+    imageUrl: 'comunicacao/VOCALIZADOR.jpeg',
+    description: 'Dispositivo eletrônico que reproduz mensagens gravadas ao pressionar botões, facilitando a comunicação de pessoas com dificuldades na fala.',
+  },
+  
+  
+  // Auxílio para Vida Diária e Prática
+  
+  {
+    id: 8,
+    name: 'ACIONADORES',
+    category: 'VidaDiaria',
+    imageUrl: 'vida/ACIONADORES.jpeg',
+    description: 'Dispositivo adaptado que permite ao usuário ativar comandos por meio de toques simples, pressão ou outros movimentos, facilitando o acesso a computadores e equipamentos eletrônicos.',
+  },
+  {
+    id: 9,
+    name: 'COLIBRI',
+    category: 'VidaDiaria',
+    imageUrl: 'vida/COLIBRI.jpeg',
+    description: 'Dispositivo de acesso alternativo que possibilita a interação com o computador, indicado para pessoas com mobilidade reduzida nos membros.',
+  },
+  {
+    id: 10,
+    name: 'ENGROSSADOR DE LÁPIS',
+    category: 'VidaDiaria',
+    imageUrl: 'vida/ENGROSSADOR-DE-LÁPIS.jpeg',
+    description: 'Acessório que aumenta a espessura do lápis ou caneta, proporcionando melhor encaixe na mão e facilitando a escrita para pessoas com dificuldades motoras.',
+  },  
+  {
+    id: 11,
+    name: 'Plano Inclinado para Escrita',
+    category: 'VidaDiaria',
+    imageUrl: 'vida/PLANO-INCLINADO.jpeg',
+    description: 'Dispositivo que permite a escrita em posição inclinada, facilitando o acesso para pessoas com dificuldades motoras.',
+  },
+  
+  // Baixa Visão e Tradução Sensorial
+  {
+    id: 12,
+    name: 'Lupa Eletrônica',
+    category: 'BaixaVisao',
+    imageUrl: 'baixa-visao/LUPA.jpeg',
+    description: 'Lupa eletrônica com ampliação digital para apoio a pessoas com baixa visão.',
+  },
+  {
+    id: 13,
+    name: 'Lupa Eletrônica',
+    category: 'BaixaVisao',
+    imageUrl: 'baixa-visao/LUPA-2.jpeg',
+    description: 'Lupa de leitura para apoio a pessoas com baixa visão.',
+  },
+  
+  // Livros e Jogos Adaptados
+  {
+    id: 14,
+    name: 'Livro em Braille',
+    category: 'LivrosJogos',
+    imageUrl: 'livros-jogos/LIVRO-EM-BRAILLE.jpeg',
+    description: 'Livro adaptado em escrita Braille.',
+  },
+  {
+    id: 15,
+    name: 'Livro em Braille',
+    category: 'LivrosJogos',
+    imageUrl: 'livros-jogos/LIVRO-EM-BRAILLE-2.jpeg',
+    description: 'Livro adaptado em escrita Braille.',
+  },
+  {
+    id: 16,
+    name: 'Jogo Adaptado em Braille',
+    category: 'LivrosJogos',
+    imageUrl: 'livros-jogos/jogo-adaptado-braille.jpeg',
+    description: 'Jogo educativo adaptado com peças em Braille.',
+  },
+  {
+    id: 17,
+    name: 'Livro Adaptado em CAA',
+    category: 'LivrosJogos',
+    imageUrl: 'livros-jogos/LIVRO-ADAPTADO-EM-CAA.jpeg',
+    description: 'Livro adaptado em comunicação aumentativa e alternativa.',
+  },
+  {
+    id: 18,
+    name: 'Livro Adaptado em CAA',
+    category: 'LivrosJogos',
+    imageUrl: 'livros-jogos/LIVRO-COM-CAA.jpeg',
+    description: 'Livro adaptado em comunicação aumentativa e alternativa.',
+  },
+  {
+    id: 19,
+    name: 'Jogo de Cartas em Braille',
+    category: 'LivrosJogos',
+    imageUrl: 'livros-jogos/JOGO-DE-CARTAS-EM-BRAILLE.jpeg',
+    description: 'Jogo educativo adaptado com peças em Braille.', 
+  },
+  // Acessibilidade no Computador
+  {
+    id: 20,
+    name: 'Teclado Adaptado',
+    category: 'AcessibilidadeComputador',
+    imageUrl: 'acessibilidade-computador/TECLADO++++.jpeg',
+    description: 'Teclado adaptado com teclas ampliadas, coloridas e de fácil visualização, que facilita a digitação e a identificação das teclas por pessoas com dificuldades motoras ou cognitivas.',
+  },
+{
+  id: 21,
+  name: 'Intellikeys',
+  category: 'AcessibilidadeComputador',
+  imageUrl: 'acessibilidade-computador/INTELLIKEYS.jpeg',
+  description: 'Teclado programável com sobreposições personalizáveis que permite adaptar funções e comandos conforme as necessidades do usuário.',
+},
+{
+  id: 22,
+  name: 'Mouse Adaptado',
+  category: 'AcessibilidadeComputador',
+  imageUrl: 'acessibilidade-computador/MOUSE-ADAPTADO.jpeg',
+  description: 'Dispositivo apontador adaptado para facilitar o uso por pessoas com limitações motoras, podendo possuir botões ampliados e formato ergonômico.',
+},
+{
+  id: 23,
+  name: 'Teclado Tátil',
+  category: 'AcessibilidadeComputador',
+  imageUrl: 'acessibilidade-computador/TECLADO-TATIL.jpeg',
+  description: 'Teclado com marcações em relevo ou texturas diferenciadas, auxiliando pessoas com deficiência visual na identificação das teclas.',
+},
+{
+  id: 24,
+  name: 'TICs',
+  category: 'AcessibilidadeComputador',
+  imageUrl: 'acessibilidade-computador/TICS.jpeg',
+  description: 'Conjunto de tecnologias da informação e comunicação que promovem acessibilidade digital, ampliando a autonomia de pessoas com deficiência no uso do computador.',
+},
+]
 
 const searchQuery = ref('')
 const selectedCategory = ref('')
-const selectedEquipment = ref<Equipment | null>(null)
+const selectedEquipment = ref<EquipmentItem | null>(null)
 
-// Busca equipamentos do backend ao montar a página
-onMounted(() => {
-  equipmentStore.fetchEquipment()
-})
+//caminho da imagem dentro de /assets/images/equipments/
+const getImageUrl = (path: string) => {
+  return `/LATECE-SITE/images/equipments/${path}`
+}
 
+// Retorna o nome da categoria
+const getCategoryLabel = (categoryValue: string) => {
+  const found = categories.find(category => category.value === categoryValue)
+  return found ? found.label : categoryValue
+}
+
+// Lista filtrada de equipamentos (busca + categoria)
 const filteredEquipment = computed(() => {
-  let list = equipmentStore.equipment
+  let list = equipmentData
 
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     list = list.filter(item =>
       item.name.toLowerCase().includes(query) ||
-      item.description.toLowerCase().includes(query)
+      (item.description?.toLowerCase().includes(query) ?? false)
     )
   }
 
@@ -144,33 +322,16 @@ const filteredEquipment = computed(() => {
   return list
 })
 
-const filterEquipment = () => {
-  // A filtragem é reativa via computed
-}
-
-const viewEquipmentDetails = (equipment: Equipment) => {
+const viewEquipmentDetails = (equipment: EquipmentItem) => {
   selectedEquipment.value = equipment
 }
 
 const closeEquipmentDetails = () => {
   selectedEquipment.value = null
 }
-
-const getStatusText = (status: Equipment['status']) => {
-  const statusMap: Record<Equipment['status'], string> = {
-    available: 'Disponível',
-    in_use: 'Em uso',
-    maintenance: 'Manutenção',
-    unavailable: 'Indisponível',
-  }
-  return statusMap[status]
-}
 </script>
 
 <style scoped lang="scss">
-// Variáveis
-
-
 // Reset e Container
 .equipment-page {
   background: #f9fafb;
@@ -230,7 +391,7 @@ const getStatusText = (status: Equipment['status']) => {
 .filters {
   background: white;
   padding: 2rem 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -270,7 +431,7 @@ const getStatusText = (status: Equipment['status']) => {
   &:focus {
     outline: none;
     border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
   }
 }
 
@@ -287,7 +448,7 @@ const getStatusText = (status: Equipment['status']) => {
   &:focus {
     outline: none;
     border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba(29, 138, 159, 0.1);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
   }
 }
 
@@ -298,11 +459,16 @@ const getStatusText = (status: Equipment['status']) => {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 2rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
@@ -310,13 +476,14 @@ const getStatusText = (status: Equipment['status']) => {
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: fadeIn 0.5s ease-out;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 25px rgba(46, 16, 101, 0.15);
 
     .equipment-image img {
       transform: scale(1.1);
@@ -326,8 +493,8 @@ const getStatusText = (status: Equipment['status']) => {
 
 .equipment-image {
   position: relative;
-  height: 200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, #461491 0%, #7C3AED 100%);
   overflow: hidden;
 
   img {
@@ -338,119 +505,26 @@ const getStatusText = (status: Equipment['status']) => {
   }
 }
 
-.image-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: 4rem;
-  color: rgba(255,255,255,0.3);
-}
-
-.equipment-category {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  background: rgba(255,255,255,0.95);
-  color: $primary-color;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  backdrop-filter: blur(10px);
-}
-
 .equipment-content {
-  padding: 1.5rem;
+  padding: 1.25rem;
+  text-align: center;
 }
 
 .equipment-name {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: $primary-color;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
-.equipment-description {
-  color: #6b7280;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.equipment-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-.equipment-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.btn {
-  padding: 0.6rem 1.5rem;
-  border-radius: 10px;
+.equipment-category {
+  display: inline-block;
+  background: rgba(124, 58, 237, 0.1);
+  color: #461491;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: 2px solid $primary-color;
-  background: transparent;
-  color: $primary-color;
-
-  &:hover {
-    background: $primary-color;
-    color: white;
-    transform: translateY(-2px);
-  }
-}
-
-.equipment-status {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  &.status-available {
-    color: #16a34a;
-    .status-dot { background: #16a34a; }
-  }
-
-  &.status-in-use {
-    color: #ca8a04;
-    .status-dot { background: #ca8a04; }
-  }
-
-  &.status-maintenance {
-    color: #dc2626;
-    .status-dot { background: #dc2626; }
-  }
 }
 
 // Empty State
@@ -480,7 +554,7 @@ const getStatusText = (status: Equipment['status']) => {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(46, 16, 101, 0.6);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -615,10 +689,5 @@ const getStatusText = (status: Equipment['status']) => {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
 }
 </style>

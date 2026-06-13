@@ -888,6 +888,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: 1rem;
 
     font-weight: 600;
+     color: white;
 
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
@@ -900,6 +901,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: 2.5rem;
 
     line-height: 2;
+
+     color: white;
 
     opacity: 100%;
 
@@ -1032,7 +1035,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     font-weight: 800;
 
-    color: #0f172a;
+    color: #2e1065;
 
     margin-bottom: 1rem;
   }
@@ -1072,7 +1075,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: clamp(1.6rem, 3vw, 1.8rem);
 
     font-weight: 800;
-    color: #0f172a;
+    color: #2e1065;
   }
 
   .news-grid {

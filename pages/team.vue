@@ -189,7 +189,7 @@ const getInitials = (name: string): string => {
 <style scoped lang="scss">
 // Variáveis
 
-/* $primary-gradient: linear-gradient(
+/* c: linear-gradient(
   135deg,
   #005a9c 0%,
   #0f76bc 55%,
@@ -277,7 +277,7 @@ $gray-700: #374151;
   position: relative;
   font-size: 1.875rem;
   font-weight: 700;
-  color: black;
+  color: #2e1065;
   margin-bottom: 3rem;
   text-align: center;
   padding-bottom: 0.5rem;
@@ -393,13 +393,13 @@ $gray-700: #374151;
 .member-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: black;
+  color: #2e1065;
   margin-bottom: 0.5rem;
 }
 
 .member-role {
   font-size: 1rem;
-  color: $light-blue;
+  color: #2e1065;
   font-weight: 600;
   margin-bottom: 1rem;
 }

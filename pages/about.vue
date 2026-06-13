@@ -30,7 +30,7 @@
         .about-intro__side
           .about-image-wrapper
             img.about-image(
-              src="@/assets/images/illustrations/testinho.png"
+              src="@/assets/images/illustrations/testinho.jpg"
               alt="Equipe do LATECE"
             )
 
@@ -160,7 +160,7 @@ section {
   position: relative;
   font-size: clamp(1.8rem, 3vw, 2.2rem);
   font-weight: 700;
-  color: black;
+  color: #2e1065;
   margin-bottom: 3rem;
   text-align: center;
 
@@ -238,7 +238,7 @@ section {
   &__title { //título quem somos
     font-size: clamp(3rem, 3vw, 2.6rem);
     font-weight: 800;
-    color: $gray-400;
+    color: #2e1065;
     margin-bottom: 2rem;
     text-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   }
@@ -252,7 +252,7 @@ section {
     p {
       font-size: clamp(1.55rem, 1.3vw, 1.12rem);
       line-height: 1.9;
-      color: $gray-600;
+      color: #2e1065;
       text-align: justify;
     }
   }
@@ -338,7 +338,7 @@ section {
   .card-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: black;
+    color: #2e1065;
     margin-bottom: 1rem;
   }
 
@@ -414,7 +414,7 @@ section {
   .objective-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: black;
+    color: #2e1065;
     margin-bottom: 0.75rem;
   }
 
@@ -457,7 +457,7 @@ section {
     &__title {
       font-size: 1.59rem;
       font-weight: 900;
-      color: black !important;
+      color: #2e1065 !important;
       margin-bottom: 0.5rem;
     }
   }
